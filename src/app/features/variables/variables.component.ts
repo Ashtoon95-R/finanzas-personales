@@ -26,8 +26,11 @@ export class VariablesComponent {
   imprevistos = signal<Imprevisto[]>([]);
   imprevistos12Meses = signal<number>(0);
   activeTab = signal<'stats' | 'list'>('stats');
+  config = signal<any>(null);
   
   totalGastos = computed(() => this.gastos().reduce((acc, curr) => acc + curr.importe, 0));
+  totalGastosOcio = computed(() => this.gastos().filter(g => g.categoria !== 'impuestos').reduce((acc, curr) => acc + curr.importe, 0));
+  totalImpuestosMes = computed(() => this.gastos().filter(g => g.categoria === 'impuestos').reduce((acc, curr) => acc + curr.importe, 0));
   totalImprevistos = computed(() => this.imprevistos().reduce((acc, curr) => acc + curr.importe, 0));
 
   // Filters
@@ -94,6 +97,8 @@ export class VariablesComponent {
 
   async loadData() {
     if (!this.filterStartDate || !this.filterEndDate) return;
+    const config = await this.dataService.getConfiguracion();
+    this.config.set(config);
     
     const start = new Date(this.filterStartDate);
     start.setHours(0, 0, 0, 0);

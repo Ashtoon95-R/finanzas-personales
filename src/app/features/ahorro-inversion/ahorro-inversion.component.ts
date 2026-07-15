@@ -83,13 +83,23 @@ export class AhorroInversionComponent {
     // Para simplificar, asumiremos que todos los fijos cuentan. Podríamos filtrar si tuvieran una marca "negocio"
     this.gastosFijosMesActual.set(fijos.reduce((sum, g) => sum + g.importe, 0));
 
-    // 2. Media 6 meses variables o presupuesto manual (lo que sea mayor, o el presupuesto si no hay histórico)
+    // 2. Media 6 meses variables (sin impuestos) vs presupuesto configurado, sumando impuestos aparte
     const variables6m = await this.dataService.getGastosVariablesStats6Months(year, month);
-    const sumVariables = variables6m.reduce((sum, g) => sum + g.importe, 0);
-    const historicoMedia = sumVariables / 6;
     
-    // Tomamos el presupuesto configurado como base mínima (ocio, regalos, etc.), o si ya gasta más, cogemos el histórico
+    // Separar variables comunes (ocio, regalos, compras...) de los impuestos
+    const variablesSinImpuestos = variables6m.filter(g => g.categoria !== 'impuestos');
+    const sumVariablesSinImpuestos = variablesSinImpuestos.reduce((sum, g) => sum + g.importe, 0);
+    const historicoMediaSinImpuestos = sumVariablesSinImpuestos / 6;
+    
+    const impuestos6m = variables6m.filter(g => g.categoria === 'impuestos');
+    const sumImpuestos = impuestos6m.reduce((sum, g) => sum + g.importe, 0);
+    const historicoMediaImpuestos = sumImpuestos / 6;
+    
+    // El presupuesto configurado actúa como mínimo para ocio/compras (se descuenta de ahí), no se suma
     const presupuestoConfigurado = conf?.presupuestoVariableMensual || 0;
-    this.mediaVariables6Meses.set(Math.max(historicoMedia, presupuestoConfigurado));
+    const baseVariables = Math.max(historicoMediaSinImpuestos, presupuestoConfigurado);
+    
+    // Los impuestos y trimestres (IRPF/IVA) van aparte enteros y se suman al total
+    this.mediaVariables6Meses.set(baseVariables + historicoMediaImpuestos);
   }
 }

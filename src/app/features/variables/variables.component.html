@@ -65,11 +65,28 @@
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6">
       <app-card>
         <div class="flex items-center justify-between">
-          <div>
-            <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Variables (Este Mes)</p>
-            <p class="text-3xl font-black text-slate-900 dark:text-white mt-1">{{ totalGastos() | currency:'EUR' }}</p>
+          <div class="flex-1">
+            <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Ocio y Variables (Este Mes)</p>
+            <p class="text-3xl font-black text-slate-900 dark:text-white mt-1">{{ totalGastosOcio() | currency:'EUR' }}</p>
+            
+            <div class="mt-2" *ngIf="config()?.presupuestoVariableMensual">
+              <div class="flex justify-between text-[10px] text-slate-400 dark:text-slate-500 mb-1">
+                <span>Presupuesto Consumido</span>
+                <span>{{ (totalGastosOcio() / config()?.presupuestoVariableMensual!) * 100 | number:'1.0-0' }}%</span>
+              </div>
+              <div class="w-full bg-slate-200 dark:bg-slate-700 h-1 rounded-full overflow-hidden flex">
+                <div [class]="(totalGastosOcio() > config()?.presupuestoVariableMensual!) ? 'bg-rose-500' : 'bg-rose-400'" 
+                     class="h-full rounded-full" 
+                     [style.width]="((totalGastosOcio() / config()?.presupuestoVariableMensual!) * 100 > 100 ? 100 : (totalGastosOcio() / config()?.presupuestoVariableMensual!) * 100) + '%'">
+                </div>
+              </div>
+            </div>
+            
+            <p class="text-[10px] text-slate-400 dark:text-slate-500 mt-2" *ngIf="totalImpuestosMes() > 0">
+              Impuestos pagados: <strong class="text-slate-700 dark:text-slate-300">{{ totalImpuestosMes() | currency:'EUR' }}</strong> (exentos del límite)
+            </p>
           </div>
-          <div class="p-3.5 rounded-2xl bg-rose-50 dark:bg-rose-500/10 text-rose-500 dark:text-rose-400">
+          <div class="p-3.5 rounded-2xl bg-rose-50 dark:bg-rose-500/10 text-rose-500 dark:text-rose-400 self-start ml-2">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
           </div>
         </div>
