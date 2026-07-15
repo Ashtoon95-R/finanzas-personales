@@ -43,6 +43,7 @@ export class VariablesComponent {
   imprevistoForm: Partial<Imprevisto> = { concepto: '', importe: 0, categoria: 'reparacion', fecha: new Date(), notas: '' };
 
   categoriasGasto = [
+    { value: 'impuestos', label: 'Impuestos y Trimestres (IVA/IRPF)' },
     { value: 'supermercado', label: 'Supermercado y Alimentación' },
     { value: 'restaurantes', label: 'Restaurantes y Dietas' },
     { value: 'ocio', label: 'Ocio y Entretenimiento' },
