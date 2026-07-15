@@ -1,0 +1,121 @@
+<div class="space-y-6 animate-fade-in relative">
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Ahorro e Inversión</h2>
+      <p class="text-sm text-slate-500 dark:text-slate-400">Inteligencia financiera para autónomos</p>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Main Calculator Card -->
+    <div class="lg:col-span-2 space-y-6">
+      
+      <app-card>
+        <div class="text-center py-6">
+          <p class="text-sm font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Sueldo Recomendado a Ingresarte este mes</p>
+          <h1 class="text-5xl md:text-6xl font-black text-slate-900 dark:text-white tracking-tight mb-2">
+            {{ sueldoBrutoRecomendado() | currency:'EUR' }}
+          </h1>
+          <p class="text-sm text-slate-500 dark:text-slate-400 max-w-lg mx-auto">
+            Basado en tus gastos fijos, la media de variables y tus objetivos de ahorro e impuestos configurados en Ajustes.
+          </p>
+        </div>
+
+        <!-- Stacked Bar -->
+        <div class="mt-8 px-4">
+          <div class="flex justify-between text-xs font-semibold mb-2 text-slate-600 dark:text-slate-300">
+            <span>Distribución del Sueldo</span>
+            <span>100%</span>
+          </div>
+          
+          <div class="w-full h-6 flex rounded-full overflow-hidden shadow-inner">
+            <!-- Gastos Fijos -->
+            <div class="bg-slate-500 hover:bg-slate-600 transition-colors flex items-center justify-center text-[10px] text-white font-bold" 
+                 [style.width]="pctGastosFijos() + '%'" title="Gastos Fijos ({{ pctGastosFijos() | number:'1.0-0' }}%)">
+                 <span *ngIf="pctGastosFijos() > 10">Fijos</span>
+            </div>
+            <!-- Gastos Variables -->
+            <div class="bg-slate-400 hover:bg-slate-500 transition-colors flex items-center justify-center text-[10px] text-white font-bold" 
+                 [style.width]="pctGastosVariables() + '%'" title="Gastos Variables/Ocio ({{ pctGastosVariables() | number:'1.0-0' }}%)">
+                 <span *ngIf="pctGastosVariables() > 10">Variables</span>
+            </div>
+            <!-- Ahorro -->
+            <div class="bg-emerald-500 hover:bg-emerald-600 transition-colors flex items-center justify-center text-[10px] text-white font-bold" 
+                 [style.width]="pctAhorro() + '%'" title="Ahorro ({{ pctAhorro() | number:'1.0-0' }}%)">
+                 <span *ngIf="pctAhorro() > 10">Ahorro</span>
+            </div>
+            <!-- Impuestos -->
+            <div class="bg-indigo-500 hover:bg-indigo-600 transition-colors flex items-center justify-center text-[10px] text-white font-bold" 
+                 [style.width]="pctImpuestos() + '%'" title="Impuestos ({{ pctImpuestos() | number:'1.0-0' }}%)" *ngIf="config()?.reservaFiscalActiva">
+                 <span *ngIf="pctImpuestos() > 10">Impuestos</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Breakdown Legends -->
+        <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 border-t border-slate-100 dark:border-fintech-border pt-6">
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
+             <div class="flex items-center gap-2 mb-2">
+               <div class="w-3 h-3 rounded-full bg-slate-500"></div>
+               <span class="font-semibold text-slate-700 dark:text-slate-200">Gastos Fijos</span>
+             </div>
+             <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ gastosFijosMesActual() | currency:'EUR' }}</p>
+             <p class="text-xs text-slate-500 mt-2">Cuotas y recibos recurrentes base.</p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-100 dark:bg-slate-700/40 border border-slate-200 dark:border-slate-600">
+             <div class="flex items-center gap-2 mb-2">
+               <div class="w-3 h-3 rounded-full bg-slate-400"></div>
+               <span class="font-semibold text-slate-700 dark:text-slate-200">Variables/Ocio</span>
+             </div>
+             <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ mediaVariables6Meses() | currency:'EUR' }}</p>
+             <p class="text-xs text-slate-500 mt-2">Presupuesto para tu estilo de vida.</p>
+          </div>
+          
+          <div class="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800/30">
+             <div class="flex items-center gap-2 mb-2">
+               <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+               <span class="font-semibold text-emerald-800 dark:text-emerald-400">Para Ahorro</span>
+             </div>
+             <p class="text-2xl font-bold text-emerald-700 dark:text-emerald-500">{{ parteAhorro() | currency:'EUR' }}</p>
+             <p class="text-xs text-emerald-600 dark:text-emerald-500/80 mt-2">Corresponde al {{ config()?.porcentajeAhorro }}% del sueldo total que has fijado como objetivo.</p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-indigo-50 dark:bg-indigo-900/10 border border-indigo-100 dark:border-indigo-800/30" [class.opacity-50]="!config()?.reservaFiscalActiva">
+             <div class="flex items-center gap-2 mb-2">
+               <div class="w-3 h-3 rounded-full bg-indigo-500"></div>
+               <span class="font-semibold text-indigo-800 dark:text-indigo-400">Reserva Fiscal</span>
+             </div>
+             <p class="text-2xl font-bold text-indigo-700 dark:text-indigo-500">{{ parteImpuestos() | currency:'EUR' }}</p>
+             <p class="text-xs text-indigo-600 dark:text-indigo-500/80 mt-2" *ngIf="config()?.reservaFiscalActiva">Reserva del {{ config()?.porcentajeImpuestos }}% para IVA/IRPF.</p>
+             <p class="text-xs text-indigo-600 dark:text-indigo-500/80 mt-2" *ngIf="!config()?.reservaFiscalActiva">Reserva fiscal desactivada en Ajustes.</p>
+          </div>
+        </div>
+
+      </app-card>
+    </div>
+
+    <!-- Colchon KPI Card -->
+    <div class="lg:col-span-1">
+      <app-card title="Colchón de Seguridad">
+        <div class="mt-4 flex flex-col items-center justify-center text-center p-6 bg-slate-50 dark:bg-fintech-dark rounded-xl border border-slate-100 dark:border-slate-800">
+           
+           <div class="p-4 bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 rounded-full mb-4">
+             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path></svg>
+           </div>
+           
+           <h3 class="text-3xl font-black text-slate-800 dark:text-white mb-2">{{ colchonObjetivo() | currency:'EUR' }}</h3>
+           
+           <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-300 mb-4">
+             {{ config()?.colchonSeguridad }} Meses
+           </span>
+
+           <p class="text-sm text-slate-500 dark:text-slate-400">
+             Este es el capital que deberías mantener siempre líquido en tu cuenta, calculado como tus gastos fijos actuales ({{ gastosFijosMesActual() | currency:'EUR' }}) multiplicados por tus meses objetivo.
+           </p>
+        </div>
+      </app-card>
+    </div>
+  </div>
+
+</div>

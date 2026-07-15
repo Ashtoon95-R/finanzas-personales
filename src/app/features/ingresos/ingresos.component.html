@@ -1,0 +1,213 @@
+<div class="space-y-6 animate-fade-in relative">
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Ingresos</h2>
+      <p class="text-sm text-slate-500 dark:text-slate-400">Gestión de facturación y nóminas</p>
+    </div>
+    
+    <button (click)="openModal()" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 rounded-lg shadow-sm hover:shadow transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+      <svg class="w-5 h-5 mr-1.5 -ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+      Añadir Ingreso
+    </button>
+  </div>
+
+  <!-- Resumen Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6">
+    <app-card>
+      <div class="flex items-center">
+        <div class="p-3 rounded-full bg-emerald-100 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 mr-4">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        </div>
+        <div>
+          <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Fijos (Nóminas, cuotas)</p>
+          <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ totalFijos() | currency:'EUR' }}</p>
+        </div>
+      </div>
+    </app-card>
+    
+    <app-card>
+      <div class="flex items-center">
+        <div class="p-3 rounded-full bg-indigo-100 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 mr-4">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+        </div>
+        <div>
+          <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Variables (Proyectos)</p>
+          <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ totalVariables() | currency:'EUR' }}</p>
+        </div>
+      </div>
+    </app-card>
+    
+    <app-card>
+      <div class="flex items-center">
+        <div class="p-3 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 mr-4">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        </div>
+        <div>
+          <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Total Mensual</p>
+          <p class="text-2xl font-bold text-emerald-600 dark:text-emerald-400">{{ total() | currency:'EUR' }}</p>
+        </div>
+      </div>
+    </app-card>
+  </div>
+
+  <!-- Tabla de Ingresos -->
+  <app-card title="Listado de Ingresos">
+    <div class="overflow-x-auto rounded-lg border border-slate-200 dark:border-fintech-border shadow-sm mt-4">
+      <table class="w-full text-sm text-left text-slate-600 dark:text-slate-300">
+        <thead class="text-xs text-slate-500 uppercase bg-slate-50 dark:bg-fintech-card/80 dark:text-slate-400 border-b border-slate-200 dark:border-fintech-border">
+          <tr>
+            <th class="px-6 py-4 font-semibold tracking-wider">Fecha</th>
+            <th class="px-6 py-4 font-semibold tracking-wider">Concepto</th>
+            <th class="px-6 py-4 font-semibold tracking-wider">Tipo</th>
+            <th class="px-6 py-4 font-semibold tracking-wider text-right">Importe</th>
+            <th class="px-6 py-4 font-semibold tracking-wider text-center">Estado</th>
+            <th class="px-6 py-4 text-right">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of ingresos()" class="bg-white dark:bg-fintech-card border-b dark:border-fintech-border hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group">
+            
+            <td class="px-6 py-4 whitespace-nowrap">
+              <div class="flex items-center gap-2">
+                {{ row.fecha | date:'dd MMM yyyy' }}
+                <span *ngIf="row['_isProjected']" class="text-xs text-indigo-500" title="Proyectado automáticamente">(P)</span>
+              </div>
+            </td>
+            
+            <td class="px-6 py-4">
+              <span class="font-medium text-slate-900 dark:text-white">{{ row.concepto }}</span>
+              <p *ngIf="row.notas" class="text-xs text-slate-500 truncate max-w-xs">{{ row.notas }}</p>
+            </td>
+            
+            <td class="px-6 py-4 whitespace-nowrap">
+              <app-badge [color]="row.tipo === 'fijo' ? 'info' : 'warning'">
+                {{ row.tipo | titlecase }}
+              </app-badge>
+              <span *ngIf="row.recurrente" class="ml-2" title="Recurrente">
+                <svg class="w-4 h-4 inline text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+              </span>
+            </td>
+            
+            <td class="px-6 py-4 whitespace-nowrap text-right font-semibold text-emerald-600 dark:text-emerald-400">
+              {{ row.importe | currency:'EUR' }}
+            </td>
+            
+            <td class="px-6 py-4 whitespace-nowrap text-center">
+              <div class="flex flex-col gap-1 items-center">
+                <app-badge [color]="row.estado === 'cobrado' ? 'positive' : (row.estado === 'facturado' ? 'info' : 'neutral')">
+                  {{ row.estado | titlecase }}
+                </app-badge>
+                <!-- Quick action for state -->
+                <div class="flex gap-1 mt-1 opacity-0 group-hover:opacity-100 transition-opacity" *ngIf="!row['_isProjected']">
+                   <button *ngIf="row.estado === 'pendiente'" (click)="changeState(row, 'facturado')" class="text-xs text-indigo-600 hover:underline">Facturar</button>
+                   <button *ngIf="row.estado !== 'cobrado'" (click)="changeState(row, 'cobrado')" class="text-xs text-emerald-600 hover:underline">Cobrar</button>
+                </div>
+              </div>
+            </td>
+            
+            <td class="px-6 py-4 text-right whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity">
+              <button (click)="openModal(row)" class="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-300 mr-3 font-medium">
+                Editar
+              </button>
+              <button (click)="deleteIngreso(row)" class="text-rose-600 dark:text-rose-400 hover:text-rose-900 dark:hover:text-rose-300 font-medium">
+                Eliminar
+              </button>
+            </td>
+          </tr>
+          
+          <tr *ngIf="ingresos().length === 0">
+            <td colspan="6" class="px-6 py-12 text-center">
+              <div class="flex flex-col items-center justify-center">
+                <svg class="w-16 h-16 text-slate-300 dark:text-slate-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <h3 class="text-lg font-medium text-slate-900 dark:text-slate-200 mb-1">Aún no hay ingresos</h3>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mb-4 max-w-sm">No has registrado ningún ingreso en este periodo. Los ingresos recurrentes aparecerán aquí automáticamente.</p>
+                <button (click)="openModal()" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  + Añadir tu primer ingreso
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </app-card>
+
+  <!-- Modal Component -->
+  <app-modal 
+    [isOpen]="isModalOpen" 
+    [title]="editingId ? 'Editar Ingreso' : 'Nuevo Ingreso'"
+    (closed)="closeModal()">
+    
+    <form #ingresoForm="ngForm" (ngSubmit)="saveIngreso(ingresoForm)" class="space-y-4">
+      
+      <div>
+        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Concepto</label>
+        <input type="text" name="concepto" [(ngModel)]="formData.concepto" required
+               class="w-full rounded-lg border-slate-300 dark:border-fintech-border bg-white dark:bg-fintech-dark text-slate-900 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border">
+      </div>
+      
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Importe</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <span class="text-slate-500 sm:text-sm">€</span>
+            </div>
+            <input type="number" name="importe" [(ngModel)]="formData.importe" required min="0" step="0.01"
+                   class="w-full pl-7 rounded-lg border-slate-300 dark:border-fintech-border bg-white dark:bg-fintech-dark text-slate-900 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border">
+          </div>
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Fecha</label>
+          <input type="date" name="fecha" [ngModel]="formData.fecha | date:'yyyy-MM-dd'" (ngModelChange)="formData.fecha = $event" required
+                 class="w-full rounded-lg border-slate-300 dark:border-fintech-border bg-white dark:bg-fintech-dark text-slate-900 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border">
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Tipo</label>
+          <select name="tipo" [(ngModel)]="formData.tipo" required
+                  class="w-full rounded-lg border-slate-300 dark:border-fintech-border bg-white dark:bg-fintech-dark text-slate-900 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border">
+            <option value="fijo">Fijo (Nómina, etc)</option>
+            <option value="variable">Variable (Freelance, etc)</option>
+          </select>
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Estado</label>
+          <select name="estado" [(ngModel)]="formData.estado" required
+                  class="w-full rounded-lg border-slate-300 dark:border-fintech-border bg-white dark:bg-fintech-dark text-slate-900 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border">
+            <option value="pendiente">Pendiente</option>
+            <option value="facturado">Facturado</option>
+            <option value="cobrado">Cobrado</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="flex items-center mt-2">
+        <input id="recurrente" name="recurrente" type="checkbox" [(ngModel)]="formData.recurrente"
+               class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-slate-300 rounded">
+        <label for="recurrente" class="ml-2 block text-sm text-slate-700 dark:text-slate-300">
+          Es un ingreso recurrente mensual
+        </label>
+      </div>
+      
+      <div>
+        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Notas (Opcional)</label>
+        <textarea name="notas" [(ngModel)]="formData.notas" rows="2"
+                  class="w-full rounded-lg border-slate-300 dark:border-fintech-border bg-white dark:bg-fintech-dark text-slate-900 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border"></textarea>
+      </div>
+
+      <div footer-actions class="w-full flex justify-end gap-3">
+        <button type="button" (click)="closeModal()" class="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors">
+          Cancelar
+        </button>
+        <button type="submit" [disabled]="ingresoForm.invalid" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg shadow-sm transition-colors">
+          Guardar
+        </button>
+      </div>
+    </form>
+  </app-modal>
+</div>

@@ -1,0 +1,199 @@
+<div class="space-y-6 animate-fade-in relative">
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Variables e Imprevistos</h2>
+      <p class="text-sm text-slate-500 dark:text-slate-400">Análisis y control del gasto flexible</p>
+    </div>
+    
+    <div class="flex items-center gap-3">
+      <button (click)="openGastoModal()" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-indigo-700 bg-indigo-50 hover:bg-indigo-100 dark:text-indigo-300 dark:bg-indigo-900/30 dark:hover:bg-indigo-900/50 rounded-lg shadow-sm hover:shadow transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+        Variable
+      </button>
+      <button (click)="openImprevistoModal()" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-rose-700 bg-rose-50 hover:bg-rose-100 dark:text-rose-300 dark:bg-rose-900/30 dark:hover:bg-rose-900/50 rounded-lg shadow-sm hover:shadow transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500">
+        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+        Imprevisto
+      </button>
+    </div>
+  </div>
+
+  <!-- Filtros -->
+  <div class="bg-white dark:bg-fintech-card p-4 rounded-xl border border-slate-200 dark:border-fintech-border shadow-sm flex flex-col sm:flex-row items-end gap-4">
+    <div class="w-full sm:w-auto flex-1">
+      <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Rango de fechas</label>
+      <div class="flex items-center gap-2">
+        <input type="date" [(ngModel)]="filterStartDate" (change)="onFilterChange()" class="w-full rounded-md border-slate-300 dark:border-fintech-border bg-slate-50 dark:bg-fintech-dark text-slate-900 dark:text-white shadow-sm sm:text-sm px-3 py-1.5 border">
+        <span class="text-slate-400">-</span>
+        <input type="date" [(ngModel)]="filterEndDate" (change)="onFilterChange()" class="w-full rounded-md border-slate-300 dark:border-fintech-border bg-slate-50 dark:bg-fintech-dark text-slate-900 dark:text-white shadow-sm sm:text-sm px-3 py-1.5 border">
+      </div>
+    </div>
+    
+    <div class="w-full sm:w-64">
+      <label class="block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1">Categoría</label>
+      <select [(ngModel)]="filterCategory" (change)="onFilterChange()" class="w-full rounded-md border-slate-300 dark:border-fintech-border bg-slate-50 dark:bg-fintech-dark text-slate-900 dark:text-white shadow-sm sm:text-sm px-3 py-1.5 border">
+        <option value="todas">Todas las categorías</option>
+        <optgroup label="Variables">
+          <option *ngFor="let c of categoriasGasto" [value]="c.value">{{ c.label }}</option>
+        </optgroup>
+        <optgroup label="Imprevistos">
+          <option *ngFor="let c of categoriasImprevisto" [value]="c.value">{{ c.label }}</option>
+        </optgroup>
+      </select>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Chart -->
+    <div class="lg:col-span-2">
+      <app-card title="Análisis de Gastos Variables (vs Media 6m)">
+        <div class="h-64 mt-4" *ngIf="chartReady()">
+          <canvas baseChart 
+            [data]="barChartData"
+            [options]="barChartOptions"
+            [type]="barChartType">
+          </canvas>
+        </div>
+      </app-card>
+    </div>
+
+    <!-- Imprevistos KPI -->
+    <div class="lg:col-span-1 space-y-6">
+      <div class="bg-gradient-to-br from-rose-500 to-red-600 rounded-2xl shadow-lg p-6 text-white relative overflow-hidden">
+        <svg class="absolute -right-6 -bottom-6 w-32 h-32 text-white opacity-10" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
+        
+        <p class="text-rose-100 text-sm font-medium mb-1 relative z-10">Total Imprevistos (Acum. 12 Meses)</p>
+        <h3 class="text-4xl font-black mb-2 relative z-10">{{ imprevistos12Meses() | currency:'EUR' }}</h3>
+        <p class="text-xs text-rose-100/80 relative z-10">Usa este valor para dimensionar tu colchón de seguridad ideal.</p>
+      </div>
+
+      <app-card title="Imprevistos del Rango">
+        <h4 class="text-2xl font-bold text-rose-600 dark:text-rose-400 mt-2 mb-4">{{ totalImprevistos() | currency:'EUR' }}</h4>
+        
+        <div class="space-y-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+          <div *ngIf="imprevistos().length === 0" class="text-center text-sm text-slate-500">Sin imprevistos en estas fechas.</div>
+          
+          <div *ngFor="let imp of imprevistos()" class="group flex items-center justify-between p-3 rounded-lg border border-slate-100 dark:border-fintech-border bg-slate-50 dark:bg-slate-800/50">
+            <div>
+              <p class="font-medium text-slate-800 dark:text-slate-200 text-sm">{{ imp.concepto }}</p>
+              <p class="text-xs text-slate-500">{{ imp.fecha | date:'dd/MM/yyyy' }}</p>
+            </div>
+            <div class="text-right flex items-center gap-2">
+              <span class="font-bold text-rose-600 dark:text-rose-400 text-sm">{{ imp.importe | currency:'EUR' }}</span>
+              <button (click)="openImprevistoModal(imp)" class="opacity-0 group-hover:opacity-100 text-slate-400 hover:text-indigo-500 transition-opacity"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg></button>
+            </div>
+          </div>
+        </div>
+      </app-card>
+    </div>
+  </div>
+
+  <!-- Tabla Detallada Gastos Variables -->
+  <app-card title="Listado de Gastos Variables">
+    <div class="flex items-center justify-between mb-4 mt-2">
+       <span class="text-sm font-medium text-slate-500">Total en vista: <strong class="text-indigo-600 dark:text-indigo-400 text-lg">{{ totalGastos() | currency:'EUR' }}</strong></span>
+    </div>
+    <div class="overflow-x-auto rounded-lg border border-slate-200 dark:border-fintech-border shadow-sm">
+      <table class="w-full text-sm text-left text-slate-600 dark:text-slate-300">
+        <thead class="text-xs text-slate-500 uppercase bg-slate-50 dark:bg-fintech-card/80 border-b border-slate-200 dark:border-fintech-border">
+          <tr>
+            <th class="px-6 py-4">Fecha</th>
+            <th class="px-6 py-4">Concepto</th>
+            <th class="px-6 py-4">Categoría</th>
+            <th class="px-6 py-4 text-right">Importe</th>
+            <th class="px-6 py-4 text-right">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let g of gastos()" class="bg-white dark:bg-fintech-card border-b dark:border-fintech-border hover:bg-slate-50 dark:hover:bg-slate-800/50 group">
+            <td class="px-6 py-4 whitespace-nowrap">{{ g.fecha | date:'dd MMM yyyy' }}</td>
+            <td class="px-6 py-4 font-medium text-slate-900 dark:text-white">{{ g.concepto }}</td>
+            <td class="px-6 py-4 capitalize"><app-badge color="neutral">{{ g.categoria }}</app-badge></td>
+            <td class="px-6 py-4 text-right font-semibold text-slate-700 dark:text-slate-200">{{ g.importe | currency:'EUR' }}</td>
+            <td class="px-6 py-4 text-right opacity-0 group-hover:opacity-100 transition-opacity">
+              <button (click)="openGastoModal(g)" class="text-indigo-600 mr-3 hover:underline">Editar</button>
+              <button (click)="deleteGasto(g.id)" class="text-rose-600 hover:underline">Eliminar</button>
+            </td>
+          </tr>
+          <tr *ngIf="gastos().length === 0">
+            <td colspan="5" class="px-6 py-12 text-center">
+              <div class="flex flex-col items-center justify-center">
+                <svg class="w-16 h-16 text-slate-300 dark:text-slate-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                <h3 class="text-lg font-medium text-slate-900 dark:text-slate-200 mb-1">Sin gastos variables</h3>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mb-4 max-w-sm">No has anotado ningún gasto flexible en las fechas seleccionadas.</p>
+                <button (click)="openGastoModal()" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                  + Añadir Gasto
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </app-card>
+
+
+  <!-- Modal Gasto Variable -->
+  <app-modal [isOpen]="isGastoModalOpen" [title]="editingId ? 'Editar Variable' : 'Nuevo Gasto Variable'" (closed)="isGastoModalOpen = false">
+    <form #formG="ngForm" (ngSubmit)="saveGasto(formG)" class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Concepto</label>
+        <input type="text" name="concepto" [(ngModel)]="gastoForm.concepto" required class="w-full rounded-lg border-slate-300 dark:border-fintech-border bg-white dark:bg-fintech-dark text-slate-900 dark:text-white px-3 py-2 border">
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Importe</label>
+          <input type="number" name="importe" [(ngModel)]="gastoForm.importe" required min="0.01" step="0.01" class="w-full rounded-lg border-slate-300 dark:border-fintech-border bg-white dark:bg-fintech-dark text-slate-900 dark:text-white px-3 py-2 border">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Fecha</label>
+          <input type="date" name="fecha" [ngModel]="gastoForm.fecha | date:'yyyy-MM-dd'" (ngModelChange)="gastoForm.fecha = $event" required class="w-full rounded-lg border-slate-300 dark:border-fintech-border bg-white dark:bg-fintech-dark text-slate-900 dark:text-white px-3 py-2 border">
+        </div>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Categoría</label>
+        <select name="categoria" [(ngModel)]="gastoForm.categoria" required class="w-full rounded-lg border-slate-300 dark:border-fintech-border bg-white dark:bg-fintech-dark text-slate-900 dark:text-white px-3 py-2 border">
+          <option *ngFor="let cat of categoriasGasto" [value]="cat.value">{{ cat.label }}</option>
+        </select>
+      </div>
+      <div footer-actions class="w-full flex justify-end gap-3">
+        <button type="button" (click)="isGastoModalOpen = false" class="px-4 py-2 text-sm text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg">Cancelar</button>
+        <button type="submit" [disabled]="formG.invalid" class="px-4 py-2 text-sm text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg">Guardar</button>
+      </div>
+    </form>
+  </app-modal>
+
+  <!-- Modal Imprevisto -->
+  <app-modal [isOpen]="isImprevistoModalOpen" [title]="editingId ? 'Editar Imprevisto' : 'Registrar Imprevisto'" (closed)="isImprevistoModalOpen = false">
+    <form #formI="ngForm" (ngSubmit)="saveImprevisto(formI)" class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">¿Qué ha pasado?</label>
+        <input type="text" name="concepto" [(ngModel)]="imprevistoForm.concepto" required class="w-full rounded-lg border-slate-300 dark:border-fintech-border bg-white dark:bg-fintech-dark text-slate-900 dark:text-white px-3 py-2 border">
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Importe</label>
+          <input type="number" name="importe" [(ngModel)]="imprevistoForm.importe" required min="0.01" step="0.01" class="w-full rounded-lg border-slate-300 dark:border-fintech-border bg-white dark:bg-fintech-dark text-slate-900 dark:text-white px-3 py-2 border">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Fecha</label>
+          <input type="date" name="fecha" [ngModel]="imprevistoForm.fecha | date:'yyyy-MM-dd'" (ngModelChange)="imprevistoForm.fecha = $event" required class="w-full rounded-lg border-slate-300 dark:border-fintech-border bg-white dark:bg-fintech-dark text-slate-900 dark:text-white px-3 py-2 border">
+        </div>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Tipo de Imprevisto</label>
+        <select name="categoria" [(ngModel)]="imprevistoForm.categoria" required class="w-full rounded-lg border-slate-300 dark:border-fintech-border bg-white dark:bg-fintech-dark text-slate-900 dark:text-white px-3 py-2 border">
+          <option *ngFor="let cat of categoriasImprevisto" [value]="cat.value">{{ cat.label }}</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Notas (Opcional)</label>
+        <textarea name="notas" [(ngModel)]="imprevistoForm.notas" rows="2" class="w-full rounded-lg border-slate-300 dark:border-fintech-border bg-white dark:bg-fintech-dark text-slate-900 dark:text-white px-3 py-2 border"></textarea>
+      </div>
+      <div footer-actions class="w-full flex justify-end gap-3">
+        <button type="button" (click)="isImprevistoModalOpen = false" class="px-4 py-2 text-sm text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-lg">Cancelar</button>
+        <button type="submit" [disabled]="formI.invalid" class="px-4 py-2 text-sm text-white bg-rose-600 hover:bg-rose-700 rounded-lg">Guardar Alerta</button>
+      </div>
+    </form>
+  </app-modal>
+
+</div>

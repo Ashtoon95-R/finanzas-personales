@@ -1,0 +1,146 @@
+<div class="space-y-6 animate-fade-in relative">
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Gastos Fijos</h2>
+      <p class="text-sm text-slate-500 dark:text-slate-400">Control de cuotas y recibos recurrentes</p>
+    </div>
+    
+    <button (click)="openModal()" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-rose-600 hover:bg-rose-700 dark:bg-rose-500 dark:hover:bg-rose-600 rounded-lg shadow-sm hover:shadow transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500">
+      <svg class="w-5 h-5 mr-1.5 -ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+      Añadir Gasto Fijo
+    </button>
+  </div>
+
+  <!-- Resumen principal -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <app-card class="md:col-span-1">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Total Gastos Fijos (Este Mes)</p>
+          <h3 class="text-4xl font-black text-slate-900 dark:text-white tracking-tight">
+            {{ totalFijos() | currency:'EUR' }}
+          </h3>
+          <p class="text-xs text-slate-400 dark:text-slate-500 mt-2">Mínimo necesario para cubrir cuotas.</p>
+        </div>
+        <div class="p-4 rounded-2xl bg-rose-50 dark:bg-rose-500/10 text-rose-500 dark:text-rose-400">
+          <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+        </div>
+      </div>
+    </app-card>
+  </div>
+
+  <!-- Lista de próximos cobros -->
+  <app-card title="Calendario de Próximos Cobros">
+    <div class="mt-4 space-y-3">
+      
+      <div *ngIf="gastosFijos().length === 0" class="text-center py-12 px-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-dashed border-slate-200 dark:border-slate-700">
+        <div class="flex flex-col items-center justify-center">
+          <svg class="w-16 h-16 text-slate-300 dark:text-slate-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+          <h3 class="text-lg font-medium text-slate-900 dark:text-slate-200 mb-1">Sin gastos fijos</h3>
+          <p class="text-sm text-slate-500 dark:text-slate-400 mb-4 max-w-sm">No tienes gastos fijos configurados. Añade alquiler, hipoteca o suscripciones para calcular tu base.</p>
+          <button (click)="openModal()" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            + Nuevo Gasto Fijo
+          </button>
+        </div>
+      </div>
+
+      <div *ngFor="let gasto of gastosFijos()" class="group flex items-center justify-between p-4 rounded-xl border border-slate-100 dark:border-fintech-border bg-white dark:bg-fintech-card hover:shadow-md transition-all">
+        
+        <div class="flex items-center gap-4">
+          <!-- Calendario icon / día -->
+          <div class="flex flex-col items-center justify-center w-12 h-12 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700">
+            <span class="text-[10px] font-bold text-slate-400 uppercase leading-none mt-1">Día</span>
+            <span class="text-lg font-black text-slate-700 dark:text-slate-200 leading-none">{{ gasto.diaCobro }}</span>
+          </div>
+          
+          <div>
+            <h4 class="font-semibold text-slate-800 dark:text-white flex items-center gap-2">
+              {{ gasto.concepto }}
+              <span *ngIf="!gasto.activo" class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-rose-100 text-rose-700 dark:bg-rose-900/50 dark:text-rose-400 uppercase tracking-wider">Cancelado</span>
+            </h4>
+            <div class="flex items-center gap-2 mt-1">
+              <span class="text-xs font-medium px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 capitalize">
+                {{ gasto.categoria.replace('_', ' ') }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-6">
+          <div class="text-right">
+            <p class="text-lg font-bold text-rose-600 dark:text-rose-400">{{ gasto.importe | currency:'EUR' }}</p>
+          </div>
+          
+          <div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+            <button (click)="openModal(gasto)" class="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 rounded-lg transition-colors" title="Editar">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+            </button>
+            <button *ngIf="gasto.activo" (click)="deactivateGasto(gasto)" class="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-500/10 rounded-lg transition-colors" title="Cancelar suscripción">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </app-card>
+
+  <!-- Form Modal -->
+  <app-modal 
+    [isOpen]="isModalOpen" 
+    [title]="editingId ? 'Editar Gasto Fijo' : 'Nuevo Gasto Fijo'"
+    (closed)="closeModal()">
+    
+    <form #gastoForm="ngForm" (ngSubmit)="saveGasto(gastoForm)" class="space-y-4">
+      
+      <div>
+        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Concepto (Ej. Hipoteca, Internet)</label>
+        <input type="text" name="concepto" [(ngModel)]="formData.concepto" required
+               class="w-full rounded-lg border-slate-300 dark:border-fintech-border bg-white dark:bg-fintech-dark text-slate-900 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border">
+      </div>
+      
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Importe Mensual</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <span class="text-slate-500 sm:text-sm">€</span>
+            </div>
+            <input type="number" name="importe" [(ngModel)]="formData.importe" required min="0" step="0.01"
+                   class="w-full pl-7 rounded-lg border-slate-300 dark:border-fintech-border bg-white dark:bg-fintech-dark text-slate-900 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border">
+          </div>
+        </div>
+        
+        <div>
+          <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Día de Cobro (1-31)</label>
+          <input type="number" name="diaCobro" [(ngModel)]="formData.diaCobro" required min="1" max="31"
+                 class="w-full rounded-lg border-slate-300 dark:border-fintech-border bg-white dark:bg-fintech-dark text-slate-900 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border">
+        </div>
+      </div>
+      
+      <div>
+        <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Categoría</label>
+        <select name="categoria" [(ngModel)]="formData.categoria" required
+                class="w-full rounded-lg border-slate-300 dark:border-fintech-border bg-white dark:bg-fintech-dark text-slate-900 dark:text-white shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm px-3 py-2 border">
+          <option *ngFor="let cat of categorias" [value]="cat.value">{{ cat.label }}</option>
+        </select>
+      </div>
+
+      <div *ngIf="editingId" class="flex items-center mt-4 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
+        <input id="activo" name="activo" type="checkbox" [(ngModel)]="formData.activo"
+               class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-slate-300 rounded">
+        <label for="activo" class="ml-2 block text-sm text-slate-700 dark:text-slate-300">
+          Gasto activo (Desmárcalo para cancelarlo sin borrar historial)
+        </label>
+      </div>
+
+      <div footer-actions class="w-full flex justify-end gap-3">
+        <button type="button" (click)="closeModal()" class="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg transition-colors">
+          Cancelar
+        </button>
+        <button type="submit" [disabled]="gastoForm.invalid" class="px-4 py-2 text-sm font-medium text-white bg-rose-600 hover:bg-rose-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg shadow-sm transition-colors">
+          Guardar Gasto Fijo
+        </button>
+      </div>
+    </form>
+  </app-modal>
+</div>

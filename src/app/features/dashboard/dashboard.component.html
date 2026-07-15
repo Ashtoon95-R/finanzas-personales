@@ -1,0 +1,109 @@
+<div class="space-y-6 animate-fade-in relative">
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Dashboard</h2>
+      <p class="text-sm text-slate-500 dark:text-slate-400">Resumen financiero y estado actual</p>
+    </div>
+    
+    <div class="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 hide-scrollbar">
+      <button (click)="navigateToAdd('ingreso')" class="whitespace-nowrap inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium text-emerald-700 bg-emerald-50 hover:bg-emerald-100 dark:text-emerald-300 dark:bg-emerald-900/30 dark:hover:bg-emerald-900/50 rounded-lg shadow-sm transition-all focus:outline-none">
+        + Ingreso
+      </button>
+      <button (click)="navigateToAdd('gasto')" class="whitespace-nowrap inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium text-indigo-700 bg-indigo-50 hover:bg-indigo-100 dark:text-indigo-300 dark:bg-indigo-900/30 dark:hover:bg-indigo-900/50 rounded-lg shadow-sm transition-all focus:outline-none">
+        + Gasto
+      </button>
+      <button (click)="navigateToAdd('imprevisto')" class="whitespace-nowrap inline-flex items-center justify-center px-3 py-1.5 text-xs font-medium text-rose-700 bg-rose-50 hover:bg-rose-100 dark:text-rose-300 dark:bg-rose-900/30 dark:hover:bg-rose-900/50 rounded-lg shadow-sm transition-all focus:outline-none">
+        + Imprevisto
+      </button>
+    </div>
+  </div>
+
+  <!-- Resumen de KPIs -->
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    
+    <!-- Ingresos Totales -->
+    <div class="bg-white dark:bg-fintech-card p-4 rounded-xl border border-slate-100 dark:border-fintech-border shadow-sm flex flex-col justify-center">
+      <p class="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wider mb-1">Ingresos</p>
+      <h3 class="text-2xl font-bold text-slate-800 dark:text-white">{{ totalIngresos() | currency:'EUR' }}</h3>
+    </div>
+
+    <!-- Gastos Fijos -->
+    <div class="bg-white dark:bg-fintech-card p-4 rounded-xl border border-slate-100 dark:border-fintech-border shadow-sm flex flex-col justify-center">
+      <p class="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wider mb-1">Fijos</p>
+      <h3 class="text-2xl font-bold text-slate-800 dark:text-white">{{ totalGastosFijos() | currency:'EUR' }}</h3>
+    </div>
+
+    <!-- Gastos Variables -->
+    <div class="bg-white dark:bg-fintech-card p-4 rounded-xl border border-slate-100 dark:border-fintech-border shadow-sm flex flex-col justify-center">
+      <p class="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wider mb-1">Variables</p>
+      <h3 class="text-2xl font-bold text-slate-800 dark:text-white">{{ totalGastosVariables() | currency:'EUR' }}</h3>
+    </div>
+
+    <!-- Imprevistos -->
+    <div class="bg-white dark:bg-fintech-card p-4 rounded-xl border border-slate-100 dark:border-fintech-border shadow-sm flex flex-col justify-center border-l-4 border-l-rose-500">
+      <p class="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wider mb-1">Imprevistos</p>
+      <h3 class="text-2xl font-bold text-rose-600 dark:text-rose-400">{{ totalImprevistos() | currency:'EUR' }}</h3>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    
+    <!-- Evolucion Chart -->
+    <div class="lg:col-span-2">
+      <app-card title="Evolución (12 Meses)">
+        <div class="h-[300px] mt-4 w-full" *ngIf="evoChartReady()">
+          <canvas baseChart 
+            [data]="evoChartData"
+            [options]="evoChartOptions"
+            [type]="evoChartType">
+          </canvas>
+        </div>
+      </app-card>
+    </div>
+
+    <!-- Right Column: Salud & Distribucion -->
+    <div class="lg:col-span-1 space-y-6">
+      
+      <!-- Indicador Salud -->
+      <app-card title="Salud Financiera">
+        
+        <div class="mt-4 text-center">
+           <h4 class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Disponible Neto</h4>
+           <p class="text-3xl font-black text-slate-800 dark:text-white mb-4"
+              [class.text-rose-600]="disponibleNeto() < 0" 
+              [class.dark:text-rose-400]="disponibleNeto() < 0">
+              {{ disponibleNeto() | currency:'EUR' }}
+           </p>
+        </div>
+
+        <div class="mt-4">
+          <div class="flex justify-between text-xs mb-1">
+            <span class="text-slate-500 dark:text-slate-400">Progreso vs Objetivo</span>
+            <span class="font-medium text-slate-700 dark:text-slate-300">{{ saludPorcentaje() | number:'1.0-0' }}%</span>
+          </div>
+          <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2.5 overflow-hidden flex">
+            <div [class]="saludColor()" class="h-2.5 rounded-full transition-all duration-1000" [style.width]="saludPorcentaje() + '%'"></div>
+          </div>
+          <p class="text-[10px] text-slate-400 dark:text-slate-500 mt-2 text-center">
+            Calculado sobre un objetivo base del 20% de tus ingresos limpios.
+          </p>
+        </div>
+      </app-card>
+
+      <!-- Distribucion Chart -->
+      <app-card title="Distribución de Gastos">
+        <div class="h-[220px] mt-4 w-full" *ngIf="donutChartReady()">
+          <canvas baseChart 
+            [data]="donutChartData"
+            [options]="donutChartOptions"
+            [type]="donutChartType">
+          </canvas>
+        </div>
+        <div *ngIf="donutChartData.labels?.length === 0" class="h-[220px] mt-4 flex items-center justify-center text-slate-400 text-sm border-2 border-dashed rounded-lg border-slate-200 dark:border-slate-700">
+           Sin gastos este mes.
+        </div>
+      </app-card>
+    </div>
+  </div>
+
+</div>
