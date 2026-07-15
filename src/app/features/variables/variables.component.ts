@@ -158,7 +158,11 @@ export class VariablesComponent {
       this.gastoForm = { ...gasto, fecha: new Date(gasto.fecha) };
     } else {
       this.editingId = null;
-      this.gastoForm = { concepto: '', importe: 0, categoria: 'dietas', fecha: new Date(), recurrente: false };
+      const year = this.stateService.currentYear();
+      const month = this.stateService.currentMonth();
+      const now = new Date();
+      const day = now.getFullYear() === year && now.getMonth() === month ? now.getDate() : 1;
+      this.gastoForm = { concepto: '', importe: 0, categoria: 'dietas', fecha: new Date(year, month, day), recurrente: false };
     }
     this.isGastoModalOpen = true;
   }
@@ -186,7 +190,11 @@ export class VariablesComponent {
       this.imprevistoForm = { ...imp, fecha: new Date(imp.fecha) };
     } else {
       this.editingId = null;
-      this.imprevistoForm = { concepto: '', importe: 0, categoria: 'reparacion', fecha: new Date(), notas: '' };
+      const year = this.stateService.currentYear();
+      const month = this.stateService.currentMonth();
+      const now = new Date();
+      const day = now.getFullYear() === year && now.getMonth() === month ? now.getDate() : 1;
+      this.imprevistoForm = { concepto: '', importe: 0, categoria: 'reparacion', fecha: new Date(year, month, day), notas: '' };
     }
     this.isImprevistoModalOpen = true;
   }

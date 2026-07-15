@@ -77,6 +77,10 @@ export class IngresosComponent {
       }
     } else {
       this.editingId = null;
+      const year = this.stateService.currentYear();
+      const month = this.stateService.currentMonth();
+      const now = new Date();
+      const day = now.getFullYear() === year && now.getMonth() === month ? now.getDate() : 1;
       this.formData = {
         concepto: '',
         importe: 0,
@@ -84,7 +88,7 @@ export class IngresosComponent {
         recurrente: false,
         frecuencia: 'unico',
         estado: 'pendiente',
-        fecha: new Date()
+        fecha: new Date(year, month, day)
       };
     }
     this.isModalOpen = true;

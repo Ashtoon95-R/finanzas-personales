@@ -45,10 +45,14 @@ export class StateService {
     const ingresos = await this.dataService.getIngresosByMonth(year, month);
     const gastosVar = await this.dataService.getGastosVariablesByMonth(year, month);
     const gastosFijos = await this.dataService.getGastosFijosActivosEnMes(year, month);
+    const start = new Date(year, month, 1);
+    const end = new Date(year, month + 1, 0, 23, 59, 59);
+    const imprevistos = await this.dataService.getImprevistosByDateRange(start, end);
 
     const totalIng = ingresos.reduce((acc, curr) => acc + curr.importe, 0);
     const totalGas = gastosVar.reduce((acc, curr) => acc + curr.importe, 0) + 
-                     gastosFijos.reduce((acc, curr) => acc + curr.importe, 0);
+                     gastosFijos.reduce((acc, curr) => acc + curr.importe, 0) +
+                     imprevistos.reduce((acc, curr) => acc + curr.importe, 0);
 
     this.totalIngresos.set(totalIng);
     this.totalGastos.set(totalGas);
