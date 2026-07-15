@@ -25,8 +25,7 @@ export class AjustesComponent {
     porcentajeAhorro: 20,
     sueldoAsignado: 0,
     reservaFiscalActiva: false,
-    porcentajeImpuestos: 20,
-    presupuestoVariableMensual: 300
+    porcentajeImpuestos: 20
   });
 
   saved = signal(false);

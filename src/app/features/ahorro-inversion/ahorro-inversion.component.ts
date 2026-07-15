@@ -88,8 +88,7 @@ export class AhorroInversionComponent {
     const sumVariables = variables6m.reduce((sum, g) => sum + g.importe, 0);
     const historicoMedia = sumVariables / 6;
     
-    // Tomamos el presupuesto configurado como base mínima, o si ya gasta más, cogemos la realidad (histórico)
-    const presupuestoConfigurado = conf?.presupuestoVariableMensual || 0;
-    this.mediaVariables6Meses.set(Math.max(historicoMedia, presupuestoConfigurado));
+    // Tomamos el histórico de gastos variables como media estimada
+    this.mediaVariables6Meses.set(historicoMedia);
   }
 }
