@@ -8,3 +8,5 @@ export interface GastoFijo {
   fechaRegistro: Date;
   fechaDesactivacion?: Date;
 }
+
+

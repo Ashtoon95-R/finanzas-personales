@@ -14,7 +14,9 @@ export class BackupService {
       gastosFijos: await this.db.gastosFijos.toArray(),
       gastosVariables: await this.db.gastosVariables.toArray(),
       imprevistos: await this.db.imprevistos.toArray(),
-      configuracion: await this.db.configuracion.toArray()
+      configuracion: await this.db.configuracion.toArray(),
+      cuentasAhorro: await this.db.cuentasAhorro.toArray(),
+      deudas: await this.db.deudas.toArray()
     };
     return JSON.stringify(data, null, 2);
   }
@@ -23,12 +25,17 @@ export class BackupService {
     try {
       const data = JSON.parse(jsonString);
       
-      await this.db.transaction('rw', 
-        this.db.ingresos, 
-        this.db.gastosFijos, 
-        this.db.gastosVariables, 
-        this.db.imprevistos, 
-        this.db.configuracion, 
+      await this.db.transaction(
+        'rw',
+        [
+          this.db.ingresos,
+          this.db.gastosFijos,
+          this.db.gastosVariables,
+          this.db.imprevistos,
+          this.db.configuracion,
+          this.db.cuentasAhorro,
+          this.db.deudas,
+        ],
         async () => {
           if (data.ingresos) {
             await this.db.ingresos.clear();
@@ -49,6 +56,14 @@ export class BackupService {
           if (data.configuracion) {
             await this.db.configuracion.clear();
             await this.db.configuracion.bulkAdd(data.configuracion);
+          }
+          if (data.cuentasAhorro) {
+            await this.db.cuentasAhorro.clear();
+            await this.db.cuentasAhorro.bulkAdd(data.cuentasAhorro);
+          }
+          if (data.deudas) {
+            await this.db.deudas.clear();
+            await this.db.deudas.bulkAdd(data.deudas);
           }
       });
     } catch (error) {

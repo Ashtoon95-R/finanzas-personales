@@ -46,3 +46,5 @@ export class MainLayoutComponent {
     this.sidebarOpen.update(val => !val);
   }
 }
+
+

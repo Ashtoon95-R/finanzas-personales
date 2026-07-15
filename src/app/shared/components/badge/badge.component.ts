@@ -26,3 +26,5 @@ export class BadgeComponent {
     return map[this.color];
   }
 }
+
+

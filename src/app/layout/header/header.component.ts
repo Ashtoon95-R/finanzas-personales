@@ -1,30 +1,31 @@
 import { Component, EventEmitter, Output, inject, computed } from '@angular/core';
 import { StateService } from '@core/services/state.service';
 import { CommonModule, CurrencyPipe } from '@angular/common';
+import { LUCIDE_ICONS } from '@shared/icons';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, CurrencyPipe],
+  imports: [CommonModule, CurrencyPipe, ...LUCIDE_ICONS],
   template: `
     <header class="bg-white dark:bg-fintech-card shadow-sm border-b border-slate-100 dark:border-fintech-border h-20 flex items-center justify-between px-4 lg:px-8">
       <div class="flex items-center">
         <button 
           class="lg:hidden text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-md p-2 mr-3"
           (click)="onToggleSidebar()">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+          <svg lucideMenu class="w-6 h-6"></svg>
         </button>
         
         <!-- Month/Year Selector -->
         <div class="flex items-center gap-2 bg-slate-50 dark:bg-fintech-dark rounded-lg p-1 border border-slate-100 dark:border-fintech-border">
           <button (click)="prevMonth()" class="p-1.5 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white rounded-md hover:bg-white dark:hover:bg-slate-700 transition-colors">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+            <svg lucideChevronLeft class="w-5 h-5"></svg>
           </button>
           <span class="font-medium text-slate-800 dark:text-slate-100 min-w-[100px] text-center capitalize">
             {{ displayMonth() }} {{ state.currentYear() }}
           </span>
           <button (click)="nextMonth()" class="p-1.5 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white rounded-md hover:bg-white dark:hover:bg-slate-700 transition-colors">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+            <svg lucideChevronRight class="w-5 h-5"></svg>
           </button>
         </div>
       </div>
@@ -94,3 +95,5 @@ export class HeaderComponent {
     }
   }
 }
+
+

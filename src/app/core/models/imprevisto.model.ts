@@ -6,3 +6,5 @@ export interface Imprevisto {
   categoria: string;
   notas?: string;
 }
+
+

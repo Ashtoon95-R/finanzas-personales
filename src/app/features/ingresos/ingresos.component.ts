@@ -1,6 +1,7 @@
 import { Component, inject, signal, effect, computed } from '@angular/core';
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
+import { LUCIDE_ICONS } from '@shared/icons';
 import { DataService } from '@core/services/data.service';
 import { StateService } from '@core/services/state.service';
 import { Ingreso } from '@core/models/ingreso.model';
@@ -12,7 +13,7 @@ import { EditableTableComponent } from '@shared/components/editable-table/editab
 @Component({
   selector: 'app-ingresos',
   standalone: true,
-  imports: [CommonModule, FormsModule, CurrencyPipe, DatePipe, CardComponent, BadgeComponent, ModalComponent, EditableTableComponent],
+  imports: [CommonModule, FormsModule, CurrencyPipe, DatePipe, CardComponent, BadgeComponent, ModalComponent, EditableTableComponent, ...LUCIDE_ICONS],
   templateUrl: './ingresos.component.html',
   styles: []
 })
@@ -148,3 +149,5 @@ export class IngresosComponent {
     this.loadIngresos(this.stateService.currentYear(), this.stateService.currentMonth());
   }
 }
+
+

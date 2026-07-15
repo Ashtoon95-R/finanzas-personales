@@ -1,13 +1,51 @@
 <div class="space-y-6 animate-fade-in relative">
   <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
     <div>
-      <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Ahorro e Inversión</h2>
-      <p class="text-sm text-slate-500 dark:text-slate-400">Inteligencia financiera para autónomos</p>
+      <div class="flex items-center gap-2">
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-white">Ahorros</h2>
+        <button (click)="toggleMostrarPasos()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors p-1 rounded-lg" title="Mostrar/Ocultar fases del Waterfall">
+          <svg *ngIf="mostrarPasos" lucideEye class="w-5 h-5"></svg>
+          <svg *ngIf="!mostrarPasos" lucideEyeOff class="w-5 h-5"></svg>
+        </button>
+      </div>
+      <p class="text-sm text-slate-500 dark:text-slate-400">Colchón, deudas y cuentas remuneradas (p. ej. Trade Republic al 2%)</p>
+    </div>
+  </div>
+
+  <!-- Waterfall Status Header -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6" *ngIf="mostrarPasos">
+    <div [class]="waterfall().fase === 'colchon' ? 'bg-rose-500/10 border-rose-500/30 dark:bg-rose-500/15' : 'bg-slate-50 dark:bg-slate-800/40 border-slate-100 dark:border-slate-700 opacity-60'" 
+         class="p-4 rounded-2xl border flex items-center gap-3 transition-all duration-300">
+      <div [class]="waterfall().fase === 'colchon' ? 'bg-rose-500 text-white animate-pulse' : 'bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400'" 
+           class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">1</div>
+      <div>
+        <p class="text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Fase Actual: Colchón</p>
+        <h4 class="text-sm font-bold text-slate-800 dark:text-slate-200">Llenar Colchón Líquido</h4>
+      </div>
+    </div>
+    
+    <div [class]="waterfall().fase === 'deudas' ? 'bg-amber-500/10 border-amber-500/30 dark:bg-amber-500/15' : 'bg-slate-50 dark:bg-slate-800/40 border-slate-100 dark:border-slate-700 opacity-60'" 
+         class="p-4 rounded-2xl border flex items-center gap-3 transition-all duration-300">
+      <div [class]="waterfall().fase === 'deudas' ? 'bg-amber-500 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400'" 
+           class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">2</div>
+      <div>
+        <p class="text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Fase Actual: Deudas</p>
+        <h4 class="text-sm font-bold text-slate-800 dark:text-slate-200">Amortizar Deudas Caras (>5%)</h4>
+      </div>
+    </div>
+    
+    <div [class]="waterfall().fase === 'cuentas' ? 'bg-emerald-500/10 border-emerald-500/30 dark:bg-emerald-500/15' : 'bg-slate-50 dark:bg-slate-800/40 border-slate-100 dark:border-slate-700 opacity-60'" 
+         class="p-4 rounded-2xl border flex items-center gap-3 transition-all duration-300">
+      <div [class]="waterfall().fase === 'cuentas' ? 'bg-emerald-500 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400'" 
+           class="w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm">3</div>
+      <div>
+        <p class="text-[10px] font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider">Fase Actual: Cuentas</p>
+        <h4 class="text-sm font-bold text-slate-800 dark:text-slate-200">Aportar a Cuentas Remuneradas</h4>
+      </div>
     </div>
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-    <!-- Main Calculator Card -->
     <div class="lg:col-span-2 space-y-6">
       
       <app-card>
@@ -17,11 +55,10 @@
             {{ sueldoBrutoRecomendado() | currency:'EUR' }}
           </h1>
           <p class="text-sm text-slate-500 dark:text-slate-400 max-w-lg mx-auto">
-            Basado en tus gastos fijos, la media de variables y tus objetivos de ahorro e impuestos configurados en Ajustes.
+            Calculado con tus fijos, la media de variables y ajustado por el waterfall de prioridades financieras.
           </p>
         </div>
 
-        <!-- Stacked Bar -->
         <div class="mt-8 px-4">
           <div class="flex justify-between text-xs font-semibold mb-2 text-slate-600 dark:text-slate-300">
             <span>Distribución del Sueldo</span>
@@ -29,27 +66,22 @@
           </div>
           
           <div class="w-full h-6 flex rounded-full overflow-hidden shadow-inner">
-            <!-- Gastos Fijos -->
             <div class="bg-slate-500 hover:bg-slate-600 transition-colors flex items-center justify-center text-[10px] text-white font-bold" 
                  [style.width]="pctGastosFijos() + '%'" title="Gastos Fijos ({{ pctGastosFijos() | number:'1.0-0' }}%)">
                  <span *ngIf="pctGastosFijos() > 10">Fijos</span>
             </div>
-            <!-- Gastos Variables -->
             <div class="bg-slate-400 hover:bg-slate-500 transition-colors flex items-center justify-center text-[10px] text-white font-bold" 
                  [style.width]="pctGastosVariables() + '%'" title="Gastos Variables/Ocio ({{ pctGastosVariables() | number:'1.0-0' }}%)">
                  <span *ngIf="pctGastosVariables() > 10">Variables</span>
             </div>
-            <!-- Regularización Mes Anterior -->
             <div class="bg-amber-500 hover:bg-amber-600 transition-colors flex items-center justify-center text-[10px] text-white font-bold" 
                  [style.width]="pctDesviacion() + '%'" title="Regularización ({{ pctDesviacion() | number:'1.0-0' }}%)" *ngIf="pctDesviacion() > 0">
                  <span *ngIf="pctDesviacion() > 10">Regul.</span>
             </div>
-            <!-- Ahorro -->
             <div class="bg-emerald-500 hover:bg-emerald-600 transition-colors flex items-center justify-center text-[10px] text-white font-bold" 
                  [style.width]="pctAhorro() + '%'" title="Ahorro ({{ pctAhorro() | number:'1.0-0' }}%)">
                  <span *ngIf="pctAhorro() > 10">Ahorro</span>
             </div>
-            <!-- Impuestos -->
             <div class="bg-indigo-500 hover:bg-indigo-600 transition-colors flex items-center justify-center text-[10px] text-white font-bold" 
                  [style.width]="pctImpuestos() + '%'" title="Impuestos ({{ pctImpuestos() | number:'1.0-0' }}%)" *ngIf="config()?.reservaFiscalActiva">
                  <span *ngIf="pctImpuestos() > 10">Impuestos</span>
@@ -57,7 +89,6 @@
           </div>
         </div>
 
-        <!-- Breakdown Legends -->
         <div class="mt-8 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 border-t border-slate-100 dark:border-fintech-border pt-6">
           <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700">
              <div class="flex items-center gap-2 mb-2">
@@ -80,10 +111,24 @@
           <div class="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800/30">
              <div class="flex items-center gap-2 mb-2">
                <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
-               <span class="font-semibold text-emerald-800 dark:text-emerald-400">Para Ahorro</span>
+               <span class="font-semibold text-emerald-800 dark:text-emerald-400">Distribución Ahorro</span>
              </div>
              <p class="text-2xl font-bold text-emerald-700 dark:text-emerald-500">{{ parteAhorro() | currency:'EUR' }}</p>
-             <p class="text-xs text-emerald-600 dark:text-emerald-500/80 mt-2">Corresponde al {{ config()?.porcentajeAhorro }}% del sueldo total que has fijado como objetivo.</p>
+             
+             <div class="mt-2 space-y-1 text-[10px] text-slate-600 dark:text-slate-400 border-t border-slate-200/50 dark:border-slate-700/50 pt-2">
+               <div class="flex justify-between" *ngIf="waterfall().colchon > 0">
+                 <span>A Colchón:</span>
+                 <span class="font-semibold text-slate-800 dark:text-slate-200">{{ waterfall().colchon | currency:'EUR' }}</span>
+               </div>
+               <div class="flex justify-between" *ngIf="waterfall().deudas > 0">
+                 <span>Amortización Deuda:</span>
+                 <span class="font-semibold text-slate-800 dark:text-slate-200">{{ waterfall().deudas | currency:'EUR' }}</span>
+               </div>
+               <div class="flex justify-between" *ngIf="waterfall().cuentas > 0">
+                 <span>A Cuentas Remuneradas:</span>
+                 <span class="font-semibold text-slate-800 dark:text-slate-200">{{ waterfall().cuentas | currency:'EUR' }}</span>
+               </div>
+             </div>
           </div>
 
           <div class="p-4 rounded-xl bg-indigo-50 dark:bg-indigo-900/10 border border-indigo-100 dark:border-indigo-800/30" [class.opacity-50]="!config()?.reservaFiscalActiva">
@@ -97,9 +142,8 @@
           </div>
         </div>
 
-        <!-- Carry-over Reconciliation Info -->
         <div class="mt-6 p-4 rounded-xl border border-amber-100 dark:border-amber-900/30 bg-amber-50/50 dark:bg-amber-900/10 flex items-start gap-3" *ngIf="desviacionMesAnterior() !== 0">
-          <svg class="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+          <svg lucideAlertTriangle class="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0"></svg>
           <div>
             <h4 class="text-sm font-semibold text-amber-800 dark:text-amber-400">Regularización por Desviación de Gastos (Mes Anterior)</h4>
             <p class="text-xs text-amber-750 dark:text-amber-500 mt-1">
@@ -112,27 +156,213 @@
       </app-card>
     </div>
 
-    <!-- Colchon KPI Card -->
     <div class="lg:col-span-1">
       <app-card title="Colchón de Seguridad">
         <div class="mt-4 flex flex-col items-center justify-center text-center p-6 bg-slate-50 dark:bg-fintech-dark rounded-xl border border-slate-100 dark:border-slate-800">
            
            <div class="p-4 bg-indigo-100 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-400 rounded-full mb-4">
-             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path></svg>
+             <svg lucideScale class="w-8 h-8"></svg>
            </div>
            
-           <h3 class="text-3xl font-black text-slate-800 dark:text-white mb-2">{{ colchonObjetivo() | currency:'EUR' }}</h3>
+           <h3 class="text-3xl font-black text-slate-800 dark:text-white mb-1">{{ colchonObjetivo() | currency:'EUR' }}</h3>
+           <p class="text-xs text-slate-400 dark:text-slate-500 mb-4">Acumulado actual: {{ colchonActual() | currency:'EUR' }}</p>
            
            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-300 mb-4">
-             {{ config()?.colchonSeguridad }} Meses
+             {{ config()?.colchonSeguridad }} Meses Objetivo
            </span>
 
-           <p class="text-sm text-slate-500 dark:text-slate-400">
-             Este es el capital que deberías mantener siempre líquido en tu cuenta, calculado como tus gastos fijos actuales ({{ gastosFijosMesActual() | currency:'EUR' }}) multiplicados por tus meses objetivo.
+           <div class="w-full bg-slate-200 dark:bg-slate-700 h-2 rounded-full overflow-hidden mb-4">
+             <div class="h-full bg-indigo-500 rounded-full" [style.width]="(colchonObjetivo() > 0 ? (colchonActual() / colchonObjetivo()) * 100 : 0) + '%'"></div>
+           </div>
+
+           <p class="text-xs text-slate-500 dark:text-slate-400">
+             Cálculo: fijos actuales ({{ gastosFijosMesActual() | currency:'EUR' }}) x meses objetivo ({{ config()?.colchonSeguridad }}).
            </p>
         </div>
       </app-card>
     </div>
   </div>
 
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
+    <!-- DEUDAS -->
+    <app-card>
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white">Liquidación de Deudas</h3>
+          <p class="text-xs text-slate-500">Deudas caras (>5%) se priorizan en la cascada de ahorro</p>
+        </div>
+        <button (click)="openDeudaModal()" class="px-3 py-1.5 text-xs font-semibold text-white bg-slate-800 hover:bg-slate-950 dark:bg-indigo-600 dark:hover:bg-indigo-700 rounded-lg shadow transition-colors flex items-center gap-1">
+          <svg lucidePlus class="w-4 h-4"></svg>
+          Añadir Deuda
+        </button>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm text-slate-500 dark:text-slate-400">
+          <thead class="text-xs text-slate-400 uppercase bg-slate-50 dark:bg-slate-800/40">
+            <tr>
+              <th class="px-4 py-3">Concepto</th>
+              <th class="px-4 py-3">Interés</th>
+              <th class="px-4 py-3">Pendiente</th>
+              <th class="px-4 py-3 text-right">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let d of deudas()" class="border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-50/50 dark:hover:bg-slate-800/20">
+              <td class="px-4 py-3 font-semibold text-slate-800 dark:text-slate-200">
+                <div class="flex items-center gap-2">
+                  {{ d.concepto }}
+                  <span class="px-1.5 py-0.5 text-[9px] font-bold rounded bg-rose-500/10 text-rose-500 border border-rose-500/20" *ngIf="d.tipoInteres > 5">Cara</span>
+                </div>
+              </td>
+              <td class="px-4 py-3 font-medium text-slate-700 dark:text-slate-300">{{ d.tipoInteres }}%</td>
+              <td class="px-4 py-3 font-bold text-slate-950 dark:text-white">{{ d.importePendiente | currency:'EUR' }}</td>
+              <td class="px-4 py-3 text-right">
+                <div class="flex justify-end gap-2">
+                  <button (click)="openDeudaModal(d)" class="text-slate-400 hover:text-indigo-500 p-1 rounded transition-colors" title="Editar">
+                    <svg lucidePencil class="w-4 h-4"></svg>
+                  </button>
+                  <button (click)="deleteDeuda(d.id!)" class="text-slate-400 hover:text-rose-500 p-1 rounded transition-colors" title="Eliminar">
+                    <svg lucideTrash2 class="w-4 h-4"></svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="deudas().length === 0">
+              <td colspan="4" class="px-4 py-6 text-center text-slate-400">No tienes deudas pendientes de pago. ¡Excelente salud financiera!</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </app-card>
+
+    <!-- CUENTAS DE AHORRO -->
+    <app-card>
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white">Cuentas de Ahorro</h3>
+          <p class="text-xs text-slate-500">
+            Total {{ totalCuentas() | currency:'EUR' }} · Interés estimado/año {{ interesAnualEstimado() | currency:'EUR' }}
+          </p>
+        </div>
+        <button (click)="openCuentaModal()" class="px-3 py-1.5 text-xs font-semibold text-white bg-slate-800 hover:bg-slate-950 dark:bg-indigo-600 dark:hover:bg-indigo-700 rounded-lg shadow transition-colors flex items-center gap-1">
+          <svg lucidePlus class="w-4 h-4"></svg>
+          Añadir Cuenta
+        </button>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm text-slate-500 dark:text-slate-400">
+          <thead class="text-xs text-slate-400 uppercase bg-slate-50 dark:bg-slate-800/40">
+            <tr>
+              <th class="px-4 py-3">Cuenta</th>
+              <th class="px-4 py-3">TAE</th>
+              <th class="px-4 py-3">Saldo</th>
+              <th class="px-4 py-3 text-right">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let c of cuentas()" class="border-b border-slate-100 dark:border-slate-800/50 hover:bg-slate-50/50 dark:hover:bg-slate-800/20">
+              <td class="px-4 py-3 font-semibold text-slate-800 dark:text-slate-200">
+                <div class="flex flex-col">
+                  <span>{{ c.nombre }}</span>
+                  <span class="text-[10px] font-medium text-slate-400 dark:text-slate-500">{{ c.entidad }}</span>
+                </div>
+              </td>
+              <td class="px-4 py-3">
+                <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                  {{ c.interesAnual }}%
+                </span>
+              </td>
+              <td class="px-4 py-3 font-bold text-slate-950 dark:text-white">{{ c.saldo | currency:'EUR' }}</td>
+              <td class="px-4 py-3 text-right">
+                <div class="flex justify-end gap-2">
+                  <button (click)="openCuentaModal(c)" class="text-slate-400 hover:text-indigo-500 p-1 rounded transition-colors" title="Editar">
+                    <svg lucidePencil class="w-4 h-4"></svg>
+                  </button>
+                  <button (click)="deleteCuenta(c.id!)" class="text-slate-400 hover:text-rose-500 p-1 rounded transition-colors" title="Eliminar">
+                    <svg lucideTrash2 class="w-4 h-4"></svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <tr *ngIf="cuentas().length === 0">
+              <td colspan="4" class="px-4 py-6 text-center text-slate-400">Añade tus cuentas remuneradas (p. ej. Trade Republic al 2%).</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </app-card>
+  </div>
 </div>
+
+<!-- MODAL CUENTA AHORRO -->
+<app-modal [isOpen]="isCuentaModalOpen" [title]="cuentaEditingId ? 'Editar Cuenta' : 'Añadir Cuenta de Ahorro'" (close)="closeCuentaModal()" [showFooter]="true">
+  <form #cuentaFormEl="ngForm" (ngSubmit)="saveCuenta(cuentaFormEl)" class="space-y-4">
+    <div>
+      <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Nombre de la cuenta</label>
+      <input type="text" name="nombre" [(ngModel)]="cuentaForm.nombre" required placeholder="Ej. Colchón / Excedente" class="w-full rounded-xl border-slate-200 dark:border-fintech-border bg-slate-50 dark:bg-fintech-dark text-slate-900 dark:text-white px-4 py-2.5 border focus:ring-2 focus:ring-indigo-500 focus:outline-none shadow-inner sm:text-sm">
+    </div>
+
+    <div>
+      <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Entidad</label>
+      <input type="text" name="entidad" [(ngModel)]="cuentaForm.entidad" required placeholder="Ej. Trade Republic" class="w-full rounded-xl border-slate-200 dark:border-fintech-border bg-slate-50 dark:bg-fintech-dark text-slate-900 dark:text-white px-4 py-2.5 border focus:ring-2 focus:ring-indigo-500 focus:outline-none shadow-inner sm:text-sm">
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Saldo (€)</label>
+        <input type="number" name="saldo" [(ngModel)]="cuentaForm.saldo" required min="0" class="w-full rounded-xl border-slate-200 dark:border-fintech-border bg-slate-50 dark:bg-fintech-dark text-slate-900 dark:text-white px-4 py-2.5 border focus:ring-2 focus:ring-indigo-500 focus:outline-none shadow-inner sm:text-sm">
+      </div>
+      <div>
+        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Interés anual / TAE (%)</label>
+        <input type="number" name="interesAnual" [(ngModel)]="cuentaForm.interesAnual" required min="0" step="0.01" placeholder="2" class="w-full rounded-xl border-slate-200 dark:border-fintech-border bg-slate-50 dark:bg-fintech-dark text-slate-900 dark:text-white px-4 py-2.5 border focus:ring-2 focus:ring-indigo-500 focus:outline-none shadow-inner sm:text-sm">
+      </div>
+    </div>
+
+    <p class="text-[11px] text-slate-500">Por defecto 2% (típico en cuentas remuneradas como Trade Republic). Puedes ajustarlo si cambia la oferta.</p>
+
+    <button type="submit" class="hidden" id="submit-cuenta-btn"></button>
+  </form>
+
+  <div footer-actions class="flex gap-3 w-full justify-end">
+    <button (click)="closeCuentaModal()" class="px-4 py-2 text-sm font-semibold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors">
+      Cancelar
+    </button>
+    <button onclick="document.getElementById('submit-cuenta-btn')?.click()" class="px-5 py-2 text-sm font-semibold text-white bg-slate-800 hover:bg-slate-900 dark:bg-indigo-600 dark:hover:bg-indigo-700 rounded-xl transition-colors shadow">
+      Guardar Cuenta
+    </button>
+  </div>
+</app-modal>
+
+<!-- MODAL DEUDA -->
+<app-modal [isOpen]="isDeudaModalOpen" [title]="deudaEditingId ? 'Editar Deuda' : 'Añadir Deuda'" (close)="closeDeudaModal()" [showFooter]="true">
+  <form #deudaFormEl="ngForm" (ngSubmit)="saveDeuda(deudaFormEl)" class="space-y-4">
+    <div>
+      <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Concepto de la Deuda</label>
+      <input type="text" name="concepto" [(ngModel)]="deudaForm.concepto" required placeholder="Ej. Préstamo Coche, Tarjeta Crédito" class="w-full rounded-xl border-slate-200 dark:border-fintech-border bg-slate-50 dark:bg-fintech-dark text-slate-900 dark:text-white px-4 py-2.5 border focus:ring-2 focus:ring-indigo-500 focus:outline-none shadow-inner sm:text-sm">
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Importe Pendiente (€)</label>
+        <input type="number" name="importePendiente" [(ngModel)]="deudaForm.importePendiente" required min="1" class="w-full rounded-xl border-slate-200 dark:border-fintech-border bg-slate-50 dark:bg-fintech-dark text-slate-900 dark:text-white px-4 py-2.5 border focus:ring-2 focus:ring-indigo-500 focus:outline-none shadow-inner sm:text-sm">
+      </div>
+      <div>
+        <label class="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Tipo de Interés Anual (%)</label>
+        <input type="number" name="tipoInteres" [(ngModel)]="deudaForm.tipoInteres" required min="0" step="0.01" placeholder="Ej. 6.50" class="w-full rounded-xl border-slate-200 dark:border-fintech-border bg-slate-50 dark:bg-fintech-dark text-slate-900 dark:text-white px-4 py-2.5 border focus:ring-2 focus:ring-indigo-500 focus:outline-none shadow-inner sm:text-sm">
+      </div>
+    </div>
+
+    <button type="submit" class="hidden" id="submit-deuda-btn"></button>
+  </form>
+
+  <div footer-actions class="flex gap-3 w-full justify-end">
+    <button (click)="closeDeudaModal()" class="px-4 py-2 text-sm font-semibold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors">
+      Cancelar
+    </button>
+    <button onclick="document.getElementById('submit-deuda-btn')?.click()" class="px-5 py-2 text-sm font-semibold text-white bg-slate-800 hover:bg-slate-900 dark:bg-indigo-600 dark:hover:bg-indigo-700 rounded-xl transition-colors shadow">
+      Guardar Deuda
+    </button>
+  </div>
+</app-modal>

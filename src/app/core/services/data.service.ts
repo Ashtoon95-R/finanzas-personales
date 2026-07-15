@@ -5,6 +5,8 @@ import { GastoFijo } from '@core/models/gasto-fijo.model';
 import { GastoVariable } from '@core/models/gasto-variable.model';
 import { Imprevisto } from '@core/models/imprevisto.model';
 import { ConfiguracionUsuario } from '@core/models/configuracion.model';
+import { CuentaAhorro } from '@core/models/cuenta-ahorro.model';
+import { Deuda } from '@core/models/deuda.model';
 
 @Injectable({
   providedIn: 'root'
@@ -218,7 +220,8 @@ export class DataService {
         porcentajeAhorro: 20,
         sueldoAsignado: 0,
         reservaFiscalActiva: false,
-        porcentajeImpuestos: 20
+        porcentajeImpuestos: 20,
+        colchonActual: 0
       };
       await this.db.configuracion.add(conf);
     }
@@ -228,4 +231,46 @@ export class DataService {
   async updateConfiguracion(changes: Partial<ConfiguracionUsuario>): Promise<number> {
     return this.db.configuracion.update(1, changes);
   }
+
+  // --- Cuentas de Ahorro ---
+  async getCuentasAhorro(): Promise<CuentaAhorro[]> {
+    return this.db.cuentasAhorro.toArray();
+  }
+
+  async addCuentaAhorro(cuenta: CuentaAhorro): Promise<number> {
+    return this.db.cuentasAhorro.add({
+      ...cuenta,
+      fechaRegistro: cuenta.fechaRegistro || new Date().toISOString()
+    });
+  }
+
+  async updateCuentaAhorro(id: number, changes: Partial<CuentaAhorro>): Promise<number> {
+    return this.db.cuentasAhorro.update(id, changes);
+  }
+
+  async deleteCuentaAhorro(id: number): Promise<void> {
+    return this.db.cuentasAhorro.delete(id);
+  }
+
+  // --- Deudas ---
+  async getDeudas(): Promise<Deuda[]> {
+    return this.db.deudas.toArray();
+  }
+
+  async addDeuda(deuda: Deuda): Promise<number> {
+    return this.db.deudas.add({
+      ...deuda,
+      fechaRegistro: deuda.fechaRegistro || new Date().toISOString()
+    });
+  }
+
+  async updateDeuda(id: number, changes: Partial<Deuda>): Promise<number> {
+    return this.db.deudas.update(id, changes);
+  }
+
+  async deleteDeuda(id: number): Promise<void> {
+    return this.db.deudas.delete(id);
+  }
 }
+
+

@@ -11,3 +11,5 @@ export interface Ingreso {
   fechaCobro?: Date;
   _isProjected?: boolean;
 }
+
+

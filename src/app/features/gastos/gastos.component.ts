@@ -1,6 +1,7 @@
 import { Component, inject, signal, effect, computed } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
+import { LUCIDE_ICONS } from '@shared/icons';
 import { DataService } from '@core/services/data.service';
 import { StateService } from '@core/services/state.service';
 import { GastoFijo } from '@core/models/gasto-fijo.model';
@@ -11,7 +12,7 @@ import { ModalComponent } from '@shared/components/modal/modal.component';
 @Component({
   selector: 'app-gastos',
   standalone: true,
-  imports: [CommonModule, FormsModule, CurrencyPipe, CardComponent, BadgeComponent, ModalComponent],
+  imports: [CommonModule, FormsModule, CurrencyPipe, CardComponent, BadgeComponent, ModalComponent, ...LUCIDE_ICONS],
   templateUrl: './gastos.component.html',
   styles: []
 })
@@ -134,3 +135,5 @@ export class GastosComponent {
     this.loadGastos(this.stateService.currentYear(), this.stateService.currentMonth());
   }
 }
+
+

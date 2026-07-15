@@ -6,3 +6,5 @@ export interface GastoVariable {
   categoria: string;
   recurrente: boolean;
 }
+
+

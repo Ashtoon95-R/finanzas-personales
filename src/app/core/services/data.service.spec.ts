@@ -76,3 +76,5 @@ describe('DataService', () => {
     expect(febIngresos[0].concepto).toBe('Ingreso Feb');
   });
 });
+
+

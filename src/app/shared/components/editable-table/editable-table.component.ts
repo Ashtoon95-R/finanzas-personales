@@ -64,3 +64,5 @@ export class EditableTableComponent {
     this.delete.emit(row);
   }
 }
+
+

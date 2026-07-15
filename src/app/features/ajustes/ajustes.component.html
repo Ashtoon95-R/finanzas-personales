@@ -14,21 +14,74 @@
         <form (ngSubmit)="saveConfig()" #configForm="ngForm" class="space-y-6 mt-4">
           
           <div>
-            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">Meses de Colchón de Seguridad</label>
-            <p class="text-xs text-slate-500 mb-2">Cuántos meses de gastos fijos quieres tener siempre como reserva.</p>
+            <div class="flex items-center gap-1.5 mb-1">
+              <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Meses de Colchón de Seguridad</label>
+              <span class="inline-flex items-center group relative cursor-help">
+                <svg lucideHelpCircle class="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors"></svg>
+                <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 bg-slate-900 dark:bg-slate-950 text-white text-[10px] font-normal rounded-lg p-2 shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 z-50 leading-relaxed border border-slate-700 dark:border-slate-800">
+                  El colchón de seguridad cubre tus costes de vida básicos en caso de emergencia o meses con cero ingresos.
+                </span>
+              </span>
+            </div>
+            <p class="text-xs text-slate-500 mb-2">Cuántos meses de gastos fijos quieres tener siempre como reserva líquida.</p>
             <input type="number" name="colchonSeguridad" [(ngModel)]="config().colchonSeguridad" required min="1" max="24" class="w-full rounded-lg border-slate-300 dark:border-fintech-border bg-white dark:bg-fintech-dark text-slate-900 dark:text-white px-3 py-2 border focus:ring-indigo-500 focus:border-indigo-500">
+            <p class="text-[11px] text-indigo-600 dark:text-indigo-400 mt-1 flex items-center gap-1">
+              <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+              <span>Recomendación autónomo: 6 meses (equivale a {{ colchon6MesesRecomendado() | currency:'EUR' }}). Mínimo: 3 meses ({{ colchon3MesesMinimo() | currency:'EUR' }}).</span>
+            </p>
           </div>
 
           <div>
-            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">Porcentaje de Ahorro Objetivo (%)</label>
+            <div class="flex items-center gap-1.5 mb-1">
+              <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Porcentaje de Ahorro Objetivo (%)</label>
+              <span class="inline-flex items-center group relative cursor-help">
+                <svg lucideHelpCircle class="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors"></svg>
+                <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 bg-slate-900 dark:bg-slate-950 text-white text-[10px] font-normal rounded-lg p-2 shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 z-50 leading-relaxed border border-slate-700 dark:border-slate-800">
+                  Porcentaje de tu sueldo mensual que destinarás sistemáticamente a tu colchón de seguridad (si está incompleto), amortizar deudas o cuentas remuneradas.
+                </span>
+              </span>
+            </div>
             <p class="text-xs text-slate-500 mb-2">Qué porcentaje de tu sueldo bruto quieres destinar a ahorro mensual.</p>
             <input type="number" name="porcentajeAhorro" [(ngModel)]="config().porcentajeAhorro" required min="0" max="100" class="w-full rounded-lg border-slate-300 dark:border-fintech-border bg-white dark:bg-fintech-dark text-slate-900 dark:text-white px-3 py-2 border focus:ring-emerald-500 focus:border-emerald-500">
+            <p class="text-[11px] text-indigo-600 dark:text-indigo-400 mt-1 flex items-center gap-1">
+              <svg lucideInfo class="w-3.5 h-3.5 flex-shrink-0"></svg>
+              <span>Recomendación estándar: 20% (ideal para construir patrimonio de forma constante).</span>
+            </p>
           </div>
 
           <div>
-            <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1">Presupuesto de Gastos Variables (Ocio, Regalos, etc.) (€)</label>
+            <div class="flex items-center gap-1.5 mb-1">
+              <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Presupuesto de Gastos Variables (€)</label>
+              <span class="inline-flex items-center group relative cursor-help">
+                <svg lucideHelpCircle class="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors"></svg>
+                <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 bg-slate-900 dark:bg-slate-950 text-white text-[10px] font-normal rounded-lg p-2 shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 z-50 leading-relaxed border border-slate-700 dark:border-slate-800">
+                  Presupuesto límite estimado para ocio, salidas a comer, regalos y compras. Excluye impuestos y gastos fijos.
+                </span>
+              </span>
+            </div>
             <p class="text-xs text-slate-500 mb-2">Presupuesto mensual estimado que quieres reservar para ocio, regalos y otros gastos variables.</p>
             <input type="number" name="presupuestoVariableMensual" [(ngModel)]="config().presupuestoVariableMensual" required min="0" class="w-full rounded-lg border-slate-300 dark:border-fintech-border bg-white dark:bg-fintech-dark text-slate-900 dark:text-white px-3 py-2 border focus:ring-indigo-500 focus:border-indigo-500">
+            <p class="text-[11px] text-indigo-600 dark:text-indigo-400 mt-1 flex items-center gap-1">
+              <svg lucideInfo class="w-3.5 h-3.5 flex-shrink-0"></svg>
+              <span>Recomendación actual: 500 €/mes (según tu perfil de gastos flexibles).</span>
+            </p>
+          </div>
+
+          <div>
+            <div class="flex items-center gap-1.5 mb-1">
+              <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Colchón Líquido Actual (€)</label>
+              <span class="inline-flex items-center group relative cursor-help">
+                <svg lucideHelpCircle class="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors"></svg>
+                <span class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-64 bg-slate-900 dark:bg-slate-950 text-white text-[10px] font-normal rounded-lg p-2 shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 z-50 leading-relaxed border border-slate-700 dark:border-slate-800">
+                  Dinero líquido para emergencias (p. ej. cuenta corriente). Las cuentas remuneradas se gestionan en la sección Ahorros.
+                </span>
+              </span>
+            </div>
+            <p class="text-[10px] text-slate-500 mb-2">Saldo líquido actual en el colchón.</p>
+            <input type="number" name="colchonActual" [(ngModel)]="config().colchonActual" required min="0" class="w-full rounded-lg border-slate-300 dark:border-fintech-border bg-white dark:bg-fintech-dark text-slate-900 dark:text-white px-3 py-2 border focus:ring-indigo-500 focus:border-indigo-500">
+            <p class="text-[10px] text-indigo-600 dark:text-indigo-400 mt-1">
+              Objetivo 6m: {{ colchon6MesesRecomendado() | currency:'EUR' }}
+            </p>
           </div>
 
           <hr class="border-slate-100 dark:border-slate-800">
@@ -65,8 +118,8 @@
           
           <div class="flex gap-3">
             <div [ngClass]="alertaBackup() ? 'text-rose-600 dark:text-rose-400' : 'text-emerald-600 dark:text-emerald-400'">
-              <svg *ngIf="alertaBackup()" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-              <svg *ngIf="!alertaBackup()" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <svg *ngIf="alertaBackup()" lucideAlertTriangle class="w-6 h-6"></svg>
+              <svg *ngIf="!alertaBackup()" lucideCheckCircle class="w-6 h-6"></svg>
             </div>
             <div>
               <h4 class="font-semibold text-sm" [ngClass]="alertaBackup() ? 'text-rose-800 dark:text-rose-300' : 'text-emerald-800 dark:text-emerald-300'">
@@ -85,7 +138,7 @@
 
         <div class="mt-6 space-y-4">
           <button (click)="exportarDatos()" class="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium text-white bg-slate-800 hover:bg-slate-900 dark:bg-indigo-600 dark:hover:bg-indigo-700 rounded-lg shadow-sm transition-colors">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            <svg lucideDownload class="w-5 h-5"></svg>
             Exportar todos los datos (.json)
           </button>
           
@@ -101,7 +154,7 @@
           <div>
             <input type="file" #fileInput (change)="onFileSelected($event)" accept=".json" class="hidden">
             <button (click)="fileInput.click()" class="w-full flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 dark:text-slate-300 dark:bg-fintech-dark dark:border-slate-700 dark:hover:bg-slate-800 rounded-lg shadow-sm transition-colors">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+              <svg lucideUpload class="w-5 h-5"></svg>
               Importar copia de seguridad
             </button>
             <p class="text-[10px] text-center text-slate-400 mt-2">Advertencia: Esto sobrescribirá todos los datos actuales.</p>
@@ -112,3 +165,5 @@
     </div>
   </div>
 </div>
+
+

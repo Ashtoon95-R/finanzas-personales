@@ -1,0 +1,90 @@
+{
+  "ingresos": [],
+  "gastosFijos": [
+    {
+      "concepto": "Hipoteca",
+      "importe": 431,
+      "diaCobro": 1,
+      "categoria": "vivienda",
+      "activo": true,
+      "fechaRegistro": "2026-07-15T15:25:45.835Z",
+      "id": 1
+    },
+    {
+      "concepto": "Luz ",
+      "importe": 20,
+      "diaCobro": 1,
+      "categoria": "suministros",
+      "activo": true,
+      "fechaRegistro": "2026-07-15T15:28:00.848Z",
+      "id": 2
+    },
+    {
+      "concepto": "Alquiler Oficina",
+      "importe": 390,
+      "diaCobro": 1,
+      "categoria": "oficina",
+      "activo": true,
+      "fechaRegistro": "2026-07-15T15:28:27.065Z",
+      "id": 3
+    },
+    {
+      "concepto": "Gimnasio",
+      "importe": 28,
+      "diaCobro": 1,
+      "categoria": "otros",
+      "activo": true,
+      "fechaRegistro": "2026-07-15T15:31:58.300Z",
+      "id": 4
+    },
+    {
+      "concepto": "Seguro de Vida",
+      "importe": 25,
+      "diaCobro": 1,
+      "categoria": "seguros",
+      "activo": true,
+      "fechaRegistro": "2026-07-15T15:32:20.240Z",
+      "id": 5
+    },
+    {
+      "concepto": "Seguro de Hogar",
+      "importe": 46,
+      "diaCobro": 1,
+      "categoria": "seguros",
+      "activo": true,
+      "fechaRegistro": "2026-07-15T15:32:32.575Z",
+      "id": 6
+    },
+    {
+      "concepto": "Cuota Autónomo",
+      "importe": 205,
+      "diaCobro": 1,
+      "categoria": "cuota_autonomo",
+      "activo": true,
+      "fechaRegistro": "2026-07-15T15:32:44.059Z",
+      "id": 7
+    }
+  ],
+  "gastosVariables": [
+    {
+      "concepto": "Gimnasio",
+      "importe": 600,
+      "categoria": "supermercado",
+      "fecha": "2026-07-15T22:00:00.000Z",
+      "recurrente": false,
+      "id": 4
+    }
+  ],
+  "imprevistos": [],
+  "configuracion": [
+    {
+      "id": 1,
+      "colchonSeguridad": 3,
+      "porcentajeAhorro": 20,
+      "sueldoAsignado": 0,
+      "reservaFiscalActiva": false,
+      "porcentajeImpuestos": 20,
+      "presupuestoVariableMensual": 500
+    }
+  ]
+}

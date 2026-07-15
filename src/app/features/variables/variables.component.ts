@@ -1,6 +1,7 @@
 import { Component, inject, signal, effect, computed } from '@angular/core';
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
+import { LUCIDE_ICONS } from '@shared/icons';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { DataService } from '@core/services/data.service';
@@ -14,7 +15,7 @@ import { ModalComponent } from '@shared/components/modal/modal.component';
 @Component({
   selector: 'app-variables',
   standalone: true,
-  imports: [CommonModule, FormsModule, CurrencyPipe, DatePipe, BaseChartDirective, CardComponent, BadgeComponent, ModalComponent],
+  imports: [CommonModule, FormsModule, CurrencyPipe, DatePipe, BaseChartDirective, CardComponent, BadgeComponent, ModalComponent, ...LUCIDE_ICONS],
   templateUrl: './variables.component.html',
   styles: []
 })
@@ -226,3 +227,5 @@ export class VariablesComponent {
     this.loadData();
   }
 }
+
+

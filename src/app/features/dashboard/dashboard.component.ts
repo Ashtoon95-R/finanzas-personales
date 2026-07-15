@@ -172,3 +172,5 @@ export class DashboardComponent {
     if (type === 'imprevisto') this.router.navigate(['/variables']);
   }
 }
+
+

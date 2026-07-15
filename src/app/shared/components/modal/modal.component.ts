@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { LUCIDE_ICONS } from '@shared/icons';
 
 @Component({
   selector: 'app-modal',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ...LUCIDE_ICONS],
   template: `
     <div *ngIf="isOpen" class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto overflow-x-hidden p-4 sm:p-0">
       <!-- Backdrop -->
@@ -19,10 +20,10 @@ import { CommonModule } from '@angular/common';
           <h3 id="modal-title" class="text-lg font-semibold text-slate-800 dark:text-white">{{ title }}</h3>
           <button 
             type="button"
-            class="text-slate-400 hover:text-slate-500 dark:hover:text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-md"
+            class="text-slate-400 hover:text-slate-500 dark:hover:text-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-md p-1"
             aria-label="Cerrar modal"
             (click)="close()">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            <svg lucideX class="w-5 h-5" aria-hidden="true"></svg>
           </button>
         </div>
         
@@ -51,3 +52,5 @@ export class ModalComponent {
     this.closed.emit();
   }
 }
+
+

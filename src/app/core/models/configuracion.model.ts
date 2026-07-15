@@ -7,4 +7,5 @@ export interface ConfiguracionUsuario {
   porcentajeImpuestos: number; // % para IVA/IRPF
   presupuestoVariableMensual?: number; // presupuesto estimado para ocio, regalos y variables
   ultimoBackup?: string; // ISO date string
+  colchonActual?: number; // saldo líquido acumulado actual en el colchón de seguridad
 }

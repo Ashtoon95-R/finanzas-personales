@@ -1,6 +1,7 @@
 import { Component, inject, signal, effect, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { LUCIDE_ICONS } from '@shared/icons';
 import { DataService } from '@core/services/data.service';
 import { BackupService } from '@core/services/backup.service';
 import { StateService } from '@core/services/state.service';
@@ -10,7 +11,7 @@ import { CardComponent } from '@shared/components/card/card.component';
 @Component({
   selector: 'app-ajustes',
   standalone: true,
-  imports: [CommonModule, FormsModule, CardComponent],
+  imports: [CommonModule, FormsModule, CardComponent, ...LUCIDE_ICONS],
   templateUrl: './ajustes.component.html',
   styles: []
 })
@@ -26,7 +27,8 @@ export class AjustesComponent {
     sueldoAsignado: 0,
     reservaFiscalActiva: false,
     porcentajeImpuestos: 20,
-    presupuestoVariableMensual: 300
+    presupuestoVariableMensual: 300,
+    colchonActual: 0
   });
 
   saved = signal(false);
@@ -44,6 +46,10 @@ export class AjustesComponent {
     return dias === -1 || dias > 30;
   });
 
+  gastosFijosMesActual = signal<number>(0);
+  colchon6MesesRecomendado = computed(() => this.gastosFijosMesActual() * 6);
+  colchon3MesesMinimo = computed(() => this.gastosFijosMesActual() * 3);
+
   constructor() {
     this.loadConfig();
   }
@@ -51,6 +57,11 @@ export class AjustesComponent {
   async loadConfig() {
     const c = await this.dataService.getConfiguracion();
     if (c) this.config.set(c);
+
+    const year = this.stateService.currentYear();
+    const month = this.stateService.currentMonth();
+    const fijos = await this.dataService.getGastosFijosActivosEnMes(year, month);
+    this.gastosFijosMesActual.set(fijos.reduce((sum, g) => sum + g.importe, 0));
   }
 
   async saveConfig() {
@@ -107,3 +118,5 @@ export class AjustesComponent {
     event.target.value = ''; // Reset input
   }
 }
+
+
