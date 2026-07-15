@@ -5,5 +5,6 @@ export interface ConfiguracionUsuario {
   sueldoAsignado: number; // sueldo actual asignado
   reservaFiscalActiva: boolean; // si calcula impuestos
   porcentajeImpuestos: number; // % para IVA/IRPF
+  presupuestoVariableMensual?: number; // presupuesto estimado para ocio, regalos y variables
   ultimoBackup?: string; // ISO date string
 }

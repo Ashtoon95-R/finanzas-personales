@@ -37,7 +37,8 @@ export class DatabaseService extends Dexie {
       porcentajeAhorro: 20, // 20% por defecto
       sueldoAsignado: 0,
       reservaFiscalActiva: false,
-      porcentajeImpuestos: 20
+      porcentajeImpuestos: 20,
+      presupuestoVariableMensual: 300 // 300 euros por defecto para gastos variables/ocio/regalos
     });
   }
 }
