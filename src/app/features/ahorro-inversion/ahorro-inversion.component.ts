@@ -101,7 +101,10 @@ export class AhorroInversionComponent {
     const presupuestoConfigurado = conf?.presupuestoVariableMensual || 0;
     
     // Desviación = (Gasto Real - Presupuesto) + Imprevistos del mes anterior
-    const desviacion = presupuestoConfigurado > 0 ? (prevVariablesNonTax - presupuestoConfigurado) + prevImprevistosTotal : 0;
+    // Si el mes anterior está completamente vacío (0 registros), asumimos primer mes de uso y la desviación es 0
+    const desviacion = (prevVariables.length === 0 && prevImprevistos.length === 0)
+      ? 0
+      : (presupuestoConfigurado > 0 ? (prevVariablesNonTax - presupuestoConfigurado) + prevImprevistosTotal : 0);
     this.desviacionMesAnterior.set(desviacion);
 
     // 3. Media 6 meses variables (sin impuestos) finalizados el mes anterior vs presupuesto configurado, sumando impuestos aparte
