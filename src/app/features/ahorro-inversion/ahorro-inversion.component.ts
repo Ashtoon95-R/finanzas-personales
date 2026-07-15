@@ -72,18 +72,22 @@ export class AhorroInversionComponent {
   }
 
   async loadData(year: number, month: number) {
-    const [conf, fijos] = await Promise.all([
+    const [conf, fijos, actualVariables] = await Promise.all([
       this.dataService.getConfiguracion(),
-      this.dataService.getGastosFijosActivosEnMes(year, month)
+      this.dataService.getGastosFijosActivosEnMes(year, month),
+      this.dataService.getGastosVariablesByMonth(year, month)
     ]);
     
     this.config.set(conf);
     
     // 1. Gastos Fijos (Solo personales/base)
-    // Para simplificar, asumiremos que todos los fijos cuentan. Podríamos filtrar si tuvieran una marca "negocio"
     this.gastosFijosMesActual.set(fijos.reduce((sum, g) => sum + g.importe, 0));
 
-    // 2. Media 6 meses variables (sin impuestos) vs presupuesto configurado, sumando impuestos aparte
+    // Gastos reales del mes actual
+    const actualMonthVariablesNonTax = actualVariables.filter(g => g.categoria !== 'impuestos').reduce((sum, g) => sum + g.importe, 0);
+    const actualMonthTaxes = actualVariables.filter(g => g.categoria === 'impuestos').reduce((sum, g) => sum + g.importe, 0);
+
+    // 2. Media 6 meses variables (sin impuestos) vs presupuesto configurado vs gasto real del mes, sumando impuestos aparte
     const variables6m = await this.dataService.getGastosVariablesStats6Months(year, month);
     
     // Separar variables comunes (ocio, regalos, compras...) de los impuestos
@@ -95,11 +99,15 @@ export class AhorroInversionComponent {
     const sumImpuestos = impuestos6m.reduce((sum, g) => sum + g.importe, 0);
     const historicoMediaImpuestos = sumImpuestos / 6;
     
-    // El presupuesto configurado actúa como mínimo para ocio/compras (se descuenta de ahí), no se suma
+    // El presupuesto configurado actúa como mínimo para ocio/compras (se descuenta de ahí).
+    // Si el gasto real del mes ya supera el presupuesto, la estimación del sueldo se ajusta automáticamente al gasto real.
     const presupuestoConfigurado = conf?.presupuestoVariableMensual || 0;
-    const baseVariables = Math.max(historicoMediaSinImpuestos, presupuestoConfigurado);
+    const baseVariables = Math.max(actualMonthVariablesNonTax, historicoMediaSinImpuestos, presupuestoConfigurado);
     
-    // Los impuestos y trimestres (IRPF/IVA) van aparte enteros y se suman al total
-    this.mediaVariables6Meses.set(baseVariables + historicoMediaImpuestos);
+    // Lo mismo para los impuestos: tomamos el real del mes si supera a la media histórica, de lo contrario la media
+    const baseTaxes = Math.max(actualMonthTaxes, historicoMediaImpuestos);
+    
+    // Se suman y se establece el total de variables proyectado
+    this.mediaVariables6Meses.set(baseVariables + baseTaxes);
   }
 }
