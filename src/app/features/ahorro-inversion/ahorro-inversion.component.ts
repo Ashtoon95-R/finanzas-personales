@@ -21,9 +21,10 @@ export class AhorroInversionComponent {
   // Base numbers
   gastosFijosMesActual = signal<number>(0);
   mediaVariables6Meses = signal<number>(0);
+  desviacionMesAnterior = signal<number>(0);
 
   // Derived calculations
-  gastosBase = computed(() => this.gastosFijosMesActual() + this.mediaVariables6Meses());
+  gastosBase = computed(() => this.gastosFijosMesActual() + this.mediaVariables6Meses() + this.desviacionMesAnterior());
   
   sueldoBrutoRecomendado = computed(() => {
     if (!this.config()) return 0;
@@ -33,7 +34,7 @@ export class AhorroInversionComponent {
     
     // Formula: SBR = Gastos / (1 - %Ahorro - %Impuestos)
     const factor = 1 - pAhorro - pImpuestos;
-    if (factor <= 0) return 0; // Prevent div by zero or negative if percentages are too high
+    if (factor <= 0) return 0;
     
     return this.gastosBase() / factor;
   });
@@ -60,6 +61,7 @@ export class AhorroInversionComponent {
   // Progress bar percentages for UI
   pctGastosFijos = computed(() => (this.gastosFijosMesActual() / this.sueldoBrutoRecomendado()) * 100 || 0);
   pctGastosVariables = computed(() => (this.mediaVariables6Meses() / this.sueldoBrutoRecomendado()) * 100 || 0);
+  pctDesviacion = computed(() => (this.desviacionMesAnterior() / this.sueldoBrutoRecomendado()) * 100 || 0);
   pctAhorro = computed(() => (this.parteAhorro() / this.sueldoBrutoRecomendado()) * 100 || 0);
   pctImpuestos = computed(() => (this.parteImpuestos() / this.sueldoBrutoRecomendado()) * 100 || 0);
 
@@ -72,10 +74,9 @@ export class AhorroInversionComponent {
   }
 
   async loadData(year: number, month: number) {
-    const [conf, fijos, actualVariables] = await Promise.all([
+    const [conf, fijos] = await Promise.all([
       this.dataService.getConfiguracion(),
-      this.dataService.getGastosFijosActivosEnMes(year, month),
-      this.dataService.getGastosVariablesByMonth(year, month)
+      this.dataService.getGastosFijosActivosEnMes(year, month)
     ]);
     
     this.config.set(conf);
@@ -83,12 +84,28 @@ export class AhorroInversionComponent {
     // 1. Gastos Fijos (Solo personales/base)
     this.gastosFijosMesActual.set(fijos.reduce((sum, g) => sum + g.importe, 0));
 
-    // Gastos reales del mes actual
-    const actualMonthVariablesNonTax = actualVariables.filter(g => g.categoria !== 'impuestos').reduce((sum, g) => sum + g.importe, 0);
-    const actualMonthTaxes = actualVariables.filter(g => g.categoria === 'impuestos').reduce((sum, g) => sum + g.importe, 0);
+    // Determinar mes anterior para calcular desviación a regularizar
+    const prevYear = month === 0 ? year - 1 : year;
+    const prevMonth = month === 0 ? 11 : month - 1;
 
-    // 2. Media 6 meses variables (sin impuestos) vs presupuesto configurado vs gasto real del mes, sumando impuestos aparte
-    const variables6m = await this.dataService.getGastosVariablesStats6Months(year, month);
+    // 2. Regularización del mes anterior (Desviación de ocio e imprevistos)
+    const prevVariables = await this.dataService.getGastosVariablesByMonth(prevYear, prevMonth);
+    const prevVariablesNonTax = prevVariables.filter(g => g.categoria !== 'impuestos').reduce((sum, g) => sum + g.importe, 0);
+    
+    const prevImprevistos = await this.dataService.getImprevistosByDateRange(
+      new Date(prevYear, prevMonth, 1),
+      new Date(prevYear, prevMonth + 1, 0, 23, 59, 59)
+    );
+    const prevImprevistosTotal = prevImprevistos.reduce((sum, g) => sum + g.importe, 0);
+
+    const presupuestoConfigurado = conf?.presupuestoVariableMensual || 0;
+    
+    // Desviación = (Gasto Real - Presupuesto) + Imprevistos del mes anterior
+    const desviacion = presupuestoConfigurado > 0 ? (prevVariablesNonTax - presupuestoConfigurado) + prevImprevistosTotal : 0;
+    this.desviacionMesAnterior.set(desviacion);
+
+    // 3. Media 6 meses variables (sin impuestos) finalizados el mes anterior vs presupuesto configurado, sumando impuestos aparte
+    const variables6m = await this.dataService.getGastosVariablesStats6Months(prevYear, prevMonth);
     
     // Separar variables comunes (ocio, regalos, compras...) de los impuestos
     const variablesSinImpuestos = variables6m.filter(g => g.categoria !== 'impuestos');
@@ -99,15 +116,9 @@ export class AhorroInversionComponent {
     const sumImpuestos = impuestos6m.reduce((sum, g) => sum + g.importe, 0);
     const historicoMediaImpuestos = sumImpuestos / 6;
     
-    // El presupuesto configurado actúa como mínimo para ocio/compras (se descuenta de ahí).
-    // Si el gasto real del mes ya supera el presupuesto, la estimación del sueldo se ajusta automáticamente al gasto real.
-    const presupuestoConfigurado = conf?.presupuestoVariableMensual || 0;
-    const baseVariables = Math.max(actualMonthVariablesNonTax, historicoMediaSinImpuestos, presupuestoConfigurado);
+    const baseVariables = Math.max(historicoMediaSinImpuestos, presupuestoConfigurado);
     
-    // Lo mismo para los impuestos: tomamos el real del mes si supera a la media histórica, de lo contrario la media
-    const baseTaxes = Math.max(actualMonthTaxes, historicoMediaImpuestos);
-    
-    // Se suman y se establece el total de variables proyectado
-    this.mediaVariables6Meses.set(baseVariables + baseTaxes);
+    // Los impuestos y trimestres (IRPF/IVA) van aparte enteros y se suman al total
+    this.mediaVariables6Meses.set(baseVariables + historicoMediaImpuestos);
   }
 }

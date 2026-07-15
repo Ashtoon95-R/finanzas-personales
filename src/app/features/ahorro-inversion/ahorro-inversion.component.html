@@ -39,6 +39,11 @@
                  [style.width]="pctGastosVariables() + '%'" title="Gastos Variables/Ocio ({{ pctGastosVariables() | number:'1.0-0' }}%)">
                  <span *ngIf="pctGastosVariables() > 10">Variables</span>
             </div>
+            <!-- Regularización Mes Anterior -->
+            <div class="bg-amber-500 hover:bg-amber-600 transition-colors flex items-center justify-center text-[10px] text-white font-bold" 
+                 [style.width]="pctDesviacion() + '%'" title="Regularización ({{ pctDesviacion() | number:'1.0-0' }}%)" *ngIf="pctDesviacion() > 0">
+                 <span *ngIf="pctDesviacion() > 10">Regul.</span>
+            </div>
             <!-- Ahorro -->
             <div class="bg-emerald-500 hover:bg-emerald-600 transition-colors flex items-center justify-center text-[10px] text-white font-bold" 
                  [style.width]="pctAhorro() + '%'" title="Ahorro ({{ pctAhorro() | number:'1.0-0' }}%)">
@@ -69,7 +74,7 @@
                <span class="font-semibold text-slate-700 dark:text-slate-200">Variables/Ocio</span>
              </div>
              <p class="text-2xl font-bold text-slate-900 dark:text-white">{{ mediaVariables6Meses() | currency:'EUR' }}</p>
-             <p class="text-xs text-slate-500 mt-2">Presupuesto para tu estilo de vida.</p>
+             <p class="text-xs text-slate-500 mt-2">Presupuesto estimado para ocio y variables.</p>
           </div>
           
           <div class="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800/30">
@@ -89,6 +94,18 @@
              <p class="text-2xl font-bold text-indigo-700 dark:text-indigo-500">{{ parteImpuestos() | currency:'EUR' }}</p>
              <p class="text-xs text-indigo-600 dark:text-indigo-500/80 mt-2" *ngIf="config()?.reservaFiscalActiva">Reserva del {{ config()?.porcentajeImpuestos }}% para IVA/IRPF.</p>
              <p class="text-xs text-indigo-600 dark:text-indigo-500/80 mt-2" *ngIf="!config()?.reservaFiscalActiva">Reserva fiscal desactivada en Ajustes.</p>
+          </div>
+        </div>
+
+        <!-- Carry-over Reconciliation Info -->
+        <div class="mt-6 p-4 rounded-xl border border-amber-100 dark:border-amber-900/30 bg-amber-50/50 dark:bg-amber-900/10 flex items-start gap-3" *ngIf="desviacionMesAnterior() !== 0">
+          <svg class="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+          <div>
+            <h4 class="text-sm font-semibold text-amber-800 dark:text-amber-400">Regularización por Desviación de Gastos (Mes Anterior)</h4>
+            <p class="text-xs text-amber-750 dark:text-amber-500 mt-1">
+              El mes pasado tuviste una desviación neta de <strong class="font-bold">{{ (desviacionMesAnterior() < 0 ? -desviacionMesAnterior() : desviacionMesAnterior()) | currency:'EUR' }}</strong> en tu presupuesto de ocio e imprevistos. 
+              Esta desviación ha sido <span class="font-semibold text-amber-800 dark:text-amber-400" *ngIf="desviacionMesAnterior() > 0">añadida</span><span class="font-semibold text-amber-800 dark:text-amber-400" *ngIf="desviacionMesAnterior() < 0">deducida</span> de este sueldo para regularizar y equilibrar tus cuentas.
+            </p>
           </div>
         </div>
 
