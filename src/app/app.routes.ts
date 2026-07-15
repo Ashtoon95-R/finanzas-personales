@@ -19,6 +19,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/gastos/gastos.component').then(c => c.GastosComponent) 
       },
       { 
+        path: 'variables', 
+        loadComponent: () => import('./features/variables/variables.component').then(c => c.VariablesComponent) 
+      },
+      { 
         path: 'ahorro-inversion', 
         loadComponent: () => import('./features/ahorro-inversion/ahorro-inversion.component').then(c => c.AhorroInversionComponent) 
       },
