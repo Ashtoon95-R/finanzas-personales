@@ -31,8 +31,8 @@ export class VariablesComponent {
 
   // Filters
   filterCategory = 'todas';
-  filterStartDate = signal<string>('');
-  filterEndDate = signal<string>('');
+  filterStartDate = '';
+  filterEndDate = '';
 
   // Modals
   isGastoModalOpen = false;
@@ -84,19 +84,19 @@ export class VariablesComponent {
       const end = new Date(year, month + 1, 0);
       
       // Update filter UI dates without triggering an infinite loop
-      this.filterStartDate.set(start.toISOString().split('T')[0]);
-      this.filterEndDate.set(end.toISOString().split('T')[0]);
+      this.filterStartDate = start.toISOString().split('T')[0];
+      this.filterEndDate = end.toISOString().split('T')[0];
       
       this.loadData();
     });
   }
 
   async loadData() {
-    if (!this.filterStartDate() || !this.filterEndDate()) return;
+    if (!this.filterStartDate || !this.filterEndDate) return;
     
-    const start = new Date(this.filterStartDate());
+    const start = new Date(this.filterStartDate);
     start.setHours(0, 0, 0, 0);
-    const end = new Date(this.filterEndDate());
+    const end = new Date(this.filterEndDate);
     end.setHours(23, 59, 59, 999);
 
     const gastos = await this.dataService.getGastosVariablesByDateRangeAndCategory(start, end, this.filterCategory);
