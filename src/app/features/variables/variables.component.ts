@@ -25,6 +25,7 @@ export class VariablesComponent {
   gastos = signal<GastoVariable[]>([]);
   imprevistos = signal<Imprevisto[]>([]);
   imprevistos12Meses = signal<number>(0);
+  activeTab = signal<'stats' | 'list'>('stats');
   
   totalGastos = computed(() => this.gastos().reduce((acc, curr) => acc + curr.importe, 0));
   totalImprevistos = computed(() => this.imprevistos().reduce((acc, curr) => acc + curr.importe, 0));
