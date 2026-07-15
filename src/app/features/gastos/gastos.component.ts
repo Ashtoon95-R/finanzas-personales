@@ -25,6 +25,10 @@ export class GastosComponent {
     this.gastosFijos().reduce((acc, curr) => acc + curr.importe, 0)
   );
 
+  activeSubscriptionsCount = computed(() => 
+    this.gastosFijos().filter(g => g.activo).length
+  );
+
   isModalOpen = false;
   editingId: number | null = null;
   

@@ -6,13 +6,13 @@
     </div>
     
     <div class="flex items-center gap-3">
-      <button (click)="openGastoModal()" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-indigo-700 bg-indigo-50 hover:bg-indigo-100 dark:text-indigo-300 dark:bg-indigo-900/30 dark:hover:bg-indigo-900/50 rounded-lg shadow-sm hover:shadow transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+      <button (click)="openGastoModal()" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-rose-600 hover:bg-rose-700 dark:bg-rose-500 dark:hover:bg-rose-600 rounded-lg shadow-sm hover:shadow transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500">
         <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-        Variable
+        Añadir Variable
       </button>
-      <button (click)="openImprevistoModal()" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-rose-700 bg-rose-50 hover:bg-rose-100 dark:text-rose-300 dark:bg-rose-900/30 dark:hover:bg-rose-900/50 rounded-lg shadow-sm hover:shadow transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500">
+      <button (click)="openImprevistoModal()" class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-white bg-amber-600 hover:bg-amber-700 dark:bg-amber-500 dark:hover:bg-amber-600 rounded-lg shadow-sm hover:shadow transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500">
         <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-        Imprevisto
+        Añadir Imprevisto
       </button>
     </div>
   </div>
@@ -42,6 +42,45 @@
     </div>
   </div>
 
+  <!-- Resumen Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-6">
+    <app-card>
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Variables (Este Mes)</p>
+          <p class="text-3xl font-black text-slate-900 dark:text-white mt-1">{{ totalGastos() | currency:'EUR' }}</p>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-rose-50 dark:bg-rose-500/10 text-rose-500 dark:text-rose-400">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+        </div>
+      </div>
+    </app-card>
+    
+    <app-card>
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Imprevistos (Este Mes)</p>
+          <p class="text-3xl font-black text-amber-600 dark:text-amber-400 mt-1">{{ totalImprevistos() | currency:'EUR' }}</p>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-amber-50 dark:bg-amber-500/10 text-amber-500 dark:text-amber-400">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+        </div>
+      </div>
+    </app-card>
+    
+    <app-card>
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Imprevistos (12 Meses)</p>
+          <p class="text-3xl font-black text-slate-900 dark:text-white mt-1">{{ imprevistos12Meses() | currency:'EUR' }}</p>
+        </div>
+        <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-500/10 text-slate-500 dark:text-slate-400">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+        </div>
+      </div>
+    </app-card>
+  </div>
+
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
     <!-- Chart -->
     <div class="lg:col-span-2">
@@ -57,14 +96,7 @@
     </div>
 
     <!-- Imprevistos KPI -->
-    <div class="lg:col-span-1 space-y-6">
-      <div class="bg-white dark:bg-fintech-card rounded-2xl shadow-soft border border-slate-100 dark:border-fintech-border p-6 relative overflow-hidden transition-all duration-300 hover:shadow-md">
-        <svg class="absolute -right-6 -bottom-6 w-32 h-32 text-rose-500 opacity-5 dark:opacity-10" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
-        
-        <p class="text-slate-500 dark:text-slate-400 text-sm font-medium mb-1 relative z-10">Total Imprevistos (Acum. 12 Meses)</p>
-        <h3 class="text-4xl font-black text-rose-600 dark:text-rose-400 mb-2 relative z-10">{{ imprevistos12Meses() | currency:'EUR' }}</h3>
-        <p class="text-xs text-slate-400 dark:text-slate-500 relative z-10">Usa este valor para dimensionar tu colchón de seguridad ideal.</p>
-      </div>
+    <div class="lg:col-span-1">
 
       <app-card title="Imprevistos del Rango">
         <h4 class="text-2xl font-bold text-rose-600 dark:text-rose-400 mt-2 mb-4">{{ totalImprevistos() | currency:'EUR' }}</h4>
