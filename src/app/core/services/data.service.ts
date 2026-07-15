@@ -1,10 +1,10 @@
 import { Injectable, inject } from '@angular/core';
 import { DatabaseService } from './database.service';
-import { Ingreso } from '../models/ingreso.model';
-import { GastoFijo } from '../models/gasto-fijo.model';
-import { GastoVariable } from '../models/gasto-variable.model';
-import { Imprevisto } from '../models/imprevisto.model';
-import { ConfiguracionUsuario } from '../models/configuracion.model';
+import { Ingreso } from '@core/models/ingreso.model';
+import { GastoFijo } from '@core/models/gasto-fijo.model';
+import { GastoVariable } from '@core/models/gasto-variable.model';
+import { Imprevisto } from '@core/models/imprevisto.model';
+import { ConfiguracionUsuario } from '@core/models/configuracion.model';
 
 @Injectable({
   providedIn: 'root'

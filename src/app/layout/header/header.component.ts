@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output, inject, computed } from '@angular/core';
-import { StateService } from '../../core/services/state.service';
+import { StateService } from '@core/services/state.service';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 
 @Component({

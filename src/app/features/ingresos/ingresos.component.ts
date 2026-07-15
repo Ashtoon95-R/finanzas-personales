@@ -1,13 +1,13 @@
 import { Component, inject, signal, effect, computed } from '@angular/core';
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
-import { DataService } from '../../core/services/data.service';
-import { StateService } from '../../core/services/state.service';
-import { Ingreso } from '../../core/models/ingreso.model';
-import { CardComponent } from '../../shared/components/card/card.component';
-import { BadgeComponent } from '../../shared/components/badge/badge.component';
-import { ModalComponent } from '../../shared/components/modal/modal.component';
-import { EditableTableComponent } from '../../shared/components/editable-table/editable-table.component';
+import { DataService } from '@core/services/data.service';
+import { StateService } from '@core/services/state.service';
+import { Ingreso } from '@core/models/ingreso.model';
+import { CardComponent } from '@shared/components/card/card.component';
+import { BadgeComponent } from '@shared/components/badge/badge.component';
+import { ModalComponent } from '@shared/components/modal/modal.component';
+import { EditableTableComponent } from '@shared/components/editable-table/editable-table.component';
 
 @Component({
   selector: 'app-ingresos',

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { StateService } from '../../core/services/state.service';
+import { StateService } from '@core/services/state.service';
 
 @Component({
   selector: 'app-sidebar',

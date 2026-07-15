@@ -1,11 +1,11 @@
 import { Component, inject, signal, effect, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DataService } from '../../core/services/data.service';
-import { BackupService } from '../../core/services/backup.service';
-import { StateService } from '../../core/services/state.service';
-import { ConfiguracionUsuario } from '../../core/models/configuracion.model';
-import { CardComponent } from '../../shared/components/card/card.component';
+import { DataService } from '@core/services/data.service';
+import { BackupService } from '@core/services/backup.service';
+import { StateService } from '@core/services/state.service';
+import { ConfiguracionUsuario } from '@core/models/configuracion.model';
+import { CardComponent } from '@shared/components/card/card.component';
 
 @Component({
   selector: 'app-ajustes',

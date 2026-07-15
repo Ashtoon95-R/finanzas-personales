@@ -1,12 +1,12 @@
 import { Component, inject, signal, effect, computed } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
-import { DataService } from '../../core/services/data.service';
-import { StateService } from '../../core/services/state.service';
-import { GastoFijo } from '../../core/models/gasto-fijo.model';
-import { CardComponent } from '../../shared/components/card/card.component';
-import { BadgeComponent } from '../../shared/components/badge/badge.component';
-import { ModalComponent } from '../../shared/components/modal/modal.component';
+import { DataService } from '@core/services/data.service';
+import { StateService } from '@core/services/state.service';
+import { GastoFijo } from '@core/models/gasto-fijo.model';
+import { CardComponent } from '@shared/components/card/card.component';
+import { BadgeComponent } from '@shared/components/badge/badge.component';
+import { ModalComponent } from '@shared/components/modal/modal.component';
 
 @Component({
   selector: 'app-gastos',

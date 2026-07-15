@@ -3,13 +3,13 @@ import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
-import { DataService } from '../../core/services/data.service';
-import { StateService } from '../../core/services/state.service';
-import { GastoVariable } from '../../core/models/gasto-variable.model';
-import { Imprevisto } from '../../core/models/imprevisto.model';
-import { CardComponent } from '../../shared/components/card/card.component';
-import { BadgeComponent } from '../../shared/components/badge/badge.component';
-import { ModalComponent } from '../../shared/components/modal/modal.component';
+import { DataService } from '@core/services/data.service';
+import { StateService } from '@core/services/state.service';
+import { GastoVariable } from '@core/models/gasto-variable.model';
+import { Imprevisto } from '@core/models/imprevisto.model';
+import { CardComponent } from '@shared/components/card/card.component';
+import { BadgeComponent } from '@shared/components/badge/badge.component';
+import { ModalComponent } from '@shared/components/modal/modal.component';
 
 @Component({
   selector: 'app-variables',
