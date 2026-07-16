@@ -23,8 +23,13 @@ export class BackupService {
 
   async importFromJSON(jsonString: string): Promise<void> {
     try {
-      const data = JSON.parse(jsonString);
-      
+      const dateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z$/;
+      const data = JSON.parse(jsonString, (key, value) => {
+        if (typeof value === 'string' && dateRegex.test(value)) {
+          return new Date(value);
+        }
+        return value;
+      });
       await this.db.transaction(
         'rw',
         [

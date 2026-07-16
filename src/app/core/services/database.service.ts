@@ -52,6 +52,39 @@ export class DatabaseService extends Dexie {
       cuentasAhorro: '++id, nombre, entidad'
     });
 
+    // v4: Fix date strings that might have been imported incorrectly
+    this.version(4).stores({}).upgrade(async tx => {
+      const tablesWithDates = ['ingresos', 'gastosVariables', 'imprevistos'];
+      for (const tableName of tablesWithDates) {
+        const table = tx.table(tableName);
+        await table.toCollection().modify((item) => {
+          if (typeof item.fecha === 'string') {
+            item.fecha = new Date(item.fecha);
+          }
+          if (item.fechaCobro && typeof item.fechaCobro === 'string') {
+            item.fechaCobro = new Date(item.fechaCobro);
+          }
+          if (item.fechaRegistro && typeof item.fechaRegistro === 'string') {
+            item.fechaRegistro = new Date(item.fechaRegistro);
+          }
+        });
+      }
+      
+      const configTable = tx.table('configuracion');
+      await configTable.toCollection().modify((item) => {
+        if (typeof item.ultimoBackup === 'string') {
+          item.ultimoBackup = new Date(item.ultimoBackup);
+        }
+      });
+      
+      const gastosFijosTable = tx.table('gastosFijos');
+      await gastosFijosTable.toCollection().modify((item) => {
+        if (typeof item.fechaRegistro === 'string') {
+          item.fechaRegistro = new Date(item.fechaRegistro);
+        }
+      });
+    });
+
     this.on('populate', () => this.populateInitialData());
   }
 

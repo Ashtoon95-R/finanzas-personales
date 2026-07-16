@@ -20,7 +20,9 @@ export class DashboardComponent {
   stateService = inject(StateService);
   router = inject(Router);
 
-  // Month Summary Details
+  viewMode = signal<'month' | 'year'>('year');
+
+  // Totals for view
   totalIngresos = signal(0);
   totalGastosFijos = signal(0);
   totalGastosVariables = signal(0);
@@ -31,7 +33,7 @@ export class DashboardComponent {
   );
 
   // Financial Health Indicator
-  objetivoAhorro = signal(0); // This should come from config in the future
+  objetivoAhorro = signal(0); 
   saludPorcentaje = computed(() => {
     const disp = this.disponibleNeto();
     const obj = this.objetivoAhorro();
@@ -77,36 +79,18 @@ export class DashboardComponent {
     effect(() => {
       const year = this.stateService.currentYear();
       const month = this.stateService.currentMonth();
-      this.loadDashboardData(year, month);
+      const mode = this.viewMode();
+      this.loadDashboardData(year, month, mode);
     });
   }
 
-  async loadDashboardData(year: number, month: number) {
-    // 1. Get totals for summary
-    const [ingresos, fijos, variables, imprevistos] = await Promise.all([
-      this.dataService.getIngresosByMonth(year, month),
-      this.dataService.getGastosFijosActivosEnMes(year, month),
-      this.dataService.getGastosVariablesByMonth(year, month),
-      this.dataService.getImprevistosByDateRange(new Date(year, month, 1), new Date(year, month + 1, 0, 23, 59, 59))
-    ]);
+  toggleViewMode(mode: 'month' | 'year') {
+    this.viewMode.set(mode);
+  }
 
-    const sumIng = ingresos.reduce((sum, item) => sum + item.importe, 0);
-    const sumFijo = fijos.reduce((sum, item) => sum + item.importe, 0);
-    const sumVar = variables.reduce((sum, item) => sum + item.importe, 0);
-    const sumImp = imprevistos.reduce((sum, item) => sum + item.importe, 0);
-
-    this.totalIngresos.set(sumIng);
-    this.totalGastosFijos.set(sumFijo);
-    this.totalGastosVariables.set(sumVar);
-    this.totalImprevistos.set(sumImp);
-
-    // Hardcode for now, later fetched from Config
-    // Meta de ahorro estimada: 20% de los ingresos netos (tras fijos)
-    const ingresosNetos = sumIng - sumFijo;
-    this.objetivoAhorro.set(ingresosNetos > 0 ? ingresosNetos * 0.2 : 0);
-
-    // 2. Load 12 Months Evolution Chart
-    const evoData = await this.dataService.getEvolucionMensual12Meses(year, month);
+  async loadDashboardData(year: number, month: number, mode: 'month' | 'year') {
+    // 1. Load 12 Months Evolution Chart
+    const evoData = await this.dataService.getEvolucionAnual(year);
     this.evoChartData = {
       labels: evoData.map(d => d.mes),
       datasets: [
@@ -128,21 +112,60 @@ export class DashboardComponent {
     };
     this.evoChartReady.set(true);
 
+    // 2. Set Totals based on viewMode
+    if (mode === 'year') {
+      const sumIng = evoData.reduce((acc, d) => acc + d.ingresos, 0);
+      const sumFijo = evoData.reduce((acc, d) => acc + d.fijos, 0);
+      const sumVar = evoData.reduce((acc, d) => acc + d.variables, 0);
+      const sumImp = evoData.reduce((acc, d) => acc + d.imprevistos, 0);
+      this.totalIngresos.set(sumIng);
+      this.totalGastosFijos.set(sumFijo);
+      this.totalGastosVariables.set(sumVar);
+      this.totalImprevistos.set(sumImp);
+    } else {
+      const mData = evoData[month];
+      this.totalIngresos.set(mData?.ingresos || 0);
+      this.totalGastosFijos.set(mData?.fijos || 0);
+      this.totalGastosVariables.set(mData?.variables || 0);
+      this.totalImprevistos.set(mData?.imprevistos || 0);
+    }
+
+    const ingresosNetos = this.totalIngresos() - this.totalGastosFijos();
+    this.objetivoAhorro.set(ingresosNetos > 0 ? ingresosNetos * 0.2 : 0);
+
     // 3. Load Donut Chart (Distribution by Category)
+    let fijos, variables, imprevistos;
+    
+    if (mode === 'year') {
+      const start = new Date(year, 0, 1);
+      const end = new Date(year, 11, 31, 23, 59, 59);
+      variables = await this.dataService['db'].gastosVariables.where('fecha').between(start, end, true, true).toArray();
+      imprevistos = await this.dataService['db'].imprevistos.where('fecha').between(start, end, true, true).toArray();
+      fijos = await this.dataService['db'].gastosFijos.where('activo').equals(1).toArray(); 
+    } else {
+      [fijos, variables, imprevistos] = await Promise.all([
+        this.dataService.getGastosFijosActivosEnMes(year, month),
+        this.dataService.getGastosVariablesByMonth(year, month),
+        this.dataService.getImprevistosByDateRange(new Date(year, month, 1), new Date(year, month + 1, 0, 23, 59, 59))
+      ]);
+    }
+
     const categoryMap = new Map<string, number>();
     
     // Agrupar fijos
-    fijos.forEach(g => {
+    fijos.forEach((g: any) => {
       const cat = g.categoria || 'Fijo Otros';
-      categoryMap.set(cat, (categoryMap.get(cat) || 0) + g.importe);
+      // If annual view, multiply fixed cost by 12 (approximate)
+      const multiplier = mode === 'year' ? 12 : 1;
+      categoryMap.set(cat, (categoryMap.get(cat) || 0) + (g.importe * multiplier));
     });
     // Agrupar variables
-    variables.forEach(g => {
+    variables.forEach((g: any) => {
       const cat = g.categoria || 'Variable Otros';
       categoryMap.set(cat, (categoryMap.get(cat) || 0) + g.importe);
     });
     // Imprevistos
-    imprevistos.forEach(g => {
+    imprevistos.forEach((g: any) => {
       categoryMap.set('imprevistos', (categoryMap.get('imprevistos') || 0) + g.importe);
     });
 

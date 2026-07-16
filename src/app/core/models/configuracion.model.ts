@@ -8,4 +8,5 @@ export interface ConfiguracionUsuario {
   presupuestoVariableMensual?: number; // presupuesto estimado para ocio, regalos y variables
   ultimoBackup?: string; // ISO date string
   colchonActual?: number; // saldo líquido acumulado actual en el colchón de seguridad
+  saldoCuentaOperativa?: number; // saldo actual en la cuenta operativa (ej. Imagin)
 }

@@ -1,0 +1,781 @@
+{
+  "ingresos": [
+    {
+      "id": 1,
+      "concepto": "Diettest",
+      "tipo": "variable",
+      "importe": 182,
+      "fecha": "2026-01-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Pago mensual de SEO ",
+      "estado": "cobrado"
+    },
+    {
+      "id": 2,
+      "concepto": "Venttus Illusion",
+      "tipo": "variable",
+      "importe": 330,
+      "fecha": "2026-01-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Pago mensual de Mantenimiento ",
+      "estado": "cobrado"
+    },
+    {
+      "id": 3,
+      "concepto": "Templo del Masaje",
+      "tipo": "variable",
+      "importe": 60,
+      "fecha": "2026-01-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Cambios en Webs (2h 0min)",
+      "estado": "cobrado"
+    },
+    {
+      "id": 4,
+      "concepto": "Findall",
+      "tipo": "variable",
+      "importe": 130,
+      "fecha": "2026-01-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Traducciones (1h) + Vista movil (3h) + Página Web (1h)",
+      "estado": "cobrado"
+    },
+    {
+      "id": 5,
+      "concepto": "Clases Alicia",
+      "tipo": "variable",
+      "importe": 110,
+      "fecha": "2026-01-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Martes 13, 12:00-13:30 + Miercoles 21, 12:00 - 13:00 + Martes 27, 12:00 - 13:10",
+      "estado": "cobrado"
+    },
+    {
+      "id": 6,
+      "concepto": "Chigo Bienestar",
+      "tipo": "variable",
+      "importe": 1057.5,
+      "fecha": "2026-01-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Primer pago de EPCO Freemium",
+      "estado": "cobrado"
+    },
+    {
+      "id": 7,
+      "concepto": "Chigo Bienestar",
+      "tipo": "variable",
+      "importe": 1057.5,
+      "fecha": "2026-02-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Segundo pago de EPCO Freemium",
+      "estado": "cobrado"
+    },
+    {
+      "id": 8,
+      "concepto": "Diettest",
+      "tipo": "variable",
+      "importe": 182,
+      "fecha": "2026-02-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Pago mensual de SEO ",
+      "estado": "cobrado"
+    },
+    {
+      "id": 9,
+      "concepto": "Venttus Illusion",
+      "tipo": "variable",
+      "importe": 330,
+      "fecha": "2026-02-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Pago mensual de Mantenimiento ",
+      "estado": "cobrado"
+    },
+    {
+      "id": 10,
+      "concepto": "Label Concierge",
+      "tipo": "variable",
+      "importe": 105,
+      "fecha": "2026-02-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Recuperar documentos y usuarios",
+      "estado": "cobrado"
+    },
+    {
+      "id": 11,
+      "concepto": "Templo del Masaje",
+      "tipo": "variable",
+      "importe": 165,
+      "fecha": "2026-02-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Cambios en Webs (3h 0min) + Cambios en Extranet de Nobel (2h 30min)",
+      "estado": "cobrado"
+    },
+    {
+      "id": 12,
+      "concepto": "Clases Alicia",
+      "tipo": "variable",
+      "importe": 65,
+      "fecha": "2026-02-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Viernes 06, 9:40-10:50 + Martes 10, 11:40  a 12:40",
+      "estado": "cobrado"
+    },
+    {
+      "id": 13,
+      "concepto": "Jacinto",
+      "tipo": "variable",
+      "importe": 738,
+      "fecha": "2026-02-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Primer pago de Jacinto y APP",
+      "estado": "cobrado"
+    },
+    {
+      "id": 14,
+      "concepto": "Dasana",
+      "tipo": "variable",
+      "importe": 1350,
+      "fecha": "2026-02-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Pago por Make y Brevo de Dasana",
+      "estado": "cobrado"
+    },
+    {
+      "id": 15,
+      "concepto": "Daniel Oñate",
+      "tipo": "variable",
+      "importe": 1645.8,
+      "fecha": "2026-02-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Primer pago APP Daniel",
+      "estado": "cobrado"
+    },
+    {
+      "id": 16,
+      "concepto": "Jacinto",
+      "tipo": "variable",
+      "importe": 738,
+      "fecha": "2026-03-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Segundo pago de Jacinto y APP",
+      "estado": "cobrado"
+    },
+    {
+      "id": 17,
+      "concepto": "Venttus Illusion",
+      "tipo": "variable",
+      "importe": 180,
+      "fecha": "2026-03-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Pago mensual de Mantenimiento ",
+      "estado": "cobrado"
+    },
+    {
+      "id": 18,
+      "concepto": "Templo del Masaje",
+      "tipo": "variable",
+      "importe": 60,
+      "fecha": "2026-03-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Cambios en Webs (2h 0min)",
+      "estado": "cobrado"
+    },
+    {
+      "id": 19,
+      "concepto": "Daniel Oñate",
+      "tipo": "variable",
+      "importe": 2194.4,
+      "fecha": "2026-03-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Segundo pago APP Daniel",
+      "estado": "cobrado"
+    },
+    {
+      "id": 20,
+      "concepto": "Yolanda Jarasclub",
+      "tipo": "variable",
+      "importe": 1950,
+      "fecha": "2026-03-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Primer pago JarasClub Yolanda",
+      "estado": "cobrado"
+    },
+    {
+      "id": 21,
+      "concepto": "Daniel Oñate",
+      "tipo": "variable",
+      "importe": 1645.8,
+      "fecha": "2026-03-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Tercero pago APP Daniel",
+      "estado": "cobrado"
+    },
+    {
+      "id": 22,
+      "concepto": "Diettest",
+      "tipo": "variable",
+      "importe": 104,
+      "fecha": "2026-04-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Pago mensual de SEO ",
+      "estado": "cobrado"
+    },
+    {
+      "id": 23,
+      "concepto": "Chigo Bienestar",
+      "tipo": "variable",
+      "importe": 765,
+      "fecha": "2026-04-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Desarrollo de decathlon",
+      "estado": "cobrado"
+    },
+    {
+      "id": 24,
+      "concepto": "2 Connect ",
+      "tipo": "variable",
+      "importe": 1963,
+      "fecha": "2026-04-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Último Pago 2 Connect APP",
+      "estado": "cobrado"
+    },
+    {
+      "id": 25,
+      "concepto": "Somos Aventura",
+      "tipo": "variable",
+      "importe": 2184.9,
+      "fecha": "2026-04-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Último Pago 2 Connect APP",
+      "estado": "cobrado"
+    },
+    {
+      "id": 26,
+      "concepto": "Templo del Masaje",
+      "tipo": "variable",
+      "importe": 60,
+      "fecha": "2026-04-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Cambios en Webs (2h 0min)",
+      "estado": "cobrado"
+    },
+    {
+      "id": 27,
+      "concepto": "Diettest",
+      "tipo": "variable",
+      "importe": 182,
+      "fecha": "2026-04-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Pago Reuniones Google ADS y Google Tag Manager (3h 30min) + Bakcups 1h 30min + Reunion para Zoom, Cancelar Reservas, Meta/Google ADS (2h)",
+      "estado": "cobrado"
+    },
+    {
+      "id": 28,
+      "concepto": "Travel Meet",
+      "tipo": "variable",
+      "importe": 1863,
+      "fecha": "2026-05-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Primer pago de Travel Meet",
+      "estado": "cobrado"
+    },
+    {
+      "id": 29,
+      "concepto": "Tartuga",
+      "tipo": "variable",
+      "importe": 1110,
+      "fecha": "2026-05-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Tercer pago de Tartuga",
+      "estado": "cobrado"
+    },
+    {
+      "id": 30,
+      "concepto": "Dasana",
+      "tipo": "variable",
+      "importe": 900,
+      "fecha": "2026-05-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Pago final de Dasana",
+      "estado": "cobrado"
+    },
+    {
+      "id": 31,
+      "concepto": "We Offsite",
+      "tipo": "variable",
+      "importe": 750,
+      "fecha": "2026-05-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Primer pago página web de Roberto Astro ",
+      "estado": "cobrado"
+    },
+    {
+      "id": 32,
+      "concepto": "TODO VA BIEN MJM SL",
+      "tipo": "variable",
+      "importe": 405,
+      "fecha": "2026-05-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Primer pago página web de Maria Jose Astro ",
+      "estado": "cobrado"
+    },
+    {
+      "id": 33,
+      "concepto": "FUNDACION VISUAL TEAF",
+      "tipo": "variable",
+      "importe": 3303,
+      "fecha": "2026-05-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Primer pago plataforma fundacion ",
+      "estado": "facturado"
+    },
+    {
+      "id": 34,
+      "concepto": "Daniel Oñate",
+      "tipo": "variable",
+      "importe": 180,
+      "fecha": "2026-05-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Pago por panel de administración",
+      "estado": "cobrado"
+    },
+    {
+      "id": 35,
+      "concepto": "PAVIMPRESOCAT ",
+      "tipo": "variable",
+      "importe": 795,
+      "fecha": "2026-05-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Primer pago página web de PAVIMPRESOCAT  ",
+      "estado": "cobrado"
+    },
+    {
+      "id": 36,
+      "concepto": "2 Connect ",
+      "tipo": "variable",
+      "importe": 1185,
+      "fecha": "2026-06-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Plataforma Admin de 2Connect",
+      "estado": "cobrado"
+    },
+    {
+      "id": 37,
+      "concepto": "We Offsite",
+      "tipo": "variable",
+      "importe": 750,
+      "fecha": "2026-06-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Último pago página web de Roberto Astro ",
+      "estado": "cobrado"
+    },
+    {
+      "id": 38,
+      "concepto": "PAVIMPRESOCAT ",
+      "tipo": "variable",
+      "importe": 795,
+      "fecha": "2026-06-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Último pago página web de PAVIMPRESOCAT  ",
+      "estado": "cobrado"
+    },
+    {
+      "id": 39,
+      "concepto": "TODO VA BIEN MJM SL",
+      "tipo": "variable",
+      "importe": 405,
+      "fecha": "2026-06-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Primer pago página web de Maria Jose Astro ",
+      "estado": "cobrado"
+    },
+    {
+      "id": 40,
+      "concepto": "Yolanda Jarasclub",
+      "tipo": "variable",
+      "importe": 2600.1,
+      "fecha": "2026-06-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Segundo pago JarasClub Yolanda",
+      "estado": "cobrado"
+    },
+    {
+      "id": 41,
+      "concepto": "Qualitime",
+      "tipo": "variable",
+      "importe": 480,
+      "fecha": "2026-06-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Diseño y desarrollo de página web Qualitime",
+      "estado": "cobrado"
+    },
+    {
+      "id": 42,
+      "concepto": "iSportCoach",
+      "tipo": "variable",
+      "importe": 1503,
+      "fecha": "2026-06-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Pago 1 — Inicio del Proyecto",
+      "estado": "cobrado"
+    },
+    {
+      "id": 43,
+      "concepto": "Travel Meet",
+      "tipo": "variable",
+      "importe": 2484,
+      "fecha": "2026-07-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Segundo pago de Travel Meet",
+      "estado": "facturado"
+    },
+    {
+      "id": 44,
+      "concepto": "FUNDACION VISUAL TEAF",
+      "tipo": "variable",
+      "importe": 4404,
+      "fecha": "2026-07-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Segundo pago plataforma fundacion ",
+      "estado": "cobrado"
+    },
+    {
+      "id": 45,
+      "concepto": "Diettest",
+      "tipo": "variable",
+      "importe": 450,
+      "fecha": "2026-07-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Fase 3 — Automatización marketing y operación (opcional)",
+      "estado": "facturado"
+    },
+    {
+      "id": 46,
+      "concepto": "Qualitime",
+      "tipo": "variable",
+      "importe": 480,
+      "fecha": "2026-07-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Diseño y desarrollo de página web Qualitime",
+      "estado": "facturado"
+    },
+    {
+      "id": 47,
+      "concepto": "Diettest",
+      "tipo": "variable",
+      "importe": 630,
+      "fecha": "2026-07-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Fase 2 — Plugin personalizado RAG (opción avanzada, opcional)",
+      "estado": "facturado"
+    },
+    {
+      "id": 48,
+      "concepto": "Diettest",
+      "tipo": "variable",
+      "importe": 1733.94,
+      "fecha": "2026-07-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Tercer pago de desarrollo software Diettest",
+      "estado": "facturado"
+    },
+    {
+      "id": 49,
+      "concepto": "Diettest",
+      "tipo": "variable",
+      "importe": 39,
+      "fecha": "2026-07-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Reunion para Tiktok + Marketing (1h) + Configuracion de Meta en Web (30min)",
+      "estado": "facturado"
+    },
+    {
+      "id": 50,
+      "concepto": "Diettest",
+      "tipo": "variable",
+      "importe": 270,
+      "fecha": "2026-07-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Fase 1 — Chatbot con plugin existente (opción básica)",
+      "estado": "facturado"
+    },
+    {
+      "id": 51,
+      "concepto": "TEBORI BROWS",
+      "tipo": "variable",
+      "importe": 786.5999999999999,
+      "fecha": "2026-07-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Primer pago página web de Valentina ",
+      "estado": "cobrado"
+    },
+    {
+      "id": 52,
+      "concepto": "Landing 2Connet",
+      "tipo": "variable",
+      "importe": 330,
+      "fecha": "2026-07-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Pago Landing Page de 2Connect ",
+      "estado": "cobrado"
+    },
+    {
+      "id": 53,
+      "concepto": "Somos Aventura",
+      "tipo": "variable",
+      "importe": 1800,
+      "fecha": "2026-07-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Último Pago 2 Connect APP",
+      "estado": "cobrado"
+    },
+    {
+      "id": 54,
+      "concepto": "iSportCoach",
+      "tipo": "variable",
+      "importe": 2004,
+      "fecha": "2026-08-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Pago 2 — Hito Central: Desarrollo del Catálogo",
+      "estado": "facturado"
+    },
+    {
+      "id": 55,
+      "concepto": "Yolanda Jarasclub",
+      "tipo": "variable",
+      "importe": 1950,
+      "fecha": "2026-08-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Tercer pago JarasClub Yolanda",
+      "estado": "facturado"
+    },
+    {
+      "id": 56,
+      "concepto": "TEBORI BROWS",
+      "tipo": "variable",
+      "importe": 786.5999999999999,
+      "fecha": "2026-08-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Segundo pago página web de Valentina ",
+      "estado": "facturado"
+    },
+    {
+      "id": 57,
+      "concepto": "Travel Meet",
+      "tipo": "variable",
+      "importe": 1863,
+      "fecha": "2026-08-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Último Pago de Travel Meet ",
+      "estado": "facturado"
+    },
+    {
+      "id": 58,
+      "concepto": "iSportCoach",
+      "tipo": "variable",
+      "importe": 1503,
+      "fecha": "2026-09-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Pago 3 — Cierre y Satisfacción",
+      "estado": "facturado"
+    },
+    {
+      "id": 59,
+      "concepto": "FUNDACION VISUAL TEAF",
+      "tipo": "variable",
+      "importe": 3303,
+      "fecha": "2026-09-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Último pago plataforma fundacion ",
+      "estado": "facturado"
+    },
+    {
+      "id": 60,
+      "concepto": "Somos Aventura",
+      "tipo": "variable",
+      "importe": 2184.9,
+      "fecha": "2026-10-20T10:00:00.000Z",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "notas": "Último Pago 2 Connect APP",
+      "estado": "facturado"
+    }
+  ],
+  "gastosFijos": [
+    {
+      "concepto": "VidaCaixa MyBox ",
+      "importe": 24,
+      "diaCobro": 1,
+      "categoria": "seguros",
+      "activo": true,
+      "fechaRegistro": "2026-07-16T11:42:55.803Z",
+      "id": 1
+    },
+    {
+      "concepto": "SegurCaixa MyBox ",
+      "importe": 46.4,
+      "diaCobro": 1,
+      "categoria": "seguros",
+      "activo": true,
+      "fechaRegistro": "2026-07-16T11:43:22.070Z",
+      "id": 2
+    },
+    {
+      "concepto": "Gimnasio",
+      "importe": 28.39,
+      "diaCobro": 1,
+      "categoria": "ocio_suscripciones",
+      "activo": true,
+      "fechaRegistro": "2026-07-16T11:43:50.272Z",
+      "id": 3
+    },
+    {
+      "concepto": "Tesoreria Seg.Social Autonomo",
+      "importe": 205.86,
+      "diaCobro": 29,
+      "categoria": "cuota_autonomo",
+      "activo": true,
+      "fechaRegistro": "2026-07-16T11:44:18.792Z",
+      "id": 4
+    },
+    {
+      "concepto": "Alquiler Oficina",
+      "importe": 397.8,
+      "diaCobro": 3,
+      "categoria": "oficina",
+      "activo": true,
+      "fechaRegistro": "2026-07-16T11:45:48.243Z",
+      "id": 5
+    },
+    {
+      "concepto": "Luz ",
+      "importe": 15,
+      "diaCobro": 1,
+      "categoria": "suministros",
+      "activo": true,
+      "fechaRegistro": "2026-07-16T11:47:15.598Z",
+      "id": 6
+    },
+    {
+      "concepto": "Comunidad",
+      "importe": 40,
+      "diaCobro": 1,
+      "categoria": "vivienda",
+      "activo": true,
+      "fechaRegistro": "2026-07-16T11:47:29.148Z",
+      "id": 7
+    },
+    {
+      "concepto": "Hipoteca",
+      "importe": 432,
+      "diaCobro": 1,
+      "categoria": "vivienda",
+      "activo": true,
+      "fechaRegistro": "2026-07-16T11:47:56.219Z",
+      "id": 8
+    }
+  ],
+  "gastosVariables": [
+    {
+      "concepto": "Impuestos IVA ",
+      "importe": 3325.22,
+      "categoria": "impuestos",
+      "fecha": "2026-07-20T00:00:00.000Z",
+      "recurrente": false,
+      "id": 1
+    },
+    {
+      "concepto": "IRPF Alquiler",
+      "importe": 222.3,
+      "categoria": "impuestos",
+      "fecha": "2026-07-20T00:00:00.000Z",
+      "recurrente": false,
+      "id": 2
+    },
+    {
+      "concepto": "Retenciones",
+      "importe": 30,
+      "categoria": "impuestos",
+      "fecha": "2026-07-20T00:00:00.000Z",
+      "recurrente": false,
+      "id": 3
+    }
+  ],
+  "imprevistos": [],
+  "configuracion": [
+    {
+      "id": 1,
+      "colchonSeguridad": 6,
+      "porcentajeAhorro": 20,
+      "sueldoAsignado": 0,
+      "reservaFiscalActiva": false,
+      "porcentajeImpuestos": 28,
+      "presupuestoVariableMensual": 500,
+      "colchonActual": 1687,
+      "ultimoBackup": "2026-07-16T11:53:00.305Z",
+      "saldoCuentaOperativa": 11030.07
+    }
+  ],
+  "cuentasAhorro": [],
+  "deudas": []
+}

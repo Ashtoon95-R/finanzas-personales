@@ -28,7 +28,8 @@ export class AjustesComponent {
     reservaFiscalActiva: false,
     porcentajeImpuestos: 20,
     presupuestoVariableMensual: 300,
-    colchonActual: 0
+    colchonActual: 0,
+    saldoCuentaOperativa: 0
   });
 
   saved = signal(false);

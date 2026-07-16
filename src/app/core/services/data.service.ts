@@ -176,35 +176,35 @@ export class DataService {
   // ============================
   // DASHBOARD & ANALYTICS
   // ============================
-  async getEvolucionMensual12Meses(currentYear: number, currentMonth: number): Promise<{mes: string, ingresos: number, gastos: number}[]> {
+  async getEvolucionAnual(year: number): Promise<{mes: string, ingresos: number, gastos: number, fijos: number, variables: number, imprevistos: number}[]> {
     const result = [];
-    // Go backwards 11 months + current month = 12 months
-    for (let i = 11; i >= 0; i--) {
-      // Calculate target month and year
-      let d = new Date(currentYear, currentMonth - i, 1);
-      const y = d.getFullYear();
-      const m = d.getMonth();
-
-      const start = new Date(y, m, 1);
-      const end = new Date(y, m + 1, 0, 23, 59, 59);
+    for (let i = 0; i < 12; i++) {
+      const start = new Date(year, i, 1);
+      const end = new Date(year, i + 1, 0, 23, 59, 59);
 
       const [ing, gasFijo, gasVar, imp] = await Promise.all([
         this.db.ingresos.where('fecha').between(start, end, true, true).toArray(),
-        this.getGastosFijosActivosEnMes(y, m),
+        this.getGastosFijosActivosEnMes(year, i),
         this.db.gastosVariables.where('fecha').between(start, end, true, true).toArray(),
         this.db.imprevistos.where('fecha').between(start, end, true, true).toArray()
       ]);
 
-      // Calculate totals (including projected recurrent incomes)
       const recurrentIng = await this.db.ingresos.where('fecha').below(start).and(ing => ing.recurrente && ing.frecuencia === 'mensual').toArray();
       
       const totalIng = ing.reduce((a, b) => a + b.importe, 0) + recurrentIng.reduce((a, b) => a + b.importe, 0);
-      const totalGas = gasFijo.reduce((a, b) => a + b.importe, 0) + gasVar.reduce((a, b) => a + b.importe, 0) + imp.reduce((a, b) => a + b.importe, 0);
+      
+      const sumFijo = gasFijo.reduce((a, b) => a + b.importe, 0);
+      const sumVar = gasVar.reduce((a, b) => a + b.importe, 0);
+      const sumImp = imp.reduce((a, b) => a + b.importe, 0);
+      const totalGas = sumFijo + sumVar + sumImp;
       
       result.push({
-        mes: d.toLocaleString('es-ES', { month: 'short' }) + ' ' + y.toString().substring(2),
+        mes: start.toLocaleString('es-ES', { month: 'short' }),
         ingresos: totalIng,
-        gastos: totalGas
+        gastos: totalGas,
+        fijos: sumFijo,
+        variables: sumVar,
+        imprevistos: sumImp
       });
     }
     return result;

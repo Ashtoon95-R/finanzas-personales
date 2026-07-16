@@ -45,6 +45,151 @@
     </div>
   </div>
 
+  <!-- Tu Plan de Acción Mensual -->
+  <div class="mb-6">
+    <app-card title="Tu Plan de Acción Mensual (Día 1)">
+      <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- Estado de Imagin -->
+        <div class="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-xl border border-slate-200 dark:border-slate-700">
+          <div class="flex justify-between items-start mb-4">
+            <div>
+              <h4 class="font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
+                <div class="w-2.5 h-2.5 rounded-full bg-indigo-500"></div>
+                Cuenta Empresa (Imagin)
+              </h4>
+              <p class="text-[10px] text-slate-500 mt-0.5">Saldo operativo para fijos e impuestos</p>
+            </div>
+            <div class="text-right">
+              <span class="text-xl font-bold text-slate-900 dark:text-white">{{ saldoImagin() | currency:'EUR' }}</span>
+            </div>
+          </div>
+          
+          <div class="space-y-3 text-sm">
+            <div class="flex justify-between text-slate-600 dark:text-slate-300">
+              <span>Techo de Seguridad Recomendado</span>
+              <span class="font-medium">{{ techoImagin() | currency:'EUR' }}</span>
+            </div>
+            <div class="w-full bg-slate-200 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden">
+              <div class="bg-indigo-500 h-full rounded-full" [style.width]="(techoImagin() / (saldoImagin() || 1)) * 100 > 100 ? '100%' : (techoImagin() / (saldoImagin() || 1)) * 100 + '%'"></div>
+            </div>
+            
+            <div class="pt-3 border-t border-slate-200 dark:border-slate-700 flex justify-between items-center">
+              <span class="font-semibold" [class]="excedenteImagin() > 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-500'">Excedente Disponible</span>
+              <span class="font-bold text-lg" [class]="excedenteImagin() > 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-500'">{{ excedenteImagin() | currency:'EUR' }}</span>
+            </div>
+          </div>
+
+          <!-- Proyección fin de mes (Stress Test) -->
+          <div class="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
+            <h5 class="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">Proyección Fin de Mes (Escenario Conservador)</h5>
+            
+            <div class="flex justify-between items-center text-xs mb-1">
+              <span class="text-slate-500 dark:text-slate-400">Gastos Fijos Previstos</span>
+              <span class="text-rose-500 dark:text-rose-400 font-medium">-{{ gastosFijosMesActual() | currency:'EUR' }}</span>
+            </div>
+
+            <div *ngIf="gastosVariablesFuturos() > 0" class="flex justify-between items-center text-xs mb-1">
+              <span class="text-slate-500 dark:text-slate-400">Gastos Variables Futuros (Ej. Impuestos)</span>
+              <span class="text-rose-500 dark:text-rose-400 font-medium">-{{ gastosVariablesFuturos() | currency:'EUR' }}</span>
+            </div>
+
+            <div class="flex justify-between items-center text-xs mb-1">
+              <span class="text-slate-500 dark:text-slate-400">Presupuesto Ocio (Revolut)</span>
+              <span class="text-rose-500 dark:text-rose-400 font-medium">-{{ transferenciaOcio() | currency:'EUR' }}</span>
+            </div>
+            
+            <div class="flex justify-between items-center mt-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+              <span class="font-bold text-slate-600 dark:text-slate-300 text-sm">Saldo Final Garantizado</span>
+              <span class="font-bold text-slate-800 dark:text-slate-100">{{ proyeccionFinDeMes() | currency:'EUR' }}</span>
+            </div>
+
+            <div class="mt-3 space-y-1">
+              <div class="p-2 bg-indigo-50/50 dark:bg-indigo-900/10 rounded border border-indigo-100 dark:border-indigo-800/30 flex justify-between items-center text-[10px]">
+                <span class="text-indigo-600 dark:text-indigo-400 font-medium flex items-center gap-1">
+                  <svg lucideInfo class="w-3 h-3"></svg>
+                  Facturas pendientes de cobro
+                </span>
+                <span class="text-indigo-600 dark:text-indigo-400 font-bold">{{ ingresosMesActual() | currency:'EUR' }}</span>
+              </div>
+              
+              <div class="p-2 bg-slate-50 dark:bg-slate-800/50 rounded border border-slate-200 dark:border-slate-700 flex justify-between items-center text-[10px]">
+                <span class="text-slate-500 dark:text-slate-400 flex items-center gap-1">
+                  <svg lucideCheckCircle class="w-3 h-3"></svg>
+                  Gastos variables ya pagados
+                </span>
+                <span class="text-slate-500 dark:text-slate-400">{{ gastosVariablesYaPagados() | currency:'EUR' }}</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Transferencias a Ejecutar -->
+        <div class="bg-white dark:bg-fintech-card p-5 rounded-xl border border-slate-200 dark:border-fintech-border shadow-sm">
+          <h4 class="font-bold text-slate-800 dark:text-slate-100 mb-4 flex items-center gap-2">
+            <svg lucideListChecks class="w-5 h-5 text-indigo-500"></svg>
+            Transferencias a Ejecutar
+          </h4>
+          
+          <div class="space-y-3">
+            <!-- Ocio -->
+            <label class="flex items-start gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors">
+              <input type="checkbox" class="mt-1 w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500">
+              <div class="flex-1">
+                <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 flex justify-between">
+                  <span>Transferir a Tarjeta Ocio</span>
+                  <span class="text-indigo-600 dark:text-indigo-400">{{ transferenciaOcio() | currency:'EUR' }}</span>
+                </p>
+                <p class="text-xs text-slate-500 mt-0.5">Dinero para salir, ropa, cenas (Revolut, N26...)</p>
+              </div>
+            </label>
+            
+            <!-- Ahorro Base (Solo si NO va a Trade Republic o NO hay excedente) -->
+            <label *ngIf="waterfall().fase !== 'colchon' || (waterfall().fase === 'colchon' && excedenteImagin() === 0)" class="flex items-start gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors">
+              <input type="checkbox" class="mt-1 w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500">
+              <div class="flex-1">
+                <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 flex justify-between">
+                  <span>Ahorro del Sueldo</span>
+                  <span class="text-emerald-600 dark:text-emerald-400">{{ transferenciaAhorroSueldo() | currency:'EUR' }}</span>
+                </p>
+                <p class="text-xs text-slate-500 mt-0.5">
+                  <span *ngIf="waterfall().fase === 'colchon'">Enviar a Trade Republic (Llenando Colchón)</span>
+                  <span *ngIf="waterfall().fase !== 'colchon'">Enviar a MyInvestor (Inversión)</span>
+                </p>
+              </div>
+            </label>
+            
+            <!-- Excedente (Solo si Ahorro va a otro sitio, ej. MyInvestor) -->
+            <label *ngIf="excedenteImagin() > 0 && waterfall().fase !== 'colchon'" class="flex items-start gap-3 p-3 rounded-lg bg-emerald-50/50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800/30 cursor-pointer transition-colors">
+              <input type="checkbox" class="mt-1 w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500">
+              <div class="flex-1">
+                <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 flex justify-between">
+                  <span>Transferir Excedente</span>
+                  <span class="text-emerald-600 dark:text-emerald-400 font-bold">+{{ excedenteImagin() | currency:'EUR' }}</span>
+                </p>
+                <p class="text-xs text-slate-500 mt-0.5">Fondo de maniobra de la empresa enviado a Trade Republic.</p>
+              </div>
+            </label>
+
+            <!-- Ahorro + Excedente Combinados (Si ambos van a Trade Republic) -->
+            <label *ngIf="excedenteImagin() > 0 && waterfall().fase === 'colchon'" class="flex items-start gap-3 p-3 rounded-lg bg-emerald-50/50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800/30 cursor-pointer transition-colors">
+              <input type="checkbox" class="mt-1 w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500">
+              <div class="flex-1">
+                <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 flex justify-between">
+                  <span>Ahorro + Excedente (Combinado)</span>
+                  <span class="text-emerald-600 dark:text-emerald-400 font-bold">+{{ (transferenciaAhorroSueldo() + excedenteImagin()) | currency:'EUR' }}</span>
+                </p>
+                <p class="text-xs text-slate-500 mt-0.5">Enviar a Trade Republic (Colchón + Fondo de maniobra).</p>
+              </div>
+            </label>
+          </div>
+        </div>
+        
+      </div>
+    </app-card>
+  </div>
+
   <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
     <div class="lg:col-span-2 space-y-6">
       
@@ -54,6 +199,10 @@
           <h1 class="text-5xl md:text-6xl font-black text-slate-900 dark:text-white tracking-tight mb-2">
             {{ sueldoBrutoRecomendado() | currency:'EUR' }}
           </h1>
+          <div class="inline-flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 px-3 py-1 rounded-full text-xs font-medium mb-4">
+            <svg lucideInfo class="w-3.5 h-3.5"></svg>
+            Sueldo base sin ajuste del mes anterior: <span class="font-bold text-slate-700 dark:text-slate-300">{{ sueldoBrutoBase() | currency:'EUR' }}</span>
+          </div>
           <p class="text-sm text-slate-500 dark:text-slate-400 max-w-lg mx-auto">
             Calculado con tus fijos, la media de variables y ajustado por el waterfall de prioridades financieras.
           </p>
@@ -183,8 +332,8 @@
     </div>
   </div>
 
+  <!-- DEUDAS Y CUENTAS DE AHORRO TEMPORALMENTE OCULTOS POR PETICIÓN DEL USUARIO
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-    <!-- DEUDAS -->
     <app-card>
       <div class="flex items-center justify-between mb-4">
         <div>
@@ -236,7 +385,6 @@
       </div>
     </app-card>
 
-    <!-- CUENTAS DE AHORRO -->
     <app-card>
       <div class="flex items-center justify-between mb-4">
         <div>
@@ -294,7 +442,7 @@
       </div>
     </app-card>
   </div>
-</div>
+  -->
 
 <!-- MODAL CUENTA AHORRO -->
 <app-modal [isOpen]="isCuentaModalOpen" [title]="cuentaEditingId ? 'Editar Cuenta' : 'Añadir Cuenta de Ahorro'" (close)="closeCuentaModal()" [showFooter]="true">

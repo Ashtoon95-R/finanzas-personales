@@ -68,6 +68,19 @@ export class AhorroInversionComponent {
     return this.gastosBase() / factor;
   });
 
+  sueldoBrutoBase = computed(() => {
+    if (!this.config()) return 0;
+    const c = this.config()!;
+    const pAhorro = c.porcentajeAhorro / 100;
+    const pImpuestos = c.reservaFiscalActiva ? (c.porcentajeImpuestos / 100) : 0;
+    
+    const factor = 1 - pAhorro - pImpuestos;
+    if (factor <= 0) return 0;
+    
+    const gastosSinDesviacion = this.gastosFijosMesActual() + this.mediaVariables6Meses();
+    return gastosSinDesviacion / factor;
+  });
+
   parteGastos = computed(() => this.gastosBase());
   
   parteAhorro = computed(() => {
@@ -132,6 +145,30 @@ export class AhorroInversionComponent {
   pctAhorro = computed(() => (this.parteAhorro() / this.sueldoBrutoRecomendado()) * 100 || 0);
   pctImpuestos = computed(() => (this.parteImpuestos() / this.sueldoBrutoRecomendado()) * 100 || 0);
 
+  // --- Plan de Acción Mensual ---
+  saldoImagin = computed(() => this.config()?.saldoCuentaOperativa || 0);
+  
+  techoImagin = computed(() => {
+    return (this.gastosFijosMesActual() * 2) + (this.parteImpuestos() * 3);
+  });
+  
+  transferenciaOcio = computed(() => this.config()?.presupuestoVariableMensual || 0);
+  transferenciaAhorroSueldo = computed(() => this.parteAhorro());
+
+  excedenteImagin = computed(() => {
+    return Math.max(0, this.saldoImagin() - this.techoImagin() - this.transferenciaOcio() - this.transferenciaAhorroSueldo() - this.gastosVariablesFuturos());
+  });
+
+  // Proyección de saldo (Conservadora: sin contar ingresos pendientes ni variables ya pagados)
+  ingresosMesActual = signal<number>(0);
+  gastosVariablesYaPagados = signal<number>(0); // Informativo
+  gastosVariablesFuturos = signal<number>(0); // Gastos previstos que restarán saldo
+  
+  proyeccionFinDeMes = computed(() => {
+    // Si ejecutan las transferencias y pagan los fijos/futuros, el saldo debería acercarse al Techo
+    return this.saldoImagin() - this.gastosFijosMesActual() - this.transferenciaOcio() - this.gastosVariablesFuturos();
+  });
+
   constructor() {
     effect(() => {
       const year = this.stateService.currentYear();
@@ -153,6 +190,21 @@ export class AhorroInversionComponent {
     this.deudas.set(deudas);
     
     this.gastosFijosMesActual.set(fijos.reduce((sum, g) => sum + g.importe, 0));
+
+    const ingresos = await this.dataService.getIngresosByMonth(year, month);
+    // Solo proyectamos los ingresos que aún NO hemos cobrado (pendiente o facturado)
+    const ingresosPendientes = ingresos.filter(i => i.estado !== 'cobrado');
+    this.ingresosMesActual.set(ingresosPendientes.reduce((sum, i) => sum + i.importe, 0));
+
+    const variablesMesActual = await this.dataService.getGastosVariablesByMonth(year, month);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const pagados = variablesMesActual.filter(g => new Date(g.fecha) <= today);
+    const futuros = variablesMesActual.filter(g => new Date(g.fecha) > today);
+    
+    this.gastosVariablesYaPagados.set(pagados.reduce((sum, g) => sum + g.importe, 0));
+    this.gastosVariablesFuturos.set(futuros.reduce((sum, g) => sum + g.importe, 0));
 
     const prevYear = month === 0 ? year - 1 : year;
     const prevMonth = month === 0 ? 11 : month - 1;

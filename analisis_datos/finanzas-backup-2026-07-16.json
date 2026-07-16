@@ -1,0 +1,119 @@
+{
+  "ingresos": [],
+  "gastosFijos": [
+    {
+      "concepto": "VidaCaixa MyBox ",
+      "importe": 24,
+      "diaCobro": 1,
+      "categoria": "seguros",
+      "activo": true,
+      "fechaRegistro": "2026-07-16T11:42:55.803Z",
+      "id": 1
+    },
+    {
+      "concepto": "SegurCaixa MyBox ",
+      "importe": 46.4,
+      "diaCobro": 1,
+      "categoria": "seguros",
+      "activo": true,
+      "fechaRegistro": "2026-07-16T11:43:22.070Z",
+      "id": 2
+    },
+    {
+      "concepto": "Gimnasio",
+      "importe": 28.39,
+      "diaCobro": 1,
+      "categoria": "ocio_suscripciones",
+      "activo": true,
+      "fechaRegistro": "2026-07-16T11:43:50.272Z",
+      "id": 3
+    },
+    {
+      "concepto": "Tesoreria Seg.Social Autonomo",
+      "importe": 205.86,
+      "diaCobro": 29,
+      "categoria": "cuota_autonomo",
+      "activo": true,
+      "fechaRegistro": "2026-07-16T11:44:18.792Z",
+      "id": 4
+    },
+    {
+      "concepto": "Alquiler Oficina",
+      "importe": 397.8,
+      "diaCobro": 3,
+      "categoria": "oficina",
+      "activo": true,
+      "fechaRegistro": "2026-07-16T11:45:48.243Z",
+      "id": 5
+    },
+    {
+      "concepto": "Luz ",
+      "importe": 15,
+      "diaCobro": 1,
+      "categoria": "suministros",
+      "activo": true,
+      "fechaRegistro": "2026-07-16T11:47:15.598Z",
+      "id": 6
+    },
+    {
+      "concepto": "Comunidad",
+      "importe": 40,
+      "diaCobro": 1,
+      "categoria": "vivienda",
+      "activo": true,
+      "fechaRegistro": "2026-07-16T11:47:29.148Z",
+      "id": 7
+    },
+    {
+      "concepto": "Hipoteca",
+      "importe": 432,
+      "diaCobro": 1,
+      "categoria": "vivienda",
+      "activo": true,
+      "fechaRegistro": "2026-07-16T11:47:56.219Z",
+      "id": 8
+    }
+  ],
+  "gastosVariables": [
+    {
+      "concepto": "Impuestos IVA ",
+      "importe": 3325.22,
+      "categoria": "impuestos",
+      "fecha": "2026-07-20T00:00:00.000Z",
+      "recurrente": false,
+      "id": 1
+    },
+    {
+      "concepto": "IRPF Alquiler",
+      "importe": 222.3,
+      "categoria": "impuestos",
+      "fecha": "2026-07-20T00:00:00.000Z",
+      "recurrente": false,
+      "id": 2
+    },
+    {
+      "concepto": "Retenciones",
+      "importe": 30,
+      "categoria": "impuestos",
+      "fecha": "2026-07-20T00:00:00.000Z",
+      "recurrente": false,
+      "id": 3
+    }
+  ],
+  "imprevistos": [],
+  "configuracion": [
+    {
+      "id": 1,
+      "colchonSeguridad": 6,
+      "porcentajeAhorro": 20,
+      "sueldoAsignado": 0,
+      "reservaFiscalActiva": false,
+      "porcentajeImpuestos": 28,
+      "presupuestoVariableMensual": 500,
+      "colchonActual": 2000,
+      "ultimoBackup": "2026-07-16T11:53:00.305Z"
+    }
+  ],
+  "cuentasAhorro": [],
+  "deudas": []
+}

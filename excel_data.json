@@ -1,0 +1,733 @@
+{
+  "Registro_Horas": [
+    {
+      "Mes": "Enero",
+      "Cliente": "Diettest",
+      "Horas": 7,
+      "Precio/Hora": 26,
+      "Total": 182,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Pago mensual de SEO "
+    },
+    {
+      "Mes": "Enero",
+      "Cliente": "Venttus Illusion",
+      "Horas": 11,
+      "Precio/Hora": 30,
+      "Total": 330,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Pago mensual de Mantenimiento "
+    },
+    {
+      "Mes": "Enero",
+      "Cliente": "Templo del Masaje",
+      "Horas": 2,
+      "Precio/Hora": 30,
+      "Total": 60,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Cambios en Webs (2h 0min)"
+    },
+    {
+      "Mes": "Enero",
+      "Cliente": "Findall",
+      "Horas": 5,
+      "Precio/Hora": 26,
+      "Total": 130,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Traducciones (1h) + Vista movil (3h) + Página Web (1h)"
+    },
+    {
+      "Mes": "Enero",
+      "Cliente": "Clases Alicia",
+      "Horas": 3.6666666666666665,
+      "Precio/Hora": 30,
+      "Total": 110,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Martes 13, 12:00-13:30 + Miercoles 21, 12:00 - 13:00 + Martes 27, 12:00 - 13:10"
+    },
+    {
+      "Mes": "Enero",
+      "Cliente": "Chigo Bienestar",
+      "Horas": 35.25,
+      "Precio/Hora": 30,
+      "Total": 1057.5,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Primer pago de EPCO Freemium"
+    },
+    {
+      "Mes": "Febrero",
+      "Cliente": "Chigo Bienestar",
+      "Horas": 35.25,
+      "Precio/Hora": 30,
+      "Total": 1057.5,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Segundo pago de EPCO Freemium"
+    },
+    {
+      "Mes": "Febrero",
+      "Cliente": "Diettest",
+      "Horas": 7,
+      "Precio/Hora": 26,
+      "Total": 182,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Pago mensual de SEO "
+    },
+    {
+      "Mes": "Febrero",
+      "Cliente": "Venttus Illusion",
+      "Horas": 11,
+      "Precio/Hora": 30,
+      "Total": 330,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Pago mensual de Mantenimiento "
+    },
+    {
+      "Mes": "Febrero",
+      "Cliente": "Label Concierge",
+      "Horas": 3,
+      "Precio/Hora": 35,
+      "Total": 105,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Recuperar documentos y usuarios"
+    },
+    {
+      "Mes": "Febrero",
+      "Cliente": "Templo del Masaje",
+      "Horas": 5.5,
+      "Precio/Hora": 30,
+      "Total": 165,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Cambios en Webs (3h 0min) + Cambios en Extranet de Nobel (2h 30min)"
+    },
+    {
+      "Mes": "Febrero",
+      "Cliente": "Clases Alicia",
+      "Horas": 2.1666666666666665,
+      "Precio/Hora": 30,
+      "Total": 65,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Viernes 06, 9:40-10:50 + Martes 10, 11:40  a 12:40"
+    },
+    {
+      "Mes": "Febrero",
+      "Cliente": "Jacinto",
+      "Horas": 24.6,
+      "Precio/Hora": 30,
+      "Total": 738,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Primer pago de Jacinto y APP"
+    },
+    {
+      "Mes": "Febrero",
+      "Cliente": "Dasana",
+      "Horas": 45,
+      "Precio/Hora": 30,
+      "Total": 1350,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Pago por Make y Brevo de Dasana"
+    },
+    {
+      "Mes": "Febrero",
+      "Cliente": "Daniel Oñate",
+      "Horas": 63.3,
+      "Precio/Hora": 26,
+      "Total": 1645.8,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Primer pago APP Daniel"
+    },
+    {
+      "Mes": "Marzo",
+      "Cliente": "Jacinto",
+      "Horas": 24.6,
+      "Precio/Hora": 30,
+      "Total": 738,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Segundo pago de Jacinto y APP"
+    },
+    {
+      "Mes": "Marzo",
+      "Cliente": "Venttus Illusion",
+      "Horas": 6,
+      "Precio/Hora": 30,
+      "Total": 180,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Pago mensual de Mantenimiento "
+    },
+    {
+      "Mes": "Marzo",
+      "Cliente": "Templo del Masaje",
+      "Horas": 2,
+      "Precio/Hora": 30,
+      "Total": 60,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Cambios en Webs (2h 0min)"
+    },
+    {
+      "Mes": "Marzo",
+      "Cliente": "Daniel Oñate",
+      "Horas": 84.4,
+      "Precio/Hora": 26,
+      "Total": 2194.4,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Segundo pago APP Daniel"
+    },
+    {
+      "Mes": "Marzo",
+      "Cliente": "Yolanda Jarasclub",
+      "Horas": 65,
+      "Precio/Hora": 30,
+      "Total": 1950,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Primer pago JarasClub Yolanda"
+    },
+    {
+      "Mes": "Marzo",
+      "Cliente": "Daniel Oñate",
+      "Horas": 63.3,
+      "Precio/Hora": 26,
+      "Total": 1645.8,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Tercero pago APP Daniel"
+    },
+    {
+      "Mes": "Abril",
+      "Cliente": "Diettest",
+      "Horas": 4,
+      "Precio/Hora": 26,
+      "Total": 104,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Pago mensual de SEO "
+    },
+    {
+      "Mes": "Abril",
+      "Cliente": "Chigo Bienestar",
+      "Horas": 25.5,
+      "Precio/Hora": 30,
+      "Total": 765,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Desarrollo de decathlon"
+    },
+    {
+      "Mes": "Abril",
+      "Cliente": "2 Connect ",
+      "Horas": 75.5,
+      "Precio/Hora": 26,
+      "Total": 1963,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Último Pago 2 Connect APP"
+    },
+    {
+      "Mes": "Abril",
+      "Cliente": "Somos Aventura",
+      "Horas": 72.83,
+      "Precio/Hora": 30,
+      "Total": 2184.9,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Último Pago 2 Connect APP"
+    },
+    {
+      "Mes": "Abril",
+      "Cliente": "Templo del Masaje",
+      "Horas": 2,
+      "Precio/Hora": 30,
+      "Total": 60,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Cambios en Webs (2h 0min)"
+    },
+    {
+      "Mes": "Abril",
+      "Cliente": "Diettest",
+      "Horas": 7,
+      "Precio/Hora": 26,
+      "Total": 182,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Pago Reuniones Google ADS y Google Tag Manager (3h 30min) + Bakcups 1h 30min + Reunion para Zoom, Cancelar Reservas, Meta/Google ADS (2h)"
+    },
+    {
+      "Mes": "Mayo",
+      "Cliente": "Travel Meet",
+      "Horas": 62.1,
+      "Precio/Hora": 30,
+      "Total": 1863,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Primer pago de Travel Meet"
+    },
+    {
+      "Mes": "Mayo",
+      "Cliente": "Tartuga",
+      "Horas": 37,
+      "Precio/Hora": 30,
+      "Total": 1110,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Tercer pago de Tartuga"
+    },
+    {
+      "Mes": "Mayo",
+      "Cliente": "Dasana",
+      "Horas": 30,
+      "Precio/Hora": 30,
+      "Total": 900,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Pago final de Dasana"
+    },
+    {
+      "Mes": "Mayo",
+      "Cliente": "We Offsite",
+      "Horas": 25,
+      "Precio/Hora": 30,
+      "Total": 750,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Primer pago página web de Roberto Astro "
+    },
+    {
+      "Mes": "Mayo",
+      "Cliente": "TODO VA BIEN MJM SL",
+      "Horas": 13.5,
+      "Precio/Hora": 30,
+      "Total": 405,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Primer pago página web de Maria Jose Astro "
+    },
+    {
+      "Mes": "Mayo",
+      "Cliente": "FUNDACION VISUAL TEAF",
+      "Horas": 110.1,
+      "Precio/Hora": 30,
+      "Total": 3303,
+      "Enviada": false,
+      "Pagado": false,
+      "Comentarios": "Primer pago plataforma fundacion "
+    },
+    {
+      "Mes": "Mayo",
+      "Cliente": "Daniel Oñate",
+      "Horas": 6,
+      "Precio/Hora": 30,
+      "Total": 180,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Pago por panel de administración"
+    },
+    {
+      "Mes": "Mayo",
+      "Cliente": "PAVIMPRESOCAT ",
+      "Horas": 26.5,
+      "Precio/Hora": 30,
+      "Total": 795,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Primer pago página web de PAVIMPRESOCAT  "
+    },
+    {
+      "Mes": "Junio",
+      "Cliente": "2 Connect ",
+      "Horas": 39.5,
+      "Precio/Hora": 30,
+      "Total": 1185,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Plataforma Admin de 2Connect"
+    },
+    {
+      "Mes": "Junio",
+      "Cliente": "We Offsite",
+      "Horas": 25,
+      "Precio/Hora": 30,
+      "Total": 750,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Último pago página web de Roberto Astro "
+    },
+    {
+      "Mes": "Junio",
+      "Cliente": "PAVIMPRESOCAT ",
+      "Horas": 26.5,
+      "Precio/Hora": 30,
+      "Total": 795,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Último pago página web de PAVIMPRESOCAT  "
+    },
+    {
+      "Mes": "Junio",
+      "Cliente": "TODO VA BIEN MJM SL",
+      "Horas": 13.5,
+      "Precio/Hora": 30,
+      "Total": 405,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Primer pago página web de Maria Jose Astro "
+    },
+    {
+      "Mes": "Junio",
+      "Cliente": "Yolanda Jarasclub",
+      "Horas": 86.67,
+      "Precio/Hora": 30,
+      "Total": 2600.1,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Segundo pago JarasClub Yolanda"
+    },
+    {
+      "Mes": "Junio",
+      "Cliente": "Qualitime",
+      "Horas": 16,
+      "Precio/Hora": 30,
+      "Total": 480,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Diseño y desarrollo de página web Qualitime"
+    },
+    {
+      "Mes": "Junio",
+      "Cliente": "iSportCoach",
+      "Horas": 50.1,
+      "Precio/Hora": 30,
+      "Total": 1503,
+      "Enviada": true,
+      "Pagado": true,
+      "Comentarios": "Pago 1 — Inicio del Proyecto"
+    },
+    {
+      "Mes": "Julio",
+      "Cliente": "Travel Meet",
+      "Horas": 82.8,
+      "Precio/Hora": 30,
+      "Total": 2484,
+      "Enviada": false,
+      "Pagado": false,
+      "Comentarios": "Segundo pago de Travel Meet"
+    },
+    {
+      "Mes": "Julio",
+      "Cliente": "FUNDACION VISUAL TEAF",
+      "Horas": 146.8,
+      "Precio/Hora": 30,
+      "Total": 4404,
+      "Enviada": false,
+      "Pagado": false,
+      "Comentarios": "Segundo pago plataforma fundacion "
+    },
+    {
+      "Mes": "Julio",
+      "Cliente": "Diettest",
+      "Horas": 15,
+      "Precio/Hora": 30,
+      "Total": 450,
+      "Enviada": false,
+      "Pagado": false,
+      "Comentarios": "Fase 3 — Automatización marketing y operación (opcional)"
+    },
+    {
+      "Mes": "Julio",
+      "Cliente": "Qualitime",
+      "Horas": 16,
+      "Precio/Hora": 30,
+      "Total": 480,
+      "Enviada": false,
+      "Pagado": false,
+      "Comentarios": "Diseño y desarrollo de página web Qualitime"
+    },
+    {
+      "Mes": "Julio",
+      "Cliente": "Diettest",
+      "Horas": 21,
+      "Precio/Hora": 30,
+      "Total": 630,
+      "Enviada": false,
+      "Pagado": false,
+      "Comentarios": "Fase 2 — Plugin personalizado RAG (opción avanzada, opcional)"
+    },
+    {
+      "Mes": "Julio",
+      "Cliente": "Diettest",
+      "Horas": 66.69,
+      "Precio/Hora": 26,
+      "Total": 1733.94,
+      "Enviada": true,
+      "Pagado": false,
+      "Comentarios": "Tercer pago de desarrollo software Diettest"
+    },
+    {
+      "Mes": "Julio",
+      "Cliente": "Diettest",
+      "Horas": 1.5,
+      "Precio/Hora": 26,
+      "Total": 39,
+      "Enviada": true,
+      "Pagado": false,
+      "Comentarios": "Reunion para Tiktok + Marketing (1h) + Configuracion de Meta en Web (30min)"
+    },
+    {
+      "Mes": "Julio",
+      "Cliente": "Diettest",
+      "Horas": 9,
+      "Precio/Hora": 30,
+      "Total": 270,
+      "Enviada": true,
+      "Pagado": false,
+      "Comentarios": "Fase 1 — Chatbot con plugin existente (opción básica)"
+    },
+    {
+      "Mes": "Julio",
+      "Cliente": "TEBORI BROWS",
+      "Horas": 26.22,
+      "Precio/Hora": 30,
+      "Total": 786.5999999999999,
+      "Enviada": true,
+      "Pagado": false,
+      "Comentarios": "Primer pago página web de Valentina "
+    },
+    {
+      "Mes": "Julio",
+      "Cliente": "Landing 2Connet",
+      "Horas": 11,
+      "Precio/Hora": 30,
+      "Total": 330,
+      "Enviada": false,
+      "Pagado": false,
+      "Comentarios": "Pago Landing Page de 2Connect "
+    },
+    {
+      "Mes": "Julio",
+      "Cliente": "Somos Aventura",
+      "Horas": 60,
+      "Precio/Hora": 30,
+      "Total": 1800,
+      "Enviada": true,
+      "Pagado": false,
+      "Comentarios": "Último Pago 2 Connect APP"
+    },
+    {
+      "Mes": "Agosto",
+      "Cliente": "iSportCoach",
+      "Horas": 66.8,
+      "Precio/Hora": 30,
+      "Total": 2004,
+      "Enviada": false,
+      "Pagado": false,
+      "Comentarios": "Pago 2 — Hito Central: Desarrollo del Catálogo"
+    },
+    {
+      "Mes": "Agosto",
+      "Cliente": "Yolanda Jarasclub",
+      "Horas": 65,
+      "Precio/Hora": 30,
+      "Total": 1950,
+      "Enviada": false,
+      "Pagado": false,
+      "Comentarios": "Tercer pago JarasClub Yolanda"
+    },
+    {
+      "Mes": "Agosto",
+      "Cliente": "TEBORI BROWS",
+      "Horas": 26.22,
+      "Precio/Hora": 30,
+      "Total": 786.5999999999999,
+      "Enviada": true,
+      "Pagado": false,
+      "Comentarios": "Segundo pago página web de Valentina "
+    },
+    {
+      "Mes": "Agosto",
+      "Cliente": "Travel Meet",
+      "Horas": 62.1,
+      "Precio/Hora": 30,
+      "Total": 1863,
+      "Enviada": false,
+      "Pagado": false,
+      "Comentarios": "Último Pago de Travel Meet "
+    },
+    {
+      "Mes": "Septiembre",
+      "Cliente": "iSportCoach",
+      "Horas": 50.1,
+      "Precio/Hora": 30,
+      "Total": 1503,
+      "Enviada": false,
+      "Pagado": false,
+      "Comentarios": "Pago 3 — Cierre y Satisfacción"
+    },
+    {
+      "Mes": "Septiembre",
+      "Cliente": "FUNDACION VISUAL TEAF",
+      "Horas": 110.1,
+      "Precio/Hora": 30,
+      "Total": 3303,
+      "Enviada": false,
+      "Pagado": false,
+      "Comentarios": "Último pago plataforma fundacion "
+    },
+    {
+      "Mes": "Octubre",
+      "Cliente": "Somos Aventura",
+      "Horas": 72.83,
+      "Precio/Hora": 30,
+      "Total": 2184.9,
+      "Enviada": false,
+      "Pagado": false,
+      "Comentarios": "Último Pago 2 Connect APP"
+    }
+  ],
+  "Resumen_Mensual": [
+    {
+      "Mes": "Enero",
+      "Ingresos Totales": 1869.5,
+      "IVA (21%)": 369.49499999999995,
+      "Cuota Autónomos": 205,
+      "Otros Gastos": 390,
+      "Beneficio Neto": 1151.335,
+      "IRPF MENSUAL": 123.165
+    },
+    {
+      "Mes": "Febrero",
+      "Ingresos Totales": 5638.3,
+      "IVA (21%)": 1184.043,
+      "Cuota Autónomos": 205,
+      "Otros Gastos": 390,
+      "Beneficio Neto": 4648.619000000001,
+      "IRPF MENSUAL": 394.68100000000004
+    },
+    {
+      "Mes": "Marzo",
+      "Ingresos Totales": 6768.2,
+      "IVA (21%)": 1421.322,
+      "Cuota Autónomos": 205,
+      "Otros Gastos": 390,
+      "Beneficio Neto": 5699.4259999999995,
+      "IRPF MENSUAL": 473.77400000000006
+    },
+    {
+      "Mes": "Abril",
+      "Ingresos Totales": 5258.9,
+      "IVA (21%)": 1104.369,
+      "Cuota Autónomos": 205,
+      "Otros Gastos": 390,
+      "Beneficio Neto": 4295.777,
+      "IRPF MENSUAL": 368.123
+    },
+    {
+      "Mes": "Mayo",
+      "Ingresos Totales": 9306,
+      "IVA (21%)": 1954.26,
+      "Cuota Autónomos": 205,
+      "Otros Gastos": 390,
+      "Beneficio Neto": 8059.58,
+      "IRPF MENSUAL": 651.4200000000001
+    },
+    {
+      "Mes": "Junio",
+      "Ingresos Totales": 7718.1,
+      "IVA (21%)": 1620.801,
+      "Cuota Autónomos": 205,
+      "Otros Gastos": 390,
+      "Beneficio Neto": 6582.8330000000005,
+      "IRPF MENSUAL": 540.267
+    },
+    {
+      "Mes": "Julio",
+      "Ingresos Totales": 13407.54,
+      "IVA (21%)": 2815.5834,
+      "Cuota Autónomos": 205,
+      "Otros Gastos": 390,
+      "Beneficio Neto": 11874.012200000001,
+      "IRPF MENSUAL": 938.5278000000002
+    },
+    {
+      "Mes": "Agosto",
+      "Ingresos Totales": 6603.6,
+      "IVA (21%)": 1386.756,
+      "Cuota Autónomos": 205,
+      "Otros Gastos": 390,
+      "Beneficio Neto": 5546.348,
+      "IRPF MENSUAL": 462.25200000000007
+    },
+    {
+      "Mes": "Septiembre",
+      "Ingresos Totales": 4806,
+      "IVA (21%)": 1009.26,
+      "Beneficio Neto": 4469.58,
+      "IRPF MENSUAL": 336.42
+    },
+    {
+      "Mes": "Octubre",
+      "Ingresos Totales": 2184.9,
+      "IVA (21%)": 458.829,
+      "Beneficio Neto": 2031.957,
+      "IRPF MENSUAL": 152.943
+    },
+    {
+      "Mes": "Noviembre",
+      "Ingresos Totales": 0,
+      "IVA (21%)": 0,
+      "Beneficio Neto": 0,
+      "IRPF MENSUAL": 0
+    },
+    {
+      "Mes": "Diciembre",
+      "Ingresos Totales": 0,
+      "IVA (21%)": 0,
+      "Beneficio Neto": 0,
+      "IRPF MENSUAL": 0
+    },
+    {
+      "Mes": "TOTAL ANUAL",
+      "Ingresos Totales": 63561.04,
+      "IVA (21%)": 13324.718399999998,
+      "Cuota Autónomos": 1640,
+      "Beneficio Neto": 54359.46720000001,
+      "IRPF MENSUAL": 4441.572800000001
+    }
+  ],
+  "Dashboard": [
+    {
+      "RESUMEN ANUAL": "Total Ingresos:",
+      "__EMPTY": 63561.04
+    },
+    {
+      "RESUMEN ANUAL": "Total IVA:",
+      "__EMPTY": 13324.718399999998
+    },
+    {
+      "RESUMEN ANUAL": "Media Mensual:",
+      "__EMPTY": 4529.9556
+    },
+    {
+      "RESUMEN ANUAL": "Total Horas:",
+      "__EMPTY": 2169.4933333333333
+    }
+  ],
+  "Registro_Horas_Desarrollos": []
+}

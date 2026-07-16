@@ -29,8 +29,8 @@ import { CommonModule } from '@angular/common';
       <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
         <app-header (toggleSidebar)="toggleSidebar()"></app-header>
         
-        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 dark:bg-gray-900 p-4 lg:p-8">
-          <div class="container mx-auto max-w-7xl">
+        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 dark:bg-gray-900 py-6 px-4 sm:px-6 lg:px-8">
+          <div class="w-full">
             <router-outlet></router-outlet>
           </div>
         </main>
