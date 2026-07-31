@@ -26,7 +26,6 @@ export class AhorroInversionComponent {
   
   gastosFijosMesActual = signal<number>(0);
   mediaVariables6Meses = signal<number>(0);
-  desviacionMesAnterior = signal<number>(0);
 
   cuentas = signal<CuentaAhorro[]>([]);
   deudas = signal<Deuda[]>([]);
@@ -54,7 +53,7 @@ export class AhorroInversionComponent {
     tipoInteres: 0
   };
 
-  gastosBase = computed(() => this.gastosFijosMesActual() + this.mediaVariables6Meses() + this.desviacionMesAnterior());
+  gastosBase = computed(() => this.gastosFijosMesActual() + this.mediaVariables6Meses());
   
   sueldoBrutoRecomendado = computed(() => {
     if (!this.config()) return 0;
@@ -66,19 +65,6 @@ export class AhorroInversionComponent {
     if (factor <= 0) return 0;
     
     return this.gastosBase() / factor;
-  });
-
-  sueldoBrutoBase = computed(() => {
-    if (!this.config()) return 0;
-    const c = this.config()!;
-    const pAhorro = c.porcentajeAhorro / 100;
-    const pImpuestos = c.reservaFiscalActiva ? (c.porcentajeImpuestos / 100) : 0;
-    
-    const factor = 1 - pAhorro - pImpuestos;
-    if (factor <= 0) return 0;
-    
-    const gastosSinDesviacion = this.gastosFijosMesActual() + this.mediaVariables6Meses();
-    return gastosSinDesviacion / factor;
   });
 
   parteGastos = computed(() => this.gastosBase());
@@ -141,7 +127,6 @@ export class AhorroInversionComponent {
 
   pctGastosFijos = computed(() => (this.gastosFijosMesActual() / this.sueldoBrutoRecomendado()) * 100 || 0);
   pctGastosVariables = computed(() => (this.mediaVariables6Meses() / this.sueldoBrutoRecomendado()) * 100 || 0);
-  pctDesviacion = computed(() => (this.desviacionMesAnterior() / this.sueldoBrutoRecomendado()) * 100 || 0);
   pctAhorro = computed(() => (this.parteAhorro() / this.sueldoBrutoRecomendado()) * 100 || 0);
   pctImpuestos = computed(() => (this.parteImpuestos() / this.sueldoBrutoRecomendado()) * 100 || 0);
 
@@ -250,22 +235,7 @@ export class AhorroInversionComponent {
 
     const prevYear = month === 0 ? year - 1 : year;
     const prevMonth = month === 0 ? 11 : month - 1;
-
-    const prevVariables = await this.dataService.getGastosVariablesByMonth(prevYear, prevMonth);
-    const prevVariablesNonTax = prevVariables.filter(g => g.categoria !== 'impuestos').reduce((sum, g) => sum + g.importe, 0);
-    
-    const prevImprevistos = await this.dataService.getImprevistosByDateRange(
-      new Date(prevYear, prevMonth, 1),
-      new Date(prevYear, prevMonth + 1, 0, 23, 59, 59)
-    );
-    const prevImprevistosTotal = prevImprevistos.reduce((sum, g) => sum + g.importe, 0);
-
     const presupuestoConfigurado = conf?.presupuestoVariableMensual || 0;
-    
-    const desviacion = (prevVariables.length === 0 && prevImprevistos.length === 0)
-      ? 0
-      : (presupuestoConfigurado > 0 ? (prevVariablesNonTax - presupuestoConfigurado) + prevImprevistosTotal : 0);
-    this.desviacionMesAnterior.set(desviacion);
 
     const variables6m = await this.dataService.getGastosVariablesStats6Months(prevYear, prevMonth);
     
