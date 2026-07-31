@@ -155,9 +155,49 @@ export class AhorroInversionComponent {
   transferenciaOcio = computed(() => this.config()?.presupuestoVariableMensual || 0);
   transferenciaAhorroSueldo = computed(() => this.parteAhorro());
 
+  // Checkboxes: al marcar, actualizan Imagin/colchón al momento (y se pueden deshacer)
+  // El estado es por mes: al cambiar de mes se restaura el de ese mes, no se arrastra.
+  private mesPlanKey = signal('');
+  ocioEjecutado = signal(false);
+  ahorroEjecutado = signal(false);
+  excedenteEjecutado = signal(false);
+  combinadoEjecutado = signal(false);
+
+  /** Importes congelados al marcar, para mostrar/deshacer sin recalcular */
+  importeOcioAplicado = signal(0);
+  importeAhorroAplicado = signal(0);
+  importeAhorroAColchon = signal(0);
+  importeExcedenteAplicado = signal(0);
+  importeCombinadoAplicado = signal(0);
+
   excedenteImagin = computed(() => {
-    return Math.max(0, this.saldoImagin() - this.techoImagin() - this.transferenciaOcio() - this.transferenciaAhorroSueldo() - this.gastosVariablesFuturos());
+    // No restar de nuevo lo que ya se transfirió al marcar checkboxes
+    const ocioPendiente = this.ocioEjecutado() ? 0 : this.transferenciaOcio();
+    const ahorroPendiente = (this.ahorroEjecutado() || this.combinadoEjecutado())
+      ? 0
+      : this.transferenciaAhorroSueldo();
+    return Math.max(
+      0,
+      this.saldoImagin() - this.techoImagin() - ocioPendiente - ahorroPendiente - this.gastosVariablesFuturos()
+    );
   });
+
+  mostrarOcio = computed(() => this.transferenciaOcio() > 0 || this.ocioEjecutado());
+  mostrarAhorroSolo = computed(() =>
+    this.ahorroEjecutado() ||
+    (!this.combinadoEjecutado() &&
+      (this.waterfall().fase !== 'colchon' || this.excedenteImagin() === 0))
+  );
+  mostrarExcedenteSolo = computed(() =>
+    this.excedenteEjecutado() ||
+    (!this.combinadoEjecutado() &&
+      this.excedenteImagin() > 0 &&
+      this.waterfall().fase !== 'colchon')
+  );
+  mostrarCombinado = computed(() =>
+    this.combinadoEjecutado() ||
+    (this.excedenteImagin() > 0 && this.waterfall().fase === 'colchon')
+  );
 
   // Proyección de saldo (Conservadora: sin contar ingresos pendientes ni variables ya pagados)
   ingresosMesActual = signal<number>(0);
@@ -166,7 +206,8 @@ export class AhorroInversionComponent {
   
   proyeccionFinDeMes = computed(() => {
     // Si ejecutan las transferencias y pagan los fijos/futuros, el saldo debería acercarse al Techo
-    return this.saldoImagin() - this.gastosFijosMesActual() - this.transferenciaOcio() - this.gastosVariablesFuturos();
+    const ocioPendiente = this.ocioEjecutado() ? 0 : this.transferenciaOcio();
+    return this.saldoImagin() - this.gastosFijosMesActual() - ocioPendiente - this.gastosVariablesFuturos();
   });
 
   constructor() {
@@ -188,6 +229,7 @@ export class AhorroInversionComponent {
     this.config.set(conf);
     this.cuentas.set(cuentas);
     this.deudas.set(deudas);
+    this.restaurarCheckboxesDelMes(conf, year, month);
     
     this.gastosFijosMesActual.set(fijos.reduce((sum, g) => sum + g.importe, 0));
 
@@ -238,6 +280,61 @@ export class AhorroInversionComponent {
     const baseVariables = Math.max(historicoMediaSinImpuestos, presupuestoConfigurado);
     
     this.mediaVariables6Meses.set(baseVariables + historicoMediaImpuestos);
+  }
+
+  private claveMes(year: number, month: number): string {
+    return `${year}-${String(month + 1).padStart(2, '0')}`;
+  }
+
+  private restaurarCheckboxesDelMes(conf: ConfiguracionUsuario | null, year: number, month: number): void {
+    const key = this.claveMes(year, month);
+    this.mesPlanKey.set(key);
+    const plan = conf?.planDia1PorMes?.[key];
+
+    this.ocioEjecutado.set(!!plan?.ocio?.hecho);
+    this.importeOcioAplicado.set(plan?.ocio?.importe || 0);
+
+    this.ahorroEjecutado.set(!!plan?.ahorro?.hecho);
+    this.importeAhorroAplicado.set(plan?.ahorro?.importe || 0);
+    this.importeAhorroAColchon.set(plan?.ahorro?.aColchon || 0);
+
+    this.excedenteEjecutado.set(!!plan?.excedente?.hecho);
+    this.importeExcedenteAplicado.set(plan?.excedente?.importe || 0);
+
+    this.combinadoEjecutado.set(!!plan?.combinado?.hecho);
+    this.importeCombinadoAplicado.set(plan?.combinado?.importe || 0);
+  }
+
+  private async guardarPlanDia1Mes(): Promise<void> {
+    const conf = this.config();
+    const key = this.mesPlanKey();
+    if (!conf || !key) return;
+
+    const planMes = {
+      ocio: this.ocioEjecutado()
+        ? { hecho: true, importe: this.importeOcioAplicado() }
+        : undefined,
+      ahorro: this.ahorroEjecutado()
+        ? { hecho: true, importe: this.importeAhorroAplicado(), aColchon: this.importeAhorroAColchon() }
+        : undefined,
+      excedente: this.excedenteEjecutado()
+        ? { hecho: true, importe: this.importeExcedenteAplicado() }
+        : undefined,
+      combinado: this.combinadoEjecutado()
+        ? { hecho: true, importe: this.importeCombinadoAplicado() }
+        : undefined,
+    };
+
+    const planDia1PorMes = { ...(conf.planDia1PorMes || {}) };
+    const tieneAlgo = planMes.ocio || planMes.ahorro || planMes.excedente || planMes.combinado;
+    if (tieneAlgo) {
+      planDia1PorMes[key] = planMes;
+    } else {
+      delete planDia1PorMes[key];
+    }
+
+    await this.dataService.updateConfiguracion({ planDia1PorMes });
+    this.config.set({ ...conf, planDia1PorMes });
   }
 
   openCuentaModal(cuenta?: CuentaAhorro) {
@@ -319,5 +416,93 @@ export class AhorroInversionComponent {
     const year = this.stateService.currentYear();
     const month = this.stateService.currentMonth();
     await this.loadData(year, month);
+  }
+
+  private async persistSaldos(deltaImagin: number, deltaColchon: number): Promise<void> {
+    const conf = this.config();
+    if (!conf) return;
+
+    const nuevoSaldo = Math.round(((conf.saldoCuentaOperativa || 0) + deltaImagin) * 100) / 100;
+    const nuevoColchon = Math.round(((conf.colchonActual || 0) + deltaColchon) * 100) / 100;
+
+    await this.dataService.updateConfiguracion({
+      saldoCuentaOperativa: nuevoSaldo,
+      colchonActual: nuevoColchon,
+    });
+
+    this.config.set({
+      ...conf,
+      saldoCuentaOperativa: nuevoSaldo,
+      colchonActual: nuevoColchon,
+    });
+    this.stateService.refreshSummary();
+  }
+
+  async onToggleOcio(checked: boolean): Promise<void> {
+    if (checked) {
+      const importe = this.transferenciaOcio();
+      if (importe <= 0) return;
+      this.importeOcioAplicado.set(importe);
+      this.ocioEjecutado.set(true);
+      await this.persistSaldos(-importe, 0);
+    } else {
+      const importe = this.importeOcioAplicado();
+      this.ocioEjecutado.set(false);
+      this.importeOcioAplicado.set(0);
+      if (importe > 0) await this.persistSaldos(importe, 0);
+    }
+    await this.guardarPlanDia1Mes();
+  }
+
+  async onToggleAhorro(checked: boolean): Promise<void> {
+    if (checked) {
+      const importe = this.transferenciaAhorroSueldo();
+      if (importe <= 0) return;
+      const aColchon = this.waterfall().fase === 'colchon' ? importe : 0;
+      this.importeAhorroAplicado.set(importe);
+      this.importeAhorroAColchon.set(aColchon);
+      this.ahorroEjecutado.set(true);
+      await this.persistSaldos(-importe, aColchon);
+    } else {
+      const importe = this.importeAhorroAplicado();
+      const aColchon = this.importeAhorroAColchon();
+      this.ahorroEjecutado.set(false);
+      this.importeAhorroAplicado.set(0);
+      this.importeAhorroAColchon.set(0);
+      if (importe > 0) await this.persistSaldos(importe, -aColchon);
+    }
+    await this.guardarPlanDia1Mes();
+  }
+
+  async onToggleExcedente(checked: boolean): Promise<void> {
+    if (checked) {
+      const importe = this.excedenteImagin();
+      if (importe <= 0) return;
+      this.importeExcedenteAplicado.set(importe);
+      this.excedenteEjecutado.set(true);
+      await this.persistSaldos(-importe, importe);
+    } else {
+      const importe = this.importeExcedenteAplicado();
+      this.excedenteEjecutado.set(false);
+      this.importeExcedenteAplicado.set(0);
+      if (importe > 0) await this.persistSaldos(importe, -importe);
+    }
+    await this.guardarPlanDia1Mes();
+  }
+
+  async onToggleCombinado(checked: boolean): Promise<void> {
+    if (checked) {
+      const importe = this.transferenciaAhorroSueldo() + this.excedenteImagin();
+      if (importe <= 0) return;
+      this.importeCombinadoAplicado.set(importe);
+      this.combinadoEjecutado.set(true);
+      await this.persistSaldos(-importe, importe);
+    } else {
+      const importe = this.importeCombinadoAplicado();
+      this.combinadoEjecutado.set(false);
+      this.importeCombinadoAplicado.set(0);
+      if (importe > 0) await this.persistSaldos(importe, -importe);
+    }
+    await this.guardarPlanDia1Mes();
   }
 }

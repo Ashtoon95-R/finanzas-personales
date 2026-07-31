@@ -134,24 +134,32 @@
           
           <div class="space-y-3">
             <!-- Ocio -->
-            <label class="flex items-start gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors">
-              <input type="checkbox" class="mt-1 w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500">
+            <label *ngIf="mostrarOcio()" class="flex items-start gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors"
+                   [class.opacity-60]="ocioEjecutado()">
+              <input type="checkbox" class="mt-1 w-4 h-4 text-indigo-600 rounded border-slate-300 focus:ring-indigo-500"
+                     [checked]="ocioEjecutado()"
+                     (change)="onToggleOcio($any($event.target).checked)">
               <div class="flex-1">
-                <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 flex justify-between">
+                <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 flex justify-between"
+                   [class.line-through]="ocioEjecutado()">
                   <span>Transferir a Tarjeta Ocio</span>
-                  <span class="text-indigo-600 dark:text-indigo-400">{{ transferenciaOcio() | currency:'EUR' }}</span>
+                  <span class="text-indigo-600 dark:text-indigo-400 no-underline">{{ (ocioEjecutado() ? importeOcioAplicado() : transferenciaOcio()) | currency:'EUR' }}</span>
                 </p>
                 <p class="text-xs text-slate-500 mt-0.5">Dinero para salir, ropa, cenas (Revolut, N26...)</p>
               </div>
             </label>
             
             <!-- Ahorro Base (Solo si NO va a Trade Republic o NO hay excedente) -->
-            <label *ngIf="waterfall().fase !== 'colchon' || (waterfall().fase === 'colchon' && excedenteImagin() === 0)" class="flex items-start gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors">
-              <input type="checkbox" class="mt-1 w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500">
+            <label *ngIf="mostrarAhorroSolo()" class="flex items-start gap-3 p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 cursor-pointer border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition-colors"
+                   [class.opacity-60]="ahorroEjecutado()">
+              <input type="checkbox" class="mt-1 w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500"
+                     [checked]="ahorroEjecutado()"
+                     (change)="onToggleAhorro($any($event.target).checked)">
               <div class="flex-1">
-                <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 flex justify-between">
+                <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 flex justify-between"
+                   [class.line-through]="ahorroEjecutado()">
                   <span>Ahorro del Sueldo</span>
-                  <span class="text-emerald-600 dark:text-emerald-400">{{ transferenciaAhorroSueldo() | currency:'EUR' }}</span>
+                  <span class="text-emerald-600 dark:text-emerald-400 no-underline">{{ (ahorroEjecutado() ? importeAhorroAplicado() : transferenciaAhorroSueldo()) | currency:'EUR' }}</span>
                 </p>
                 <p class="text-xs text-slate-500 mt-0.5">
                   <span *ngIf="waterfall().fase === 'colchon'">Enviar a Trade Republic (Llenando Colchón)</span>
@@ -161,24 +169,32 @@
             </label>
             
             <!-- Excedente (Solo si Ahorro va a otro sitio, ej. MyInvestor) -->
-            <label *ngIf="excedenteImagin() > 0 && waterfall().fase !== 'colchon'" class="flex items-start gap-3 p-3 rounded-lg bg-emerald-50/50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800/30 cursor-pointer transition-colors">
-              <input type="checkbox" class="mt-1 w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500">
+            <label *ngIf="mostrarExcedenteSolo()" class="flex items-start gap-3 p-3 rounded-lg bg-emerald-50/50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800/30 cursor-pointer transition-colors"
+                   [class.opacity-60]="excedenteEjecutado()">
+              <input type="checkbox" class="mt-1 w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500"
+                     [checked]="excedenteEjecutado()"
+                     (change)="onToggleExcedente($any($event.target).checked)">
               <div class="flex-1">
-                <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 flex justify-between">
+                <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 flex justify-between"
+                   [class.line-through]="excedenteEjecutado()">
                   <span>Transferir Excedente</span>
-                  <span class="text-emerald-600 dark:text-emerald-400 font-bold">+{{ excedenteImagin() | currency:'EUR' }}</span>
+                  <span class="text-emerald-600 dark:text-emerald-400 font-bold no-underline">+{{ (excedenteEjecutado() ? importeExcedenteAplicado() : excedenteImagin()) | currency:'EUR' }}</span>
                 </p>
                 <p class="text-xs text-slate-500 mt-0.5">Fondo de maniobra de la empresa enviado a Trade Republic.</p>
               </div>
             </label>
 
             <!-- Ahorro + Excedente Combinados (Si ambos van a Trade Republic) -->
-            <label *ngIf="excedenteImagin() > 0 && waterfall().fase === 'colchon'" class="flex items-start gap-3 p-3 rounded-lg bg-emerald-50/50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800/30 cursor-pointer transition-colors">
-              <input type="checkbox" class="mt-1 w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500">
+            <label *ngIf="mostrarCombinado()" class="flex items-start gap-3 p-3 rounded-lg bg-emerald-50/50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800/30 cursor-pointer transition-colors"
+                   [class.opacity-60]="combinadoEjecutado()">
+              <input type="checkbox" class="mt-1 w-4 h-4 text-emerald-600 rounded border-slate-300 focus:ring-emerald-500"
+                     [checked]="combinadoEjecutado()"
+                     (change)="onToggleCombinado($any($event.target).checked)">
               <div class="flex-1">
-                <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 flex justify-between">
+                <p class="text-sm font-semibold text-slate-800 dark:text-slate-200 flex justify-between"
+                   [class.line-through]="combinadoEjecutado()">
                   <span>Ahorro + Excedente (Combinado)</span>
-                  <span class="text-emerald-600 dark:text-emerald-400 font-bold">+{{ (transferenciaAhorroSueldo() + excedenteImagin()) | currency:'EUR' }}</span>
+                  <span class="text-emerald-600 dark:text-emerald-400 font-bold no-underline">+{{ (combinadoEjecutado() ? importeCombinadoAplicado() : (transferenciaAhorroSueldo() + excedenteImagin())) | currency:'EUR' }}</span>
                 </p>
                 <p class="text-xs text-slate-500 mt-0.5">Enviar a Trade Republic (Colchón + Fondo de maniobra).</p>
               </div>

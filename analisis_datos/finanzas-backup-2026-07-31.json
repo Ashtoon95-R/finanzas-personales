@@ -467,7 +467,7 @@
       "concepto": "Travel Meet",
       "tipo": "variable",
       "importe": 2484,
-      "fecha": "2026-07-20T10:00:00.000Z",
+      "fecha": "2026-08-05T00:00:00.000Z",
       "recurrente": false,
       "frecuencia": "unico",
       "notas": "Segundo pago de Travel Meet",
@@ -489,7 +489,7 @@
       "concepto": "Diettest",
       "tipo": "variable",
       "importe": 450,
-      "fecha": "2026-07-20T10:00:00.000Z",
+      "fecha": "2026-08-20T00:00:00.000Z",
       "recurrente": false,
       "frecuencia": "unico",
       "notas": "Fase 3 — Automatización marketing y operación (opcional)",
@@ -504,14 +504,14 @@
       "recurrente": false,
       "frecuencia": "unico",
       "notas": "Diseño y desarrollo de página web Qualitime",
-      "estado": "facturado"
+      "estado": "cobrado"
     },
     {
       "id": 47,
       "concepto": "Diettest",
       "tipo": "variable",
       "importe": 630,
-      "fecha": "2026-07-20T10:00:00.000Z",
+      "fecha": "2026-08-20T00:00:00.000Z",
       "recurrente": false,
       "frecuencia": "unico",
       "notas": "Fase 2 — Plugin personalizado RAG (opción avanzada, opcional)",
@@ -522,7 +522,7 @@
       "concepto": "Diettest",
       "tipo": "variable",
       "importe": 1733.94,
-      "fecha": "2026-07-20T10:00:00.000Z",
+      "fecha": "2026-08-20T00:00:00.000Z",
       "recurrente": false,
       "frecuencia": "unico",
       "notas": "Tercer pago de desarrollo software Diettest",
@@ -537,7 +537,7 @@
       "recurrente": false,
       "frecuencia": "unico",
       "notas": "Reunion para Tiktok + Marketing (1h) + Configuracion de Meta en Web (30min)",
-      "estado": "facturado"
+      "estado": "cobrado"
     },
     {
       "id": 50,
@@ -548,7 +548,7 @@
       "recurrente": false,
       "frecuencia": "unico",
       "notas": "Fase 1 — Chatbot con plugin existente (opción básica)",
-      "estado": "facturado"
+      "estado": "cobrado"
     },
     {
       "id": 51,
@@ -659,6 +659,17 @@
       "frecuencia": "unico",
       "notas": "Último Pago 2 Connect APP",
       "estado": "facturado"
+    },
+    {
+      "concepto": "Corrección de formulario de contacto ",
+      "importe": 90,
+      "tipo": "variable",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "estado": "cobrado",
+      "fecha": "2026-07-30T22:00:00.000Z",
+      "notas": "ALVAFARM ABOGADOS\n",
+      "id": 61
     }
   ],
   "gastosFijos": [
@@ -806,10 +817,10 @@
       "sueldoAsignado": 0,
       "reservaFiscalActiva": false,
       "porcentajeImpuestos": 28,
-      "presupuestoVariableMensual": 500,
+      "presupuestoVariableMensual": 800,
       "colchonActual": 1687,
       "ultimoBackup": "2026-07-16T20:54:38.366Z",
-      "saldoCuentaOperativa": 11030.07
+      "saldoCuentaOperativa": 7797.02
     }
   ],
   "cuentasAhorro": [],

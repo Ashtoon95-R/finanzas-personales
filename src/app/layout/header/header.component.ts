@@ -31,7 +31,7 @@ import { LUCIDE_ICONS } from '@shared/icons';
       </div>
       
       <!-- Quick Summary -->
-      <div class="hidden md:flex items-center gap-6">
+      <div class="hidden md:flex items-center gap-4 lg:gap-6">
         <div class="text-right">
           <p class="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wider">Ingresos</p>
           <p class="text-emerald-600 dark:text-emerald-400 font-bold">{{ state.totalIngresos() | currency:'EUR' }}</p>
@@ -50,12 +50,20 @@ import { LUCIDE_ICONS } from '@shared/icons';
              {{ state.disponible() | currency:'EUR' }}
           </p>
         </div>
+        <div class="w-px h-8 bg-slate-200 dark:bg-slate-700"></div>
+        <div class="text-right" title="Saldo cuenta operativa (Imagin)">
+          <p class="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wider">Imagin</p>
+          <p class="font-bold text-indigo-600 dark:text-indigo-400">
+             {{ state.saldoImagin() | currency:'EUR' }}
+          </p>
+        </div>
       </div>
       
-      <div class="flex items-center md:hidden">
-         <p class="font-bold text-slate-800 dark:text-white text-lg">
-             {{ state.disponible() | currency:'EUR' }}
+      <div class="flex flex-col items-end md:hidden">
+         <p class="font-bold text-indigo-600 dark:text-indigo-400 text-lg leading-tight">
+             {{ state.saldoImagin() | currency:'EUR' }}
          </p>
+         <p class="text-[10px] text-slate-500 uppercase tracking-wider">Imagin</p>
       </div>
     </header>
   `,
