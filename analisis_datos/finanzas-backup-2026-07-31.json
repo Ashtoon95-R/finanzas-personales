@@ -467,7 +467,7 @@
       "concepto": "Travel Meet",
       "tipo": "variable",
       "importe": 2484,
-      "fecha": "2026-08-05T00:00:00.000Z",
+      "fecha": "2026-09-30T00:00:00.000Z",
       "recurrente": false,
       "frecuencia": "unico",
       "notas": "Segundo pago de Travel Meet",
@@ -489,7 +489,7 @@
       "concepto": "Diettest",
       "tipo": "variable",
       "importe": 450,
-      "fecha": "2026-08-20T00:00:00.000Z",
+      "fecha": "2026-09-30T00:00:00.000Z",
       "recurrente": false,
       "frecuencia": "unico",
       "notas": "Fase 3 — Automatización marketing y operación (opcional)",
@@ -511,7 +511,7 @@
       "concepto": "Diettest",
       "tipo": "variable",
       "importe": 630,
-      "fecha": "2026-08-20T00:00:00.000Z",
+      "fecha": "2026-09-30T00:00:00.000Z",
       "recurrente": false,
       "frecuencia": "unico",
       "notas": "Fase 2 — Plugin personalizado RAG (opción avanzada, opcional)",
@@ -522,7 +522,7 @@
       "concepto": "Diettest",
       "tipo": "variable",
       "importe": 1733.94,
-      "fecha": "2026-08-20T00:00:00.000Z",
+      "fecha": "2026-09-30T00:00:00.000Z",
       "recurrente": false,
       "frecuencia": "unico",
       "notas": "Tercer pago de desarrollo software Diettest",
@@ -592,14 +592,14 @@
       "recurrente": false,
       "frecuencia": "unico",
       "notas": "Pago 2 — Hito Central: Desarrollo del Catálogo",
-      "estado": "facturado"
+      "estado": "cobrado"
     },
     {
       "id": 55,
       "concepto": "Yolanda Jarasclub",
       "tipo": "variable",
       "importe": 1950,
-      "fecha": "2026-08-20T10:00:00.000Z",
+      "fecha": "2026-09-30T00:00:00.000Z",
       "recurrente": false,
       "frecuencia": "unico",
       "notas": "Tercer pago JarasClub Yolanda",
@@ -610,7 +610,7 @@
       "concepto": "TEBORI BROWS",
       "tipo": "variable",
       "importe": 786.5999999999999,
-      "fecha": "2026-08-20T10:00:00.000Z",
+      "fecha": "2026-09-30T00:00:00.000Z",
       "recurrente": false,
       "frecuencia": "unico",
       "notas": "Segundo pago página web de Valentina ",
@@ -621,7 +621,7 @@
       "concepto": "Travel Meet",
       "tipo": "variable",
       "importe": 1863,
-      "fecha": "2026-08-20T10:00:00.000Z",
+      "fecha": "2026-10-30T00:00:00.000Z",
       "recurrente": false,
       "frecuencia": "unico",
       "notas": "Último Pago de Travel Meet ",
@@ -670,6 +670,61 @@
       "fecha": "2026-07-30T22:00:00.000Z",
       "notas": "ALVAFARM ABOGADOS\n",
       "id": 61
+    },
+    {
+      "concepto": "Diettest",
+      "importe": 169,
+      "tipo": "variable",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "estado": "cobrado",
+      "fecha": "2026-08-31T00:00:00.000Z",
+      "notas": "Cambios en la Web (4h + 0min)\n",
+      "id": 62
+    },
+    {
+      "concepto": "Altitude zone SL ",
+      "importe": 300,
+      "tipo": "variable",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "estado": "cobrado",
+      "fecha": "2026-08-31T00:00:00.000Z",
+      "notas": "Mantenimiento ALTITUDE ZONE Web Septiembre\n",
+      "id": 63
+    },
+    {
+      "concepto": "PAVIMPRESOCAT ",
+      "importe": 369,
+      "tipo": "variable",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "estado": "cobrado",
+      "fecha": "2026-07-31T22:00:00.000Z",
+      "notas": "Pago página plantillas productos Amazon de PAVIMPRESOCAT  \n",
+      "id": 64
+    },
+    {
+      "concepto": "Plataforma Autismo",
+      "importe": 576,
+      "tipo": "variable",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "estado": "cobrado",
+      "fecha": "2026-07-31T22:00:00.000Z",
+      "notas": "Hito 1 (30%) — Inicio del proyecto: alcance, UX/UI y base WordPress\n",
+      "id": 65
+    },
+    {
+      "concepto": "2 Connect ",
+      "importe": 172.5,
+      "tipo": "variable",
+      "recurrente": false,
+      "frecuencia": "unico",
+      "estado": "cobrado",
+      "fecha": "2026-08-31T00:00:00.000Z",
+      "notas": "Funcionalidades nuevas en la app\n",
+      "id": 66
     }
   ],
   "gastosFijos": [
@@ -721,7 +776,7 @@
     {
       "concepto": "Luz ",
       "importe": 15,
-      "diaCobro": 1,
+      "diaCobro": 16,
       "categoria": "suministros",
       "activo": true,
       "fechaRegistro": "2026-07-16T11:47:15.598Z",
@@ -771,6 +826,15 @@
       "activo": true,
       "fechaRegistro": "2026-07-16T21:13:05.465Z",
       "id": 11
+    },
+    {
+      "concepto": "AIGÜES de l'HORTA",
+      "importe": 25,
+      "diaCobro": 24,
+      "categoria": "suministros",
+      "activo": true,
+      "fechaRegistro": "2026-09-01T05:41:19.094Z",
+      "id": 12
     }
   ],
   "gastosVariables": [
@@ -797,6 +861,14 @@
       "fecha": "2026-07-20T00:00:00.000Z",
       "recurrente": false,
       "id": 3
+    },
+    {
+      "concepto": "Gasolina",
+      "importe": 120,
+      "categoria": "transporte",
+      "fecha": "2026-09-29T00:00:00.000Z",
+      "recurrente": false,
+      "id": 5
     }
   ],
   "imprevistos": [
@@ -812,15 +884,27 @@
   "configuracion": [
     {
       "id": 1,
-      "colchonSeguridad": 6,
-      "porcentajeAhorro": 20,
+      "colchonSeguridad": 2,
+      "porcentajeAhorro": 0,
       "sueldoAsignado": 0,
       "reservaFiscalActiva": false,
       "porcentajeImpuestos": 28,
-      "presupuestoVariableMensual": 800,
-      "colchonActual": 1687,
+      "presupuestoVariableMensual": 500,
+      "colchonActual": 7838.74,
       "ultimoBackup": "2026-07-16T20:54:38.366Z",
-      "saldoCuentaOperativa": 7797.02
+      "saldoCuentaOperativa": 2649.97,
+      "planDia1PorMes": {
+        "2026-10": {
+          "ocio": {
+            "hecho": true,
+            "importe": 500
+          },
+          "excedente": {
+            "hecho": true,
+            "importe": 1941.42
+          }
+        }
+      }
     }
   ],
   "cuentasAhorro": [],
