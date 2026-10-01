@@ -22,6 +22,7 @@ export interface ConfiguracionUsuario {
   ultimoBackup?: string; // ISO date string
   colchonActual?: number; // saldo líquido acumulado actual en el colchón de seguridad
   saldoCuentaOperativa?: number; // saldo actual en la cuenta operativa (ej. Imagin)
+  saldoRevolut?: number; // saldo en Revolut para ocio y gastos variables personales
   /** Estado de checkboxes del plan día 1, por mes (clave "YYYY-MM") */
   planDia1PorMes?: Record<string, PlanDia1Mes>;
 }

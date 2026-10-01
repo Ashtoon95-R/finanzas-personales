@@ -19,6 +19,7 @@ export class StateService {
   totalGastos = signal(0);
   disponible = computed(() => this.totalIngresos() - this.totalGastos());
   saldoImagin = signal(0);
+  saldoRevolut = signal(0);
   colchonActual = signal(0);
   necesitaBackup = signal(false);
 
@@ -62,6 +63,7 @@ export class StateService {
     // Comprobar backup y saldos operativos (Imagin / colchón)
     const config = await this.dataService.getConfiguracion();
     this.saldoImagin.set(config?.saldoCuentaOperativa || 0);
+    this.saldoRevolut.set(config?.saldoRevolut || 0);
     this.colchonActual.set(config?.colchonActual || 0);
     if (config && config.ultimoBackup) {
       const diff = new Date().getTime() - new Date(config.ultimoBackup).getTime();

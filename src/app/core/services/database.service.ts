@@ -85,6 +85,13 @@ export class DatabaseService extends Dexie {
       });
     });
 
+    this.version(5).stores({}).upgrade(async tx => {
+      const configTable = tx.table('configuracion');
+      await configTable.toCollection().modify((item) => {
+        if (item.saldoRevolut === undefined) item.saldoRevolut = 0;
+      });
+    });
+
     this.on('populate', () => this.populateInitialData());
   }
 
@@ -97,7 +104,8 @@ export class DatabaseService extends Dexie {
       reservaFiscalActiva: false,
       porcentajeImpuestos: 20,
       presupuestoVariableMensual: 300,
-      colchonActual: 0
+      colchonActual: 0,
+      saldoRevolut: 0
     });
   }
 }

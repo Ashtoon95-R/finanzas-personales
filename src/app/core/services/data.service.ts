@@ -221,9 +221,13 @@ export class DataService {
         sueldoAsignado: 0,
         reservaFiscalActiva: false,
         porcentajeImpuestos: 20,
-        colchonActual: 0
+        colchonActual: 0,
+        saldoRevolut: 0
       };
       await this.db.configuracion.add(conf);
+    }
+    if (conf.saldoRevolut === undefined) {
+      conf.saldoRevolut = 0;
     }
     return conf;
   }

@@ -57,6 +57,13 @@ import { LUCIDE_ICONS } from '@shared/icons';
              {{ state.saldoImagin() | currency:'EUR' }}
           </p>
         </div>
+        <div class="w-px h-8 bg-slate-200 dark:bg-slate-700"></div>
+        <div class="text-right" title="Saldo Revolut (ocio y variables)">
+          <p class="text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wider">Revolut</p>
+          <p class="font-bold text-slate-800 dark:text-white">
+             {{ state.saldoRevolut() | currency:'EUR' }}
+          </p>
+        </div>
       </div>
       
       <div class="flex flex-col items-end md:hidden">

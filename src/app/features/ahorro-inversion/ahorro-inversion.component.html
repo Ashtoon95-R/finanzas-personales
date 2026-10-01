@@ -89,13 +89,18 @@
               <span class="text-rose-500 dark:text-rose-400 font-medium">-{{ gastosFijosMesActual() | currency:'EUR' }}</span>
             </div>
 
-            <div *ngIf="gastosVariablesFuturos() > 0" class="flex justify-between items-center text-xs mb-1">
-              <span class="text-slate-500 dark:text-slate-400">Gastos Variables Futuros (Ej. Impuestos)</span>
-              <span class="text-rose-500 dark:text-rose-400 font-medium">-{{ gastosVariablesFuturos() | currency:'EUR' }}</span>
+            <div class="flex justify-between items-center text-xs mb-1">
+              <span class="text-slate-500 dark:text-slate-400">Saldo Revolut</span>
+              <span class="font-medium text-slate-700 dark:text-slate-200">{{ saldoRevolut() | currency:'EUR' }}</span>
+            </div>
+
+            <div *ngIf="gastosImpuestosFuturos() > 0" class="flex justify-between items-center text-xs mb-1">
+              <span class="text-slate-500 dark:text-slate-400">Impuestos desde Imagin</span>
+              <span class="text-rose-500 dark:text-rose-400 font-medium">-{{ gastosImpuestosFuturos() | currency:'EUR' }}</span>
             </div>
 
             <div class="flex justify-between items-center text-xs mb-1">
-              <span class="text-slate-500 dark:text-slate-400">Presupuesto Ocio (Revolut)</span>
+              <span class="text-slate-500 dark:text-slate-400">A completar ocio (Imagin → Revolut)</span>
               <span class="text-rose-500 dark:text-rose-400 font-medium">-{{ transferenciaOcio() | currency:'EUR' }}</span>
             </div>
             
@@ -145,7 +150,9 @@
                   <span>Transferir a Tarjeta Ocio</span>
                   <span class="text-indigo-600 dark:text-indigo-400 no-underline">{{ (ocioEjecutado() ? importeOcioAplicado() : transferenciaOcio()) | currency:'EUR' }}</span>
                 </p>
-                <p class="text-xs text-slate-500 mt-0.5">Dinero para salir, ropa, cenas (Revolut, N26...)</p>
+                <p class="text-xs text-slate-500 mt-0.5">
+                  Presupuesto {{ presupuestoOcio() | currency:'EUR' }} − Revolut {{ saldoRevolut() | currency:'EUR' }}
+                </p>
               </div>
             </label>
             

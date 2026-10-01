@@ -132,12 +132,20 @@ export class AhorroInversionComponent {
 
   // --- Plan de Acción Mensual ---
   saldoImagin = computed(() => this.config()?.saldoCuentaOperativa || 0);
-  
+  saldoRevolut = computed(() => this.config()?.saldoRevolut || 0);
+
   techoImagin = computed(() => {
     return (this.gastosFijosMesActual() * 2) + (this.parteImpuestos() * 3);
   });
-  
-  transferenciaOcio = computed(() => this.config()?.presupuestoVariableMensual || 0);
+
+  presupuestoOcio = computed(() => this.config()?.presupuestoVariableMensual || 0);
+
+  /** Lo que hay que pasar de Imagin a Revolut para llegar al presupuesto de variables. */
+  transferenciaOcio = computed(() => {
+    const presupuesto = this.presupuestoOcio();
+    const revolut = this.saldoRevolut();
+    return Math.max(0, Math.round((presupuesto - revolut) * 100) / 100);
+  });
   transferenciaAhorroSueldo = computed(() => this.parteAhorro());
 
   // Checkboxes: al marcar, actualizan Imagin/colchón al momento (y se pueden deshacer)
@@ -163,7 +171,7 @@ export class AhorroInversionComponent {
       : this.transferenciaAhorroSueldo();
     return Math.max(
       0,
-      this.saldoImagin() - this.techoImagin() - ocioPendiente - ahorroPendiente - this.gastosVariablesFuturos()
+      this.saldoImagin() - this.techoImagin() - ocioPendiente - ahorroPendiente - this.gastosImpuestosFuturos()
     );
   });
 
@@ -187,12 +195,12 @@ export class AhorroInversionComponent {
   // Proyección de saldo (Conservadora: sin contar ingresos pendientes ni variables ya pagados)
   ingresosMesActual = signal<number>(0);
   gastosVariablesYaPagados = signal<number>(0); // Informativo
-  gastosVariablesFuturos = signal<number>(0); // Gastos previstos que restarán saldo
-  
+  gastosVariablesFuturos = signal<number>(0);
+  gastosImpuestosFuturos = signal<number>(0);
+
   proyeccionFinDeMes = computed(() => {
-    // Si ejecutan las transferencias y pagan los fijos/futuros, el saldo debería acercarse al Techo
     const ocioPendiente = this.ocioEjecutado() ? 0 : this.transferenciaOcio();
-    return this.saldoImagin() - this.gastosFijosMesActual() - ocioPendiente - this.gastosVariablesFuturos();
+    return this.saldoImagin() - this.gastosFijosMesActual() - ocioPendiente - this.gastosImpuestosFuturos();
   });
 
   constructor() {
@@ -229,9 +237,11 @@ export class AhorroInversionComponent {
     
     const pagados = variablesMesActual.filter(g => new Date(g.fecha) <= today);
     const futuros = variablesMesActual.filter(g => new Date(g.fecha) > today);
-    
+    const impuestosFuturos = futuros.filter(g => g.categoria === 'impuestos');
+
     this.gastosVariablesYaPagados.set(pagados.reduce((sum, g) => sum + g.importe, 0));
     this.gastosVariablesFuturos.set(futuros.reduce((sum, g) => sum + g.importe, 0));
+    this.gastosImpuestosFuturos.set(impuestosFuturos.reduce((sum, g) => sum + g.importe, 0));
 
     const prevYear = month === 0 ? year - 1 : year;
     const prevMonth = month === 0 ? 11 : month - 1;
@@ -388,22 +398,25 @@ export class AhorroInversionComponent {
     await this.loadData(year, month);
   }
 
-  private async persistSaldos(deltaImagin: number, deltaColchon: number): Promise<void> {
+  private async persistSaldos(deltaImagin: number, deltaColchon: number, deltaRevolut = 0): Promise<void> {
     const conf = this.config();
     if (!conf) return;
 
     const nuevoSaldo = Math.round(((conf.saldoCuentaOperativa || 0) + deltaImagin) * 100) / 100;
     const nuevoColchon = Math.round(((conf.colchonActual || 0) + deltaColchon) * 100) / 100;
+    const nuevoRevolut = Math.round(((conf.saldoRevolut || 0) + deltaRevolut) * 100) / 100;
 
     await this.dataService.updateConfiguracion({
       saldoCuentaOperativa: nuevoSaldo,
       colchonActual: nuevoColchon,
+      saldoRevolut: nuevoRevolut,
     });
 
     this.config.set({
       ...conf,
       saldoCuentaOperativa: nuevoSaldo,
       colchonActual: nuevoColchon,
+      saldoRevolut: nuevoRevolut,
     });
     this.stateService.refreshSummary();
   }
@@ -414,12 +427,12 @@ export class AhorroInversionComponent {
       if (importe <= 0) return;
       this.importeOcioAplicado.set(importe);
       this.ocioEjecutado.set(true);
-      await this.persistSaldos(-importe, 0);
+      await this.persistSaldos(-importe, 0, importe);
     } else {
       const importe = this.importeOcioAplicado();
       this.ocioEjecutado.set(false);
       this.importeOcioAplicado.set(0);
-      if (importe > 0) await this.persistSaldos(importe, 0);
+      if (importe > 0) await this.persistSaldos(importe, 0, -importe);
     }
     await this.guardarPlanDia1Mes();
   }

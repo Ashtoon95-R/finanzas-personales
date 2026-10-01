@@ -92,6 +92,14 @@
             <input type="number" name="saldoCuentaOperativa" [(ngModel)]="config().saldoCuentaOperativa" required min="0" class="w-full rounded-lg border-slate-300 dark:border-fintech-border bg-white dark:bg-fintech-dark text-slate-900 dark:text-white px-3 py-2 border focus:ring-indigo-500 focus:border-indigo-500">
           </div>
 
+          <div>
+            <div class="flex items-center gap-1.5 mb-1">
+              <label class="block text-sm font-semibold text-slate-700 dark:text-slate-300">Saldo Revolut (€)</label>
+            </div>
+            <p class="text-[10px] text-slate-500 mb-2">Lo que ya tienes en Revolut para ocio y variables. La transferencia desde Imagin solo cubre el hueco hasta el presupuesto.</p>
+            <input type="number" name="saldoRevolut" [(ngModel)]="config().saldoRevolut" required min="0" step="0.01" class="w-full rounded-lg border-slate-300 dark:border-fintech-border bg-white dark:bg-fintech-dark text-slate-900 dark:text-white px-3 py-2 border focus:ring-indigo-500 focus:border-indigo-500">
+          </div>
+
           <hr class="border-slate-100 dark:border-slate-800">
 
           <div>

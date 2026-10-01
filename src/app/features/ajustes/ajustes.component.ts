@@ -29,7 +29,8 @@ export class AjustesComponent {
     porcentajeImpuestos: 20,
     presupuestoVariableMensual: 300,
     colchonActual: 0,
-    saldoCuentaOperativa: 0
+    saldoCuentaOperativa: 0,
+    saldoRevolut: 0
   });
 
   saved = signal(false);
@@ -68,6 +69,7 @@ export class AjustesComponent {
   async saveConfig() {
     await this.dataService.updateConfiguracion(this.config());
     this.saved.set(true);
+    this.stateService.refreshSummary();
     setTimeout(() => this.saved.set(false), 3000);
   }
 
